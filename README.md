@@ -145,10 +145,24 @@ python自學/
 
 歡迎提出問題和建議！
 
+## 🌐 部署到 Render
+
+詳細的部署指南請參考：[部署指南](DEPLOY.md)
+
+### 快速部署步驟
+
+1. 在 Render 創建新的 Web Service
+2. 連接 GitHub 倉庫：`https://github.com/Miiduoa/learnpy`
+3. 設置：
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `uvicorn web_tutor.main:app --host 0.0.0.0 --port $PORT`
+4. 點擊 "Create Web Service" 完成部署
+
 ## 📚 相關文檔
 
 - [改進記錄](IMPROVEMENTS.md)
 - [Pyodide 載入問題排查](PYODIDE_LOADING_TROUBLESHOOTING.md)
+- [部署指南](DEPLOY.md)
 
 ---
 
