@@ -386,7 +386,7 @@ async def get_favicon():
     from fastapi.responses import Response
     return Response(status_code=204)
 
-# Mount the 'static' directory to serve files like CSS and JS
-# Mount at root path, but after the root route definition to avoid conflicts
-# FastAPI will match specific routes first, then static files
-app.mount("/", StaticFiles(directory=str(STATIC_DIR)), name="static")
+# Mount static files directory to serve CSS, JS, and other static assets
+# This must be after all API routes are defined
+# FastAPI will match specific routes first, then fall back to static files
+app.mount("/", StaticFiles(directory=str(STATIC_DIR), html=True), name="static")
