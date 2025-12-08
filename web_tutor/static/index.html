@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>互動式 Python 教學系統</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Marked.js for rendering Markdown in explanations -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Pyodide will be loaded dynamically by script.js -->
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <!-- Realtime Guide System -->
+    <script src="realtime-guide.js"></script>
+    <!-- Smart Guide System -->
+    <script src="smart-guide.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header class="compact-header">
+            <div class="header-top">
+                <div class="header-title-group">
+                    <h1>🐍 Python 教學系統</h1>
+                    <div class="header-meta">
+                        <span id="lesson-counter-header" class="lesson-counter-header">單元 1 / 1</span>
+                        <span class="header-divider">·</span>
+                        <span id="completion-rate-header" class="completion-rate-header">完成度：0%</span>
+                    </div>
+                </div>
+                <div class="header-actions-compact">
+                    <button id="theme-toggle" class="icon-button-compact" title="切換主題">
+                        <span>🌙</span>
+                    </button>
+                    <button id="sidebar-toggle" class="icon-button-compact" title="課程列表 (Ctrl+B)">
+                        <span>📚</span>
+                    </button>
+                </div>
+            </div>
+            <div class="workflow-indicator" aria-label="學習進度">
+                <div class="workflow-step" data-step="read" data-status="active">
+                    <div class="step-number">1</div>
+                    <div class="step-label">理解題目</div>
+                    <div class="step-progress"></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step" data-step="build" data-status="pending">
+                    <div class="step-number">2</div>
+                    <div class="step-label">撰寫程式</div>
+                    <div class="step-progress"></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step" data-step="verify" data-status="pending">
+                    <div class="step-number">3</div>
+                    <div class="step-label">驗證輸出</div>
+                    <div class="step-progress"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar for lesson list -->
+        <aside id="lesson-sidebar" class="lesson-sidebar">
+            <div class="sidebar-header">
+                <h3>📖 課程列表</h3>
+                <button id="sidebar-close" class="sidebar-close" title="關閉">
+                    <span>✕</span>
+                </button>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-search">
+                    <input type="text" id="lesson-search" placeholder="🔍 搜尋課程..." autocomplete="off">
+                    <div id="lesson-count" class="lesson-count" style="margin-top: 8px; font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); text-align: center;">
+                        載入中...
+                    </div>
+                </div>
+                <div class="lesson-list" id="lesson-list">
+                    <!-- Lesson items will be populated by JavaScript -->
+                </div>
+            </div>
+        </aside>
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+        <div class="workspace-ribbon" aria-label="工作區狀態與捷徑">
+            <div class="ribbon-grid">
+                <div class="status-stack">
+                    <div class="status-chip" id="env-status" data-state="loading">
+                        <div class="chip-dot"></div>
+                        <div class="chip-text">
+                            <div class="chip-label">執行環境</div>
+                            <div class="chip-value" id="env-status-value">準備中</div>
+                        </div>
+                    </div>
+                    <div class="status-chip" id="draft-status" data-state="empty">
+                        <div class="chip-dot"></div>
+                        <div class="chip-text">
+                            <div class="chip-label">草稿</div>
+                            <div class="chip-value" id="draft-status-value">尚未輸入</div>
+                        </div>
+                    </div>
+                    <div class="status-chip subtle" id="lesson-progress-pill">
+                        <div class="chip-label">進度</div>
+                        <div class="chip-value" id="lesson-progress-label">單元 1 / 1</div>
+                    </div>
+                </div>
+                <div class="next-step-card">
+                    <div class="next-step-label">下一步</div>
+                    <div class="next-step-body">
+                        <p id="next-step-text">閱讀課程說明並確認輸出需求。</p>
+                        <div class="next-step-actions">
+                            <button id="next-step-button" class="ghost-button emphasis" title="依照提示前往下一個工作區塊">前往</button>
+                            <span id="next-step-hint" class="shortcut-hint">左側說明區</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="workspace-actions">
+                    <button id="jump-to-editor" class="ghost-button" title="跳到編輯器區">
+                        <span>直達編輯器</span>
+                    </button>
+                    <button id="focus-mode-toggle" class="ghost-button emphasis" title="縮短頁面、專注練習">
+                        <span>專注模式</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading overlay -->
+        <div id="loading-overlay" class="loading-overlay">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">正在載入 Python 執行環境...</p>
+            <div id="loading-details" class="loading-details" style="margin-top: 20px; color: rgba(255, 255, 255, 0.8); font-size: 0.875rem;">
+                <p id="loading-status">準備中...</p>
+                <button id="diagnostic-btn" class="diagnostic-button" style="margin-top: 10px; padding: 8px 16px; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; color: white; cursor: pointer;">🔍 診斷問題</button>
+            </div>
+        </div>
+
+        <main class="container">
+            <div class="lesson-panel">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <div class="panel-title">
+                            <h2 id="lesson-title">載入課程中...</h2>
+                            <div class="lesson-meta">
+                                <span class="lesson-badge" id="lesson-badge"></span>
+                                <span class="lesson-status" id="lesson-status" style="display: none;">
+                                    <span class="status-icon">✓</span>
+                                    <span class="status-text">已完成</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="panel-actions">
+                            <button id="toggle-explanation" class="icon-button-small" aria-expanded="true" title="摺疊/展開說明">
+                                <span class="collapse-icon">▼</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="explanation-wrapper">
+                    <div id="lesson-explanation" class="lesson-content explanation-content"></div>
+                </div>
+                <div class="exercise-section">
+                    <div class="exercise-header">
+                        <h3 class="exercise-title">📝 練習題</h3>
+                        <div class="exercise-tools">
+                            <button id="jump-to-editor" class="tool-button jump-button" title="跳轉到編輯器 (快捷鍵: Ctrl+J)">
+                                <span>⬇️</span>
+                                <span>跳轉編輯器</span>
+                            </button>
+                            <button id="pin-exercise" class="tool-button pin-button" title="固定練習題（讓它始終可見）">
+                                <span>📌</span>
+                                <span>固定</span>
+                            </button>
+                            <button id="show-example" class="tool-button" style="display: none;" title="查看範例程式碼">
+                                <span>📋</span>
+                                <span>範例</span>
+                            </button>
+                            <button id="toggle-hint" class="tool-button hint-button" style="display: none;">
+                                <span class="hint-icon">💡</span>
+                                <span class="hint-text">提示</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="lesson-exercise" class="lesson-content exercise-content"></div>
+                    <div id="lesson-hint" class="hint" style="display: none;"></div>
+                    <div id="example-code" class="example-code" style="display: none;">
+                        <div class="example-header">
+                            <span class="example-label">📋 範例程式碼</span>
+                            <button id="copy-example" class="copy-button" title="複製範例">
+                                <span>📄</span>
+                                <span>複製</span>
+                            </button>
+                        </div>
+                        <pre id="example-code-content"><code></code></pre>
+                    </div>
+                    <div class="lesson-essentials">
+                        <div class="essential-card">
+                            <div class="essential-label">完成條件</div>
+                            <p class="essential-text" id="completion-criteria">執行並對照輸出；修正錯誤後再提交。</p>
+                        </div>
+                        <div class="essential-card" id="expected-output-card" style="display: none;">
+                            <div class="essential-label">預期輸出</div>
+                            <pre id="expected-output-preview"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-panel">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <div class="panel-title">
+                            <h3>💻 你的程式碼</h3>
+                        </div>
+                        <div class="editor-actions">
+                            <button id="format-button" class="icon-button-small" title="格式化程式碼 (Ctrl+Shift+F)">
+                                <span>✨</span>
+                            </button>
+                            <button id="history-button" class="icon-button-small" title="查看程式碼歷史">
+                                <span>📜</span>
+                            </button>
+                            <button id="reset-button" class="icon-button-small" title="重置程式碼 (Ctrl+R)">
+                                <span>🔄</span>
+                            </button>
+                            <button id="clear-button" class="icon-button-small" title="清除程式碼 (Ctrl+L)">
+                                <span>🗑️</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="editor-container">
+                    <textarea id="code-editor" spellcheck="false" placeholder="在這裡輸入你的 Python 程式碼..."></textarea>
+                    <div class="editor-line-numbers" id="line-numbers"></div>
+                    <div id="realtime-guide-container" class="realtime-guide-container"></div>
+                    <div id="smart-guide-container" class="smart-guide-container"></div>
+                </div>
+                <div class="execution-section">
+                    <button id="run-button" class="primary-button">
+                        <span class="button-icon">▶️</span>
+                        <span class="button-text">執行程式碼</span>
+                        <span class="button-shortcut">Ctrl+Enter</span>
+                    </button>
+                    <div class="run-mode-control" aria-label="選擇程式碼執行模式">
+                        <div class="run-mode-header">
+                            <span class="run-mode-label">執行模式</span>
+                            <span id="run-mode-tip" class="run-mode-tip">本地 (Pyodide) - 支援互動輸入</span>
+                        </div>
+                        <div class="run-mode-buttons" id="run-mode-buttons">
+                            <button id="mode-pyodide" class="run-mode-btn active" data-mode="pyodide" title="建議的預設模式，離線執行，支援 input()">
+                                <span>本地 (Pyodide)</span>
+                            </button>
+                            <button id="mode-server" class="run-mode-btn" data-mode="server" title="備援模式：改由伺服器執行，適合 Pyodide 無法載入時">
+                                <span>伺服器 (Beta)</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="button-loading" id="run-loading" style="display: none;">
+                        <div class="spinner-small"></div>
+                        <span>執行中...</span>
+                    </div>
+                </div>
+                
+                <div class="output-section" id="output-section">
+                    <div class="output-header">
+                        <h3 class="output-title">📊 執行結果</h3>
+                        <div class="output-actions">
+                            <button id="compare-output" class="icon-button-small" title="對比預期輸出" style="display: none;">
+                                <span>🔍</span>
+                            </button>
+                            <button id="clear-output" class="icon-button-small" title="清除輸出">
+                                <span>✕</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="output-comparison" class="output-comparison" style="display: none;">
+                        <div class="comparison-item">
+                            <div class="comparison-label">
+                                <span class="comparison-icon">✓</span>
+                                預期輸出：
+                            </div>
+                            <pre class="comparison-output" id="expected-output"></pre>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-label">
+                                <span class="comparison-icon">📝</span>
+                                你的輸出：
+                            </div>
+                            <pre class="comparison-output" id="actual-output"></pre>
+                        </div>
+                    </div>
+                    <div id="error-details" class="error-details" style="display: none;">
+                        <div class="error-header">
+                            <span class="error-icon">⚠️</span>
+                            <span class="error-title">錯誤詳情</span>
+                        </div>
+                        <div id="error-content" class="error-content"></div>
+                    </div>
+                    <pre id="output-console">點擊「執行程式碼」來看結果。</pre>
+                </div>
+                
+                <!-- Input container will appear here when input() is called -->
+                <div id="input-container" style="display: none;">
+                    <div class="input-header">
+                        <span class="input-icon">📥</span>
+                        <span class="input-title">等待輸入</span>
+                    </div>
+                    <label for="user-input" id="input-prompt" class="input-prompt"></label>
+                    <div class="input-group">
+                        <input type="text" id="user-input" placeholder="請在此輸入..." autocomplete="off">
+                        <button id="submit-input" class="submit-button">
+                            <span>提交</span>
+                            <span class="shortcut-hint">Enter</span>
+                        </button>
+                    </div>
+                    <small class="input-hint">💡 提示：如果程式碼使用 int(input())，請輸入有效的數字（例如：123）</small>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="navigation">
+                <button id="prev-button" class="nav-button" disabled>
+                    <span class="nav-icon">◀</span>
+                    <span>上一單元</span>
+                </button>
+                <div class="lesson-progress">
+                    <div class="progress-info-top">
+                        <span id="lesson-counter" class="lesson-counter"></span>
+                        <span id="completion-badge" class="completion-badge" style="display: none;">
+                            <span class="badge-icon">🎉</span>
+                            <span id="completion-text">完成度：0%</span>
+                        </span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                        <div class="progress-markers" id="progress-markers"></div>
+                    </div>
+                </div>
+                <button id="next-button" class="nav-button" disabled>
+                    <span>下一單元</span>
+                    <span class="nav-icon">▶</span>
+                </button>
+            </div>
+            <div class="footer-info">
+                <div class="keyboard-hint">
+                    <span>💡 快捷鍵：</span>
+                    <span class="shortcut-item">Ctrl+Enter 執行程式碼</span>
+                    <span class="shortcut-item">Ctrl+J 跳轉到編輯器</span>
+                    <span class="shortcut-item">Ctrl+L 清除程式碼</span>
+                    <span class="shortcut-item">Ctrl+R 重置程式碼</span>
+                    <span class="shortcut-item">Ctrl+B 顯示/隱藏課程列表</span>
+                    <span class="shortcut-item">← → 切換課程</span>
+                </div>
+                <div class="footer-actions">
+                    <button id="export-progress" class="ghost-button" title="匯出學習進度">
+                        <span>📥</span>
+                        <span>匯出進度</span>
+                    </button>
+                    <button id="import-progress" class="ghost-button" title="匯入先前匯出的進度檔 (JSON)">
+                        <span>📂</span>
+                        <span>匯入進度</span>
+                    </button>
+                    <button id="show-stats" class="ghost-button" title="查看學習統計">
+                        <span>📊</span>
+                        <span>學習統計</span>
+                    </button>
+                    <button id="reset-data" class="ghost-button danger" title="清除本地保存的草稿、歷史與統計">
+                        <span>🧹</span>
+                        <span>重置資料</span>
+                    </button>
+                </div>
+                <div class="progress-info">
+                    <span id="completion-rate">完成度：0%</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <input type="file" id="import-file" accept="application/json" style="display: none;">
+    <div id="floating-actions" class="floating-actions" aria-label="快速操作">
+        <button id="floating-jump" class="floating-jump" title="跳回編輯器 (Ctrl+J)">
+            <span class="floating-icon">✏️</span>
+            <span class="floating-text">回到編輯器</span>
+        </button>
+        <button id="run-floating" class="floating-run" title="執行程式碼 (Ctrl+Enter)">
+            <span class="floating-icon">▶️</span>
+            <span class="floating-text">執行</span>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
