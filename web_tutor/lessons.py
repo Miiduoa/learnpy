@@ -10363,7 +10363,7 @@ def reverse_string(s):
 - 遞迴和迴圈可以互相改寫
 - 字串切片 `s[::-1]` 是最簡潔的反轉方式，但遞迴版本更有教育意義
 """,
-        "exercise": "請用遞迴方式定義一個函數 `reverse_string(s)`，將字串反轉。\n然後呼叫 `reverse_string("hello")` 並印出結果。",
+        "exercise": "請用遞迴方式定義一個函數 `reverse_string(s)`，將字串反轉。\n然後呼叫 `reverse_string('hello')` 並印出結果。",
         "hint": "基本情況：len(s) <= 1 時回傳 s；遞迴情況：回傳 s[-1] + reverse_string(s[:-1]) 或 reverse_string(s[1:]) + s[0]。",
         "validator": {
             "type": "stdout_equals",
