@@ -244,7 +244,7 @@ print(100 - 2)
         "hint": "您需要寫兩個 `print()`。第一個裡面是 `9876 * 1234`，第二個是 `9876 - 1234`。",
         "validator": {
             "type": "stdout_equals",
-            "expected_output": "12192744\n8642\n"
+            "expected_output": "12186984\n8642\n"
         }
     },
     {
