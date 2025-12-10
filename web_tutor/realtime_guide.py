@@ -280,3 +280,4 @@ def create_guide_for_lesson(lesson: Dict[str, Any]) -> RealtimeGuide:
     """為課程創建引導系統"""
     return RealtimeGuide(lesson)
 
+

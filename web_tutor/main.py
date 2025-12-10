@@ -242,6 +242,15 @@ async def execute_code(request: CodeExecutionRequest):
         # Get inputs from request (default to empty list if not provided)
         inputs = request.inputs if request.inputs else []
         
+        # If no inputs provided but lesson has test_inputs, use test_inputs for validation
+        if not inputs:
+            lesson = next((l for l in LESSONS if l['id'] == request.lesson_id), None)
+            if lesson and 'validator' in lesson:
+                validator = lesson['validator']
+                test_inputs = validator.get("test_inputs", [])
+                if test_inputs:
+                    inputs = test_inputs
+        
         execution_result = await run_code_async(request.code, inputs)
         
         stdout = execution_result["stdout"]
