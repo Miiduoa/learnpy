@@ -10198,6 +10198,184 @@ def decimal_to_hex(n):
         }
     },
     {
+        "id": "PT11-2",
+        "title": "Recursive function: Reverse string",
+        "explanation": """
+## 為什麼要用遞迴反轉字串？
+
+反轉字串是遞迴的經典應用，展示了如何用遞迴處理字串問題。
+
+**實際應用：**
+- 理解遞迴在字串處理中的應用
+- 掌握遞迴分解問題的思維方式
+- 比較遞迴和迴圈的實現方式
+
+**為什麼要學遞迴版本？**
+因為遞迴可以更直觀地展示「分解問題」的過程，讓程式碼更優雅。
+
+## 遞迴思考方式
+
+**如何用遞迴思考字串反轉？**
+- 要反轉字串 `s`，可以先反轉 `s[1:]`（除了第一個字元的部分）
+- 然後將第一個字元 `s[0]` 放在最後
+- 直到字串為空或只有一個字元（基本情況）
+
+**遞迴分解：**
+- `reverse("abc")` → `reverse("bc") + "a"` → `"cb" + "a"` → `"cba"`
+- `reverse("bc")` → `reverse("c") + "b"` → `"c" + "b"` → `"cb"`
+- `reverse("c")` → `"c"`（基本情況）
+
+**另一種思考方式：**
+- 要反轉字串 `s`，可以取最後一個字元 `s[-1]`
+- 然後加上反轉剩餘部分 `reverse(s[:-1])`
+- 直到字串為空或只有一個字元（基本情況）
+
+**遞迴分解（方式二）：**
+- `reverse("abc")` → `"c" + reverse("ab")` → `"c" + "ba"` → `"cba"`
+- `reverse("ab")` → `"b" + reverse("a")` → `"b" + "a"` → `"ba"`
+- `reverse("a")` → `"a"`（基本情況）
+
+## 遞迴函數設計
+
+### 基本情況（Base Case）
+
+**什麼是基本情況？**
+當字串為空或只有一個字元時，不需要反轉，直接回傳。
+
+**語法：**
+```
+if len(s) <= 1:
+    return s
+```
+
+**為什麼 len(s) <= 1？**
+- 空字串 `""`：長度為 0，反轉後還是空字串
+- 單一字元 `"a"`：長度為 1，反轉後還是 `"a"`
+
+### 遞迴情況（Recursive Case）
+
+**方式一：取第一個字元，反轉剩餘部分**
+```
+return reverse(s[1:]) + s[0]
+```
+
+**為什麼這樣寫？**
+- `s[1:]`：取得除了第一個字元外的所有字元（更接近基本情況）
+- `reverse(s[1:])`：遞迴反轉剩餘部分
+- `s[0]`：第一個字元
+- 將反轉後的剩餘部分和第一個字元連接
+
+**方式二：取最後一個字元，反轉剩餘部分**
+```
+return s[-1] + reverse(s[:-1])
+```
+
+**為什麼這樣寫？**
+- `s[-1]`：取得最後一個字元
+- `s[:-1]`：取得除了最後一個字元外的所有字元（更接近基本情況）
+- `reverse(s[:-1])`：遞迴反轉剩餘部分
+- 將最後一個字元和反轉後的剩餘部分連接
+
+## 完整函數（方式一）
+
+```
+def reverse_string(s):
+    if len(s) <= 1:  # 基本情況
+        return s
+    else:  # 遞迴情況
+        return reverse_string(s[1:]) + s[0]
+```
+
+## 完整函數（方式二）
+
+```
+def reverse_string(s):
+    if len(s) <= 1:  # 基本情況
+        return s
+    else:  # 遞迴情況
+        return s[-1] + reverse_string(s[:-1])
+```
+
+## 執行過程（方式二）
+
+```
+print(reverse_string("abc"))
+```
+
+**執行流程：**
+1. `reverse_string("abc")` → len("abc") = 3 > 1，進入遞迴情況
+   - 計算：`"c" + reverse_string("ab")`
+2. `reverse_string("ab")` → len("ab") = 2 > 1，進入遞迴情況
+   - 計算：`"b" + reverse_string("a")`
+3. `reverse_string("a")` → len("a") = 1，進入基本情況
+   - 回傳：`"a"`
+4. 開始回傳：
+   - `reverse_string("ab")` = `"b" + "a"` = `"ba"`
+   - `reverse_string("abc")` = `"c" + "ba"` = `"cba"`
+
+**結果：** `cba`
+
+## 遞迴 vs 迴圈
+
+**遞迴版本：**
+```
+def reverse_string(s):
+    if len(s) <= 1:
+        return s
+    return s[-1] + reverse_string(s[:-1])
+```
+
+**迴圈版本：**
+```
+def reverse_string(s):
+    result = ""
+    for i in range(len(s) - 1, -1, -1):
+        result += s[i]
+    return result
+```
+
+**或者使用切片：**
+```
+def reverse_string(s):
+    return s[::-1]
+```
+
+**比較：**
+- 遞迴：程式碼更簡潔，邏輯更直觀
+- 迴圈：效率更高，記憶體使用更少
+
+## 字串索引和切片
+
+**字串索引：**
+- `s[0]`：第一個字元
+- `s[-1]`：最後一個字元
+- `s[1]`：第二個字元
+
+**字串切片：**
+- `s[1:]`：從第二個字元到最後（不包含第一個字元）
+- `s[:-1]`：從第一個字元到倒數第二個（不包含最後一個字元）
+- `s[::-1]`：整個字串反轉（Python 的簡便寫法）
+
+**記住：** 
+- 遞迴的基本情況：len(s) <= 1
+- 遞迴情況：取最後一個字元 + 反轉剩餘部分，或反轉剩餘部分 + 第一個字元
+- 遞迴可以優雅地解決字串反轉問題
+- 遞迴和迴圈可以互相改寫
+- 字串切片 `s[::-1]` 是最簡潔的反轉方式，但遞迴版本更有教育意義
+""",
+        "exercise": "請用遞迴方式定義一個函數 `reverse_string(s)`，將字串反轉。\n然後呼叫 `reverse_string("hello")` 並印出結果。",
+        "hint": "基本情況：len(s) <= 1 時回傳 s；遞迴情況：回傳 s[-1] + reverse_string(s[:-1]) 或 reverse_string(s[1:]) + s[0]。",
+        "validator": {
+            "type": "stdout_equals",
+            "expected_output": "olleh\n",
+            "code_requirements": {
+                "requires_function": True,
+                "function_name": "reverse_string",
+                "forbids_hardcode": True
+            }
+        }
+    },
+    {
         "id": "HW11",
         "title": "函數綜合應用：參數傳遞、字串處理與遞迴",
         "explanation": """
