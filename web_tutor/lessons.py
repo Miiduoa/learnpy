@@ -9923,6 +9923,150 @@ print(factorial(5))
         }
     },
     {
+        "id": "PT11-1",
+        "title": "Recursive function: DecimalToHexadecimal",
+        "explanation": """
+## 為什麼要用遞迴改寫進制轉換？
+
+我們可以用遞迴的方式來實現十進位轉十六進位，這展示了遞迴的另一種應用場景。
+
+**實際應用：**
+- 理解遞迴在進制轉換中的應用
+- 比較遞迴和迴圈的實現方式
+- 掌握遞迴的設計模式
+
+**為什麼要改寫？**
+因為遞迴可以更優雅地處理「分解問題」的過程，讓程式碼更簡潔。
+
+## 遞迴思考方式
+
+**如何用遞迴思考進制轉換？**
+- 要轉換 n，先轉換 n // 16（高位部分）
+- 然後加上當前位（n % 16）對應的字元
+- 直到 n < 16（基本情況）
+
+**遞迴分解：**
+- `decimal_to_hex(255)` → `decimal_to_hex(15) + "F"` → `"F" + "F"` → `"FF"`
+- `decimal_to_hex(16)` → `decimal_to_hex(1) + "0"` → `"1" + "0"` → `"10"`
+
+## 遞迴函數設計
+
+### 基本情況（Base Case）
+
+**什麼是基本情況？**
+當數字小於 16 時，可以直接對應到十六進位字元，不需要再遞迴。
+
+**語法：**
+```
+if n == 0:
+    return "0"
+if n < 16:
+    return hex_digits[n]
+```
+
+**為什麼需要兩個基本情況？**
+- `n == 0`：特殊情況，直接回傳 "0"
+- `n < 16`：可以直接對應到單個字元
+
+### 遞迴情況（Recursive Case）
+
+**什麼是遞迴情況？**
+當 n >= 16 時，需要先處理高位（n // 16），然後加上當前位（n % 16）。
+
+**語法：**
+```
+return decimal_to_hex(n // 16) + hex_digits[n % 16]
+```
+
+**為什麼這樣寫？**
+- `n // 16`：取得高位部分（更接近基本情況）
+- `n % 16`：取得當前位（0-15）
+- `hex_digits[n % 16]`：將當前位轉換為十六進位字元
+- 將高位結果和當前位字元連接
+
+## 完整函數
+
+```
+def decimal_to_hex(n):
+    hex_digits = "0123456789ABCDEF"
+    if n == 0:
+        return "0"
+    if n < 16:
+        return hex_digits[n]
+    return decimal_to_hex(n // 16) + hex_digits[n % 16]
+```
+
+## 執行過程
+
+### 範例 1：decimal_to_hex(16)
+
+**執行流程：**
+1. `decimal_to_hex(16)` → 16 >= 16，進入遞迴情況
+   - 計算：`decimal_to_hex(16 // 16) + hex_digits[16 % 16]`
+   - = `decimal_to_hex(1) + hex_digits[0]`
+2. `decimal_to_hex(1)` → 1 < 16，進入基本情況
+   - 回傳：`hex_digits[1] = "1"`
+3. 回傳：`"1" + "0" = "10"`
+
+**結果：** `"10"`
+
+### 範例 2：decimal_to_hex(255)
+
+**執行流程：**
+1. `decimal_to_hex(255)` → 255 >= 16
+   - `decimal_to_hex(15) + "F"`
+2. `decimal_to_hex(15)` → 15 < 16
+   - 回傳：`"F"`
+3. 回傳：`"F" + "F" = "FF"`
+
+**結果：** `"FF"`
+
+## 遞迴 vs 迴圈
+
+**遞迴版本：**
+```
+def decimal_to_hex(n):
+    if n == 0:
+        return "0"
+    if n < 16:
+        return hex_digits[n]
+    return decimal_to_hex(n // 16) + hex_digits[n % 16]
+```
+
+**迴圈版本（PT10-2）：**
+```
+def decimal_to_hex(n):
+    result = ""
+    if n == 0:
+        return "0"
+    while n > 0:
+        result = hex_digits[n % 16] + result
+        n = n // 16
+    return result
+```
+
+**比較：**
+- 遞迴：程式碼更簡潔，邏輯更直觀
+- 迴圈：效率更高，記憶體使用更少
+
+**記住：** 
+- 遞迴的基本情況：n == 0 或 n < 16
+- 遞迴情況：先處理高位（n // 16），再處理當前位（n % 16）
+- 遞迴可以優雅地解決進制轉換問題
+- 遞迴和迴圈可以互相改寫
+""",
+        "exercise": "請用遞迴方式定義一個函數 `dec_to_hex(n)`，將十進位數轉換為十六進位字串。\n然後呼叫 `dec_to_hex(16)` 並印出結果。",
+        "hint": "基本情況：n == 0 回傳 \"0\"，n < 16 回傳對應字元；遞迴情況：回傳 dec_to_hex(n // 16) + 當前位字元。",
+        "validator": {
+            "type": "stdout_equals",
+            "expected_output": "10\n",
+            "code_requirements": {
+                "requires_function": True,
+                "forbids_hardcode": True
+            }
+        }
+    },
+    {
         "id": "HW11",
         "title": "函數綜合應用：參數傳遞、字串處理與遞迴",
         "explanation": """
