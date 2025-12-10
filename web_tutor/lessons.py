@@ -9921,6 +9921,95 @@ print(factorial(5))
             "type": "stdout_equals",
             "expected_output": "120\n"
         }
+    },
+    {
+        "id": "HW11",
+        "title": "函數綜合應用：參數傳遞、字串處理與遞迴",
+        "explanation": """
+## 為什麼需要綜合應用？
+
+這個作業整合了函數的多個重要概念：參數傳遞（mutable/immutable）、字串處理和遞迴函數。
+
+**實際應用：**
+- 理解函數的參數傳遞機制
+- 掌握字串的常用方法
+- 運用遞迴解決問題
+
+**為什麼要綜合練習？**
+因為實際程式開發中，這些概念經常會一起使用。
+
+## 本作業涵蓋的概念
+
+### 1. 參數傳遞（Mutable / Immutable）
+
+**不可變物件（Immutable）：**
+- 數字、字串、元組
+- 函數內修改不會影響原變數
+
+**可變物件（Mutable）：**
+- 列表、字典、集合
+- 函數內修改會影響原物件
+
+### 2. 字串處理
+
+**常用方法：**
+- `upper()`：轉大寫
+- `lower()`：轉小寫
+- `strip()`：去除首尾空白
+- `split()`：分割字串
+- `join()`：連接字串
+
+### 3. 遞迴函數
+
+**遞迴的兩個必要條件：**
+- 基本情況（Base Case）：停止條件
+- 遞迴情況（Recursive Case）：呼叫自己
+
+## 實際範例
+
+結合這些概念，我們可以建立更強大的函數：
+
+```
+def process_text(text, words_list):
+    # 字串處理
+    text = text.strip().upper()
+    words = text.split()
+    
+    # 可變物件會被修改
+    words_list.extend(words)
+    
+    return len(words)
+
+def count_chars(text, n):
+    # 遞迴計算字元數
+    if n == 0:
+        return 0
+    return 1 + count_chars(text, n - 1)
+
+# 使用範例
+my_list = []
+result = process_text("  hello world  ", my_list)
+print(result)  # 2
+print(my_list)  # ['HELLO', 'WORLD']（被修改了）
+```
+
+**記住：** 
+- 理解 mutable/immutable 的差異
+- 熟練使用字串方法
+- 掌握遞迴的設計原則
+- 綜合運用這些概念解決實際問題
+""",
+        "exercise": "請定義一個函數 `process_and_count(text, result_list)`：\n1. 將 `text` 轉換為大寫並去除首尾空白\n2. 用空格分割成單詞列表\n3. 將單詞列表加入到 `result_list`（可變物件會被修改）\n4. 回傳單詞數量\n\n然後定義一個遞迴函數 `factorial(n)` 計算階乘。\n\n最後執行：\n```\ntext = '  python programming  '\nwords = []\ncount = process_and_count(text, words)\nprint(count)\nprint(words)\nprint(factorial(3))\n```",
+        "hint": "結合字串處理、可變物件修改和遞迴函數。",
+        "validator": {
+            "type": "stdout_equals",
+            "expected_output": "2\n['PYTHON', 'PROGRAMMING']\n6\n",
+            "code_requirements": {
+                "requires_function": True,
+                "requires_loop": False,
+                "forbids_hardcode": True
+            }
+        }
     }
 ]
 
