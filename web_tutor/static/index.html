@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>互動式 Python 教學系統</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <!-- Marked.js for rendering Markdown in explanations -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <!-- Pyodide will be loaded dynamically by script.js -->
     <!-- Prism.js for syntax highlighting -->
     <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -20,6 +24,7 @@
     <!-- Smart Guide System -->
     <script src="smart-guide.js"></script>
 </head>
+
 <body>
     <div id="app">
         <header class="compact-header">
@@ -73,7 +78,8 @@
             <div class="sidebar-content">
                 <div class="sidebar-search">
                     <input type="text" id="lesson-search" placeholder="🔍 搜尋課程..." autocomplete="off">
-                    <div id="lesson-count" class="lesson-count" style="margin-top: 8px; font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); text-align: center;">
+                    <div id="lesson-count" class="lesson-count"
+                        style="margin-top: 8px; font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); text-align: center;">
                         載入中...
                     </div>
                 </div>
@@ -111,7 +117,8 @@
                     <div class="next-step-body">
                         <p id="next-step-text">閱讀課程說明並確認輸出需求。</p>
                         <div class="next-step-actions">
-                            <button id="next-step-button" class="ghost-button emphasis" title="依照提示前往下一個工作區塊">前往</button>
+                            <button id="next-step-button" class="ghost-button emphasis"
+                                title="依照提示前往下一個工作區塊">前往</button>
                             <span id="next-step-hint" class="shortcut-hint">左側說明區</span>
                         </div>
                     </div>
@@ -131,9 +138,12 @@
         <div id="loading-overlay" class="loading-overlay">
             <div class="loading-spinner"></div>
             <p class="loading-text">正在載入 Python 執行環境...</p>
-            <div id="loading-details" class="loading-details" style="margin-top: 20px; color: rgba(255, 255, 255, 0.8); font-size: 0.875rem;">
+            <div id="loading-details" class="loading-details"
+                style="margin-top: 20px; color: rgba(255, 255, 255, 0.8); font-size: 0.875rem;">
                 <p id="loading-status">準備中...</p>
-                <button id="diagnostic-btn" class="diagnostic-button" style="margin-top: 10px; padding: 8px 16px; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; color: white; cursor: pointer;">🔍 診斷問題</button>
+                <button id="diagnostic-btn" class="diagnostic-button"
+                    style="margin-top: 10px; padding: 8px 16px; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; color: white; cursor: pointer;">🔍
+                    診斷問題</button>
             </div>
         </div>
 
@@ -152,7 +162,8 @@
                             </div>
                         </div>
                         <div class="panel-actions">
-                            <button id="toggle-explanation" class="icon-button-small" aria-expanded="true" title="摺疊/展開說明">
+                            <button id="toggle-explanation" class="icon-button-small" aria-expanded="true"
+                                title="摺疊/展開說明">
                                 <span class="collapse-icon">▼</span>
                             </button>
                         </div>
@@ -235,6 +246,22 @@
                     <div class="editor-line-numbers" id="line-numbers"></div>
                     <div id="realtime-guide-container" class="realtime-guide-container"></div>
                     <div id="smart-guide-container" class="smart-guide-container"></div>
+
+                    <!-- Parsons Problem UI -->
+                    <div id="parsons-container" class="parsons-container" style="display: none;">
+                        <div class="parsons-instruction">
+                            請將下方的程式碼積木拖拉到右側區域並排序：
+                        </div>
+                        <div class="parsons-wrapper">
+                            <div class="parsons-source" id="parsons-source">
+                                <!-- Source blocks will be injected here -->
+                            </div>
+                            <div class="parsons-target" id="parsons-target">
+                                <div class="parsons-placeholder">拖拉積木到這裡...</div>
+                                <!-- Target blocks will be dropped here -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="execution-section">
                     <button id="run-button" class="primary-button">
@@ -248,10 +275,12 @@
                             <span id="run-mode-tip" class="run-mode-tip">本地 (Pyodide) - 支援互動輸入</span>
                         </div>
                         <div class="run-mode-buttons" id="run-mode-buttons">
-                            <button id="mode-pyodide" class="run-mode-btn active" data-mode="pyodide" title="建議的預設模式，離線執行，支援 input()">
+                            <button id="mode-pyodide" class="run-mode-btn active" data-mode="pyodide"
+                                title="建議的預設模式，離線執行，支援 input()">
                                 <span>本地 (Pyodide)</span>
                             </button>
-                            <button id="mode-server" class="run-mode-btn" data-mode="server" title="備援模式：改由伺服器執行，適合 Pyodide 無法載入時">
+                            <button id="mode-server" class="run-mode-btn" data-mode="server"
+                                title="備援模式：改由伺服器執行，適合 Pyodide 無法載入時">
                                 <span>伺服器 (Beta)</span>
                             </button>
                         </div>
@@ -261,7 +290,7 @@
                         <span>執行中...</span>
                     </div>
                 </div>
-                
+
                 <div class="output-section" id="output-section">
                     <div class="output-header">
                         <h3 class="output-title">📊 執行結果</h3>
@@ -299,7 +328,7 @@
                     </div>
                     <pre id="output-console">點擊「執行程式碼」來看結果。</pre>
                 </div>
-                
+
                 <!-- Input container will appear here when input() is called -->
                 <div id="input-container" style="display: none;">
                     <div class="input-header">
@@ -391,4 +420,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

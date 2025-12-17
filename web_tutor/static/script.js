@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userInput = document.getElementById('user-input');
     const inputPrompt = document.getElementById('input-prompt');
     const submitInput = document.getElementById('submit-input');
-    
+
     // --- DOM Elements for Sidebar ---
     const sidebar = document.getElementById('lesson-sidebar');
     const sidebarToggle = document.getElementById('sidebar-toggle');
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         build: document.querySelector('.workflow-step[data-step="build"]'),
         verify: document.querySelector('.workflow-step[data-step="verify"]')
     };
-    
+
     // --- App State ---
     let lessons = [];
     let currentLessonIndex = 0;
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Loading Overlay Management ---
     const loadingStatus = document.getElementById('loading-status');
     const diagnosticBtn = document.getElementById('diagnostic-btn');
-    
+
     function showLoading(text = '正在載入...') {
         if (loadingOverlay) {
             const loadingText = loadingOverlay.querySelector('.loading-text');
@@ -123,25 +123,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 300);
         }
     }
-    
+
     function updateLoadingStatus(message) {
         if (loadingStatus) {
             loadingStatus.textContent = message;
         }
     }
-    
+
     // --- Diagnostic Tool ---
     async function runDiagnostics() {
         if (!loadingStatus) return;
-        
+
         const results = [];
         loadingStatus.innerHTML = '🔍 正在診斷...<br>';
-        
+
         // Test 1: Check network connectivity
         loadingStatus.innerHTML += '1. 檢查網絡連接...<br>';
         try {
-            const response = await fetch('https://www.google.com/favicon.ico', { 
-                method: 'HEAD', 
+            const response = await fetch('https://www.google.com/favicon.ico', {
+                method: 'HEAD',
                 mode: 'no-cors',
                 cache: 'no-cache'
             });
@@ -151,18 +151,18 @@ document.addEventListener('DOMContentLoaded', () => {
             results.push('✗ 網絡連接異常');
             loadingStatus.innerHTML += '   ✗ 網絡連接異常<br>';
         }
-        
+
         // Test 2: Check CDN accessibility
         loadingStatus.innerHTML += '2. 檢查 CDN 可訪問性...<br>';
         const cdns = [
             'https://cdn.jsdelivr.net',
             'https://unpkg.com'
         ];
-        
+
         for (const cdn of cdns) {
             try {
                 const testUrl = `${cdn}/pyodide/v0.24.1/full/pyodide.js`;
-                const response = await fetch(testUrl, { 
+                const response = await fetch(testUrl, {
                     method: 'HEAD',
                     mode: 'no-cors',
                     cache: 'no-cache'
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadingStatus.innerHTML += `   ✗ ${cdn} 無法訪問<br>`;
             }
         }
-        
+
         // Test 3: Check if loadPyodide is defined
         loadingStatus.innerHTML += '3. 檢查 Pyodide 腳本...<br>';
         if (typeof loadPyodide !== 'undefined') {
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             results.push('✗ Pyodide 腳本未載入');
             loadingStatus.innerHTML += '   ✗ Pyodide 腳本未載入<br>';
         }
-        
+
         // Test 4: Check Pyodide instance
         loadingStatus.innerHTML += '4. 檢查 Pyodide 實例...<br>';
         if (pyodide) {
@@ -195,15 +195,15 @@ document.addEventListener('DOMContentLoaded', () => {
             results.push('✗ Pyodide 實例不存在');
             loadingStatus.innerHTML += '   ✗ Pyodide 實例不存在<br>';
         }
-        
+
         // Summary
         loadingStatus.innerHTML += '<br><strong>診斷完成</strong><br>';
         loadingStatus.innerHTML += results.join('<br>');
-        
+
         // Add recommendations
         const hasNetworkIssue = results.some(r => r.includes('網絡') && r.startsWith('✗'));
         const hasCDNIssue = results.some(r => r.includes('CDN') && r.startsWith('✗'));
-        
+
         if (hasNetworkIssue || hasCDNIssue) {
             loadingStatus.innerHTML += '<br><br><strong>💡 建議：</strong><br>';
             loadingStatus.innerHTML += '1. 檢查網絡連接<br>';
@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingStatus.innerHTML += '3. 檢查防火牆設置<br>';
             loadingStatus.innerHTML += '4. 嘗試刷新頁面<br>';
         }
-        
+
         // Add retry button
         if (!pyodideReady) {
             const retryBtn = document.createElement('button');
@@ -234,11 +234,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-    
+
     if (diagnosticBtn) {
         diagnosticBtn.addEventListener('click', runDiagnostics);
     }
-    
+
     // --- Status Helpers ---
     function setEnvState(state, label) {
         if (envStatus) envStatus.dataset.state = state;
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setNextStep(targetId, copy, hint);
         }
     }
-    
+
     // 初始化狀態
     setEnvState('loading', '準備中');
     setDraftState('empty');
@@ -402,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!background) showLoading('正在載入 Python 執行環境...');
                 outputConsole.textContent = '正在載入 Python 執行環境...';
                 console.log('Starting Pyodide load...');
-                
+
                 // Load Pyodide script if not already loaded
                 if (typeof loadPyodide === 'undefined') {
                     console.log('[PYODIDE] 腳本未找到，開始動態載入...');
@@ -420,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log('[PYODIDE] 腳本已存在');
                     updateLoadingStatus('步驟 1/3: ✓ 腳本已存在');
                 }
-                
+
                 // Add timeout for Pyodide loading (60 seconds - increased for slow networks)
                 const loadTimeout = new Promise((_, reject) => {
                     setTimeout(() => {
@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         reject(new Error(errorMsg));
                     }, 60000); // 60 seconds timeout (increased from 45)
                 });
-                
+
                 // Show progress updates
                 updateLoadingStatus('步驟 2/3: 初始化 Pyodide 環境...');
                 let progressInterval;
@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }, 5000);
-                
+
                 try {
                     // Try multiple CDN URLs for Pyodide
                     const pyodideUrls = [
@@ -458,10 +458,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/',
                         'https://cdn.jsdelivr.net/pyodide/v0.22.1/full/'
                     ];
-                    
+
                     let pyodideLoaded = false;
                     let lastPyodideError = null;
-                    
+
                     for (let i = 0; i < pyodideUrls.length && !pyodideLoaded; i++) {
                         const indexURL = pyodideUrls[i];
                         try {
@@ -472,38 +472,38 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (loadingStatus) {
                                 loadingStatus.innerHTML = `步驟 2/3: 初始化 Pyodide 環境...<br>嘗試來源 ${i + 1}/${pyodideUrls.length}: ${indexURL}<br>這可能需要 30-60 秒，請耐心等待...`;
                             }
-                            
+
                             // Create a timeout for this specific URL attempt (30 seconds)
                             const urlTimeout = new Promise((_, reject) => {
                                 setTimeout(() => {
                                     reject(new Error(`來源 ${i + 1} 初始化超時（30秒）`));
                                 }, 30000);
                             });
-                            
+
                             // Race between loading, URL timeout, and overall timeout
                             pyodide = await Promise.race([
                                 loadPyodide({ indexURL }),
                                 urlTimeout,
                                 loadTimeout
                             ]);
-                            
+
                             pyodideLoaded = true;
                             console.log(`[PYODIDE] ✓ 成功從 ${indexURL} 初始化`);
                             if (loadingStatus) {
                                 loadingStatus.innerHTML = `步驟 2/3: ✓ 成功從來源 ${i + 1} 初始化`;
                             }
-                            
+
                             // Clear progress interval on success
                             if (progressInterval) clearInterval(progressInterval);
                             break;
                         } catch (err) {
                             lastPyodideError = err;
                             console.error(`[PYODIDE] 從 ${indexURL} 初始化失敗:`, err);
-                            
+
                             if (loadingStatus) {
                                 loadingStatus.innerHTML = `步驟 2/3: ✗ 來源 ${i + 1} 失敗: ${err.message}<br>嘗試下一個來源...`;
                             }
-                            
+
                             if (i < pyodideUrls.length - 1) {
                                 if (outputConsole) {
                                     outputConsole.textContent = `來源 ${i + 1} 失敗，嘗試下一個來源...\n錯誤: ${err.message}`;
@@ -518,7 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         }
                     }
-                    
+
                     if (!pyodideLoaded) {
                         throw lastPyodideError || new Error('所有 Pyodide CDN 來源都無法訪問');
                     }
@@ -527,10 +527,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (progressInterval) clearInterval(progressInterval);
                     throw err;
                 }
-                
+
                 console.log('[PYODIDE] Pyodide 載入完成，開始設置環境...');
                 updateLoadingStatus('步驟 3/3: 設置 Python 環境...');
-                
+
                 // Set up stdout/stderr capture
                 pyodide.runPython(`
 import sys
@@ -549,45 +549,45 @@ class Capturing(list):
         sys.stdout = self._stdout
         sys.stderr = self._stderr
                 `);
-                
+
                 // Initialize input state for async input handling
                 window._currentInputResolver = null;
-                
+
                 // Set up custom input() function for Pyodide
                 try {
                     const getInputAsync = (promptText) => {
                         console.log('[INPUT] getInputAsync called with:', promptText);
-                        
+
                         const promptStr = String(promptText || "請輸入：");
-                        
+
                         if (!inputContainer) {
                             console.error('[INPUT] ERROR: inputContainer not found!');
                             return Promise.resolve("");
                         }
-                        
+
                         // Scroll input container into view
                         try {
                             inputContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                         } catch (e) {
                             console.warn('[INPUT] scrollIntoView failed:', e);
                         }
-                        
+
                         // Show input container with animation
                         inputPrompt.textContent = promptStr;
                         inputContainer.style.display = 'block';
                         inputContainer.style.opacity = '0';
                         inputContainer.style.transform = 'translateY(-10px)';
-                        
+
                         // Force reflow for animation
                         void inputContainer.offsetHeight;
-                        
+
                         // Animate in
                         inputContainer.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
                         inputContainer.style.opacity = '1';
                         inputContainer.style.transform = 'translateY(0)';
-                        
+
                         userInput.value = '';
-                        
+
                         // Focus input field
                         setTimeout(() => {
                             try {
@@ -596,11 +596,11 @@ class Capturing(list):
                                 console.warn('[INPUT] Focus failed:', e);
                             }
                         }, 100);
-                        
+
                         // Create a promise that will be resolved when user submits
                         return new Promise((resolve) => {
                             window._currentInputResolver = resolve;
-                            
+
                             // Set timeout to prevent infinite waiting
                             setTimeout(() => {
                                 if (window._currentInputResolver === resolve) {
@@ -612,11 +612,11 @@ class Capturing(list):
                             }, 300000); // 5 minutes timeout
                         });
                     };
-                    
+
                     // Expose async version to Python
                     pyodide.globals.set('_js_get_input_async', getInputAsync);
                     console.log('[INPUT] _js_get_input_async function set in globals');
-                    
+
                     // Set up input() function in Python
                     pyodide.runPython(`
 import builtins
@@ -656,7 +656,7 @@ builtins.input = _fallback_input
                         console.error('[INPUT] Failed to set up fallback input():', fallbackError);
                     }
                 }
-                
+
                 pyodideReady = true;
                 pyodideFailed = false;
                 setEnvState('ready', '就緒 · 可執行');
@@ -668,10 +668,10 @@ builtins.input = _fallback_input
             } catch (error) {
                 console.error('[PYODIDE] 載入失敗:', error);
                 const errorMessage = error.message || '未知錯誤';
-                
+
                 // Create a more helpful error message
                 let detailedError = `❌ 載入 Python 執行環境失敗\n\n錯誤詳情：${errorMessage}\n\n`;
-                
+
                 if (errorMessage.includes('超時') || errorMessage.includes('timeout')) {
                     detailedError += `💡 這可能是網絡連接問題：\n`;
                     detailedError += `1. 檢查您的網絡連接是否正常\n`;
@@ -693,23 +693,23 @@ builtins.input = _fallback_input
                     detailedError += `4. 清除瀏覽器緩存後重試\n`;
                     detailedError += `5. 如果問題持續，請稍後再試\n\n`;
                 }
-                
+
                 detailedError += `📝 技術信息：\n`;
                 detailedError += `- 嘗試了多個 CDN 來源\n`;
                 detailedError += `- 載入超時時間：45 秒\n`;
                 detailedError += `- 如果問題持續，可能是網絡環境限制\n`;
-                
+
                 if (outputConsole) {
                     outputConsole.textContent = detailedError;
                     outputConsole.className = 'error';
                 }
-                
+
                 pyodideReady = false;
                 pyodideFailed = true;
                 pyodide = null;
                 setEnvState('error', '載入失敗');
                 setExecutionMode('server', { auto: true, reason: 'Pyodide 載入失敗，已自動切換到伺服器模式。' });
-                
+
                 // Show error in loading overlay if visible
                 if (!background && loadingOverlay) {
                     const loadingText = loadingOverlay.querySelector('.loading-text');
@@ -718,7 +718,7 @@ builtins.input = _fallback_input
                         loadingText.style.color = 'var(--error-color)';
                     }
                 }
-                
+
                 // Add retry button
                 if (outputConsole && outputConsole.parentElement) {
                     // Remove existing retry button if any
@@ -726,7 +726,7 @@ builtins.input = _fallback_input
                     if (existingRetry) {
                         existingRetry.remove();
                     }
-                    
+
                     const retryButton = document.createElement('button');
                     retryButton.className = 'retry-python-button primary-button';
                     retryButton.textContent = '🔄 重試載入 Pyodide';
@@ -742,7 +742,7 @@ builtins.input = _fallback_input
                     };
                     outputConsole.parentElement.appendChild(retryButton);
                 }
-                
+
                 return false;
             } finally {
                 if (!background) {
@@ -766,7 +766,7 @@ builtins.input = _fallback_input
             console.log('Pyodide previously failed, skipping background load');
             return false;
         }
-        
+
         try {
             const result = await initializePyodide({ background: true });
             return result;
@@ -781,7 +781,7 @@ builtins.input = _fallback_input
 
     async function ensurePyodideReady() {
         if (pyodideReady) return true;
-        
+
         // Check if we're already loading
         if (pyodideLoadingPromise) {
             outputConsole.textContent = '⏳ Python 執行環境正在載入中，請稍候...';
@@ -795,7 +795,7 @@ builtins.input = _fallback_input
                 return false;
             }
         }
-        
+
         // Check if previously failed
         if (pyodideFailed) {
             outputConsole.textContent = '❌ Python 執行環境之前載入失敗。\n\n請點擊「🔄 重試載入」按鈕重試，或刷新頁面。';
@@ -803,7 +803,7 @@ builtins.input = _fallback_input
             setExecutionMode('server', { auto: true, reason: '本地環境不可用，請改用伺服器模式或稍後重試。' });
             return false;
         }
-        
+
         outputConsole.textContent = '⏳ 正在準備 Python 執行環境...';
         outputConsole.className = '';
         const ready = await initializePyodide();
@@ -957,12 +957,12 @@ builtins.input = _fallback_input
     function updateProgressMarkers() {
         const markersContainer = document.getElementById('progress-markers');
         if (!markersContainer || lessons.length === 0) return;
-        
+
         const markerCount = Math.min(lessons.length, 20); // 最多顯示 20 個標記
         markersContainer.innerHTML = '';
         const completionRatio = lessons.length ? completedLessons.size / lessons.length : 0;
         const activeRatio = lessons.length ? (currentLessonIndex + 1) / lessons.length : 0;
-        
+
         for (let i = 0; i < markerCount; i++) {
             const marker = document.createElement('div');
             marker.className = 'progress-marker';
@@ -1042,7 +1042,7 @@ builtins.input = _fallback_input
 
     function updateLearningStats(lessonId, isCorrect, executionTime, hasError) {
         if (!lessonId) return;
-        
+
         if (!learningStats[lessonId]) {
             learningStats[lessonId] = {
                 total_executions: 0,
@@ -1055,11 +1055,11 @@ builtins.input = _fallback_input
                 last_attempt: null
             };
         }
-        
+
         const stats = learningStats[lessonId];
         stats.total_executions++;
         stats.last_attempt = new Date().toISOString();
-        
+
         if (hasError) {
             stats.error_count++;
             stats.failed_executions++;
@@ -1071,10 +1071,10 @@ builtins.input = _fallback_input
         } else {
             stats.failed_executions++;
         }
-        
+
         stats.total_time += executionTime;
         stats.average_time = Math.round(stats.total_time / stats.total_executions);
-        
+
         saveLearningStats();
     }
 
@@ -1158,7 +1158,7 @@ builtins.input = _fallback_input
     const jumpToEditorBtn = document.getElementById('jump-to-editor');
     const pinExerciseBtn = document.getElementById('pin-exercise');
     let exercisePinned = localStorage.getItem('exercisePinned') === 'true';
-    
+
     function jumpToEditor() {
         if (codeEditor) {
             // 先滚动到编辑器容器
@@ -1179,11 +1179,11 @@ builtins.input = _fallback_input
             }
         }
     }
-    
+
     if (jumpToEditorBtn) {
         jumpToEditorBtn.addEventListener('click', jumpToEditor);
     }
-    
+
     // Toggle pin exercise
     if (pinExerciseBtn) {
         // 恢复固定状态
@@ -1194,7 +1194,7 @@ builtins.input = _fallback_input
             pinExerciseBtn.title = '取消固定練習題';
             pinExerciseBtn.classList.add('active');
         }
-        
+
         pinExerciseBtn.addEventListener('click', () => {
             exercisePinned = !exercisePinned;
             const exerciseSection = document.querySelector('.exercise-section');
@@ -1215,7 +1215,7 @@ builtins.input = _fallback_input
             }
         });
     }
-    
+
     // 確保所有 jump-to-editor 元素都綁定事件
     const allJumpButtons = document.querySelectorAll('#jump-to-editor');
     allJumpButtons.forEach(btn => {
@@ -1223,7 +1223,7 @@ builtins.input = _fallback_input
             btn.addEventListener('click', jumpToEditor);
         }
     });
-    
+
     function isElementMostlyVisible(element, visibilityRatio = 0.6) {
         if (!element) return false;
         const rect = element.getBoundingClientRect();
@@ -1293,7 +1293,7 @@ builtins.input = _fallback_input
             console.error('[LESSON LIST] lessonList element not found');
             return;
         }
-        
+
         // Update lesson count
         if (lessonCount) {
             if (!lessons || lessons.length === 0) {
@@ -1303,14 +1303,14 @@ builtins.input = _fallback_input
                     if (!lesson || !lesson.id || !lesson.title) return false;
                     const searchTerm = filter.toLowerCase();
                     return lesson.title.toLowerCase().includes(searchTerm) ||
-                           lesson.id.toLowerCase().includes(searchTerm);
+                        lesson.id.toLowerCase().includes(searchTerm);
                 }).length : lessons.length;
-                lessonCount.textContent = filter 
+                lessonCount.textContent = filter
                     ? `找到 ${filteredCount} / ${lessons.length} 個課程`
                     : `共 ${lessons.length} 個課程`;
             }
         }
-        
+
         // Check if lessons are loaded
         if (!lessons || lessons.length === 0) {
             lessonList.innerHTML = `
@@ -1321,7 +1321,7 @@ builtins.input = _fallback_input
             `;
             return;
         }
-        
+
         const filtered = lessons.filter(lesson => {
             if (!lesson || !lesson.id || !lesson.title) {
                 console.warn('[LESSON LIST] Invalid lesson found:', lesson);
@@ -1330,7 +1330,7 @@ builtins.input = _fallback_input
             if (!filter) return true;
             const searchTerm = filter.toLowerCase();
             return lesson.title.toLowerCase().includes(searchTerm) ||
-                   lesson.id.toLowerCase().includes(searchTerm);
+                lesson.id.toLowerCase().includes(searchTerm);
         });
 
         if (filtered.length === 0) {
@@ -1340,7 +1340,7 @@ builtins.input = _fallback_input
                 <p>🔍 沒有找到符合的課程</p>
                 <p style="font-size: 0.875rem; margin-top: 10px;">請嘗試其他搜尋關鍵字</p>
             `;
-            
+
             const clearButton = document.createElement('button');
             clearButton.textContent = '清除搜尋';
             clearButton.style.cssText = 'margin-top: 10px; padding: 6px 12px; background: rgba(59, 130, 246, 0.3); border: 1px solid rgba(59, 130, 246, 0.5); border-radius: 6px; color: white; cursor: pointer;';
@@ -1351,7 +1351,7 @@ builtins.input = _fallback_input
                 }
             };
             noResultsDiv.appendChild(clearButton);
-            
+
             lessonList.innerHTML = '';
             lessonList.appendChild(noResultsDiv);
             return;
@@ -1366,14 +1366,14 @@ builtins.input = _fallback_input
                 }
                 const isActive = originalIndex === currentLessonIndex;
                 const isCompleted = completedLessons.has(lesson.id);
-                
+
                 // Escape HTML to prevent XSS
                 const escapeHtml = (text) => {
                     const div = document.createElement('div');
                     div.textContent = text;
                     return div.innerHTML;
                 };
-                
+
                 return `
                     <div class="lesson-item ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}" 
                          data-index="${originalIndex}"
@@ -1396,7 +1396,7 @@ builtins.input = _fallback_input
                     }
                 });
             });
-            
+
             console.log(`[LESSON LIST] Rendered ${filtered.length} lessons (filter: "${filter}")`);
         } catch (error) {
             console.error('[LESSON LIST] Error rendering lesson list:', error);
@@ -1420,22 +1420,22 @@ builtins.input = _fallback_input
         try {
             showLoading('正在載入課程內容...');
             const lessonsResponse = await fetch('/api/lessons');
-            
+
             if (!lessonsResponse.ok) {
                 const errorData = await lessonsResponse.json().catch(() => ({}));
                 const errorMessage = errorData.detail || `載入課程失敗（狀態碼：${lessonsResponse.status}）`;
                 throw new Error(errorMessage);
             }
-            
+
             lessons = await lessonsResponse.json();
-            
+
             if (!Array.isArray(lessons)) {
                 throw new Error('課程數據格式錯誤：預期為陣列格式。');
             }
-            
+
             if (lessons.length > 0) {
                 console.log(`✓ 成功載入 ${lessons.length} 個課程`);
-                
+
                 // Validate lessons data
                 const validLessons = lessons.filter(lesson => {
                     if (!lesson || !lesson.id || !lesson.title) {
@@ -1444,21 +1444,21 @@ builtins.input = _fallback_input
                     }
                     return true;
                 });
-                
+
                 if (validLessons.length !== lessons.length) {
                     console.warn(`警告：${lessons.length - validLessons.length} 個無效課程已過濾`);
                     lessons = validLessons;
                 }
-                
+
                 if (lessons.length === 0) {
                     throw new Error('沒有有效的課程數據');
                 }
-                
+
                 // Ensure currentLessonIndex is valid
                 if (currentLessonIndex >= lessons.length) {
                     currentLessonIndex = 0;
                 }
-                
+
                 loadProgress();
                 loadDrafts();
                 loadCodeHistory();
@@ -1470,7 +1470,7 @@ builtins.input = _fallback_input
                 if (!pyodideReady) {
                     outputConsole.textContent = '⏳ Python 執行環境正在背景載入，完成後即可執行程式碼。\n\n💡 提示：如果載入時間過長，請檢查網絡連接。';
                     setEnvState('loading', '正在載入...');
-                    
+
                     // Add a loading progress indicator
                     let loadingProgress = 0;
                     const progressInterval = setInterval(() => {
@@ -1481,7 +1481,7 @@ builtins.input = _fallback_input
                             }
                         }
                     }, 3000);
-                    
+
                     // Start loading Pyodide in background with timeout handling
                     preparePyodideBackground().then(success => {
                         clearInterval(progressInterval);
@@ -1498,7 +1498,7 @@ builtins.input = _fallback_input
                         const errorMsg = err.message || '未知錯誤';
                         outputConsole.textContent = `❌ Python 執行環境載入失敗：${errorMsg}\n\n💡 解決方案：\n1. 檢查網絡連接\n2. 刷新頁面重試 (F5)\n3. 查看瀏覽器控制台 (F12) 獲取詳細錯誤\n4. 如果問題持續，可能是 CDN 無法訪問\n5. 嘗試使用 VPN 或切換網絡環境`;
                         outputConsole.className = 'error';
-                        
+
                         // Add retry button
                         const existingRetry = outputConsole.parentElement?.querySelector('.retry-python-button');
                         if (!existingRetry) {
@@ -1549,20 +1549,20 @@ builtins.input = _fallback_input
         if (lessonBadge) {
             lessonBadge.textContent = lesson.id;
         }
-        
+
         // Update header counter
         if (lessonCounterHeader) {
             lessonCounterHeader.textContent = `單元 ${index + 1} / ${lessons.length}`;
         }
-        
+
         // Use marked.js to render markdown content
         lessonExplanation.innerHTML = marked.parse(lesson.explanation);
         lessonExercise.innerHTML = marked.parse(lesson.exercise);
-        
+
         // Extract and show example code if available
         const exampleCodeText = extractExampleCode(lesson.explanation);
         showExampleCode(exampleCodeText);
-        
+
         // Initialize realtime guide system
         const guideContainer = document.getElementById('realtime-guide-container');
         if (typeof RealtimeGuide !== 'undefined' && guideContainer && codeEditor) {
@@ -1575,7 +1575,7 @@ builtins.input = _fallback_input
             const savedGuideLevel = localStorage.getItem('guideLevel') || 'moderate';
             realtimeGuide.setGuideLevel(savedGuideLevel);
         }
-        
+
         // Initialize smart guide system for stuck students
         const smartGuideContainer = document.getElementById('smart-guide-container');
         if (typeof SmartGuide !== 'undefined' && smartGuideContainer && codeEditor) {
@@ -1585,7 +1585,7 @@ builtins.input = _fallback_input
             smartGuide = new SmartGuide(lesson, codeEditor);
             smartGuide.init(smartGuideContainer);
         }
-        
+
         // Handle hint
         if (lesson.hint) {
             if (toggleHint) toggleHint.style.display = 'flex';
@@ -1629,22 +1629,53 @@ builtins.input = _fallback_input
 
         // Reset UI elements
         const draft = restoreDraft(lesson.id);
-        codeEditor.value = draft;
-        updateLineNumbers();
-        if (draft && draft.trim() !== '') {
-            outputConsole.textContent = '已載入上次的程式碼草稿，準備執行看看吧！';
-            setDraftState('restored');
+
+        // --- Handle Lesson Type (Parsons vs Standard) ---
+        const parsonsContainer = document.getElementById('parsons-container');
+        if (lesson.type === 'parsons') {
+            // Setup Parsons Mode
+            if (parsonsContainer) parsonsContainer.style.display = 'flex';
+            if (codeEditor) codeEditor.style.display = 'none';
+            if (lineNumbers) lineNumbers.style.display = 'none';
+
+            initializeParsonsProblem(lesson);
+
+            // For Parsons, code editor is used as a hidden buffer
+            codeEditor.value = draft || '';
+
+            if (draft) {
+                // If draft exists, try to restore block positions (advanced feature)
+                // For now, simpler: if draft exists, we might not want to re-shuffle
+                // but let's stick to standard behavior for now.
+                // Or better: updateParsonsCode will overwrite this anyway upon interaction.
+            }
+
+            outputConsole.textContent = '拖拉積木來解題，排列好後點擊「執行程式碼」檢查結果。';
         } else {
-            outputConsole.textContent = '點擊「執行程式碼」來看結果。';
-            setDraftState('empty');
+            // Setup Standard Mode
+            if (parsonsContainer) parsonsContainer.style.display = 'none';
+            if (codeEditor) codeEditor.style.display = 'block';
+            if (lineNumbers) lineNumbers.style.display = 'block';
+
+            codeEditor.value = draft;
+            updateLineNumbers();
+
+            if (draft && draft.trim() !== '') {
+                outputConsole.textContent = '已載入上次的程式碼草稿，準備執行看看吧！';
+                setDraftState('restored');
+            } else {
+                outputConsole.textContent = '點擊「執行程式碼」來看結果。';
+                setDraftState('empty');
+            }
         }
+
         outputConsole.className = '';
-        
+
         // Reset output comparison
         if (compareOutput) compareOutput.style.display = 'none';
         if (outputComparison) outputComparison.style.display = 'none';
         lastResult = null;
-        
+
         // Hide input container and reset its state
         inputContainer.style.display = 'none';
         inputContainer.style.opacity = '1';
@@ -1663,18 +1694,18 @@ builtins.input = _fallback_input
     // --- Navigation ---
     function updateNavigation() {
         if (lessons.length === 0) return;
-        
+
         const progress = ((currentLessonIndex + 1) / lessons.length) * 100;
         if (progressFill) {
             progressFill.style.width = `${progress}%`;
         }
         updateLessonProgressLabel();
         updateProgressMarkers();
-        
+
         if (lessonCounter) {
             lessonCounter.textContent = `單元 ${currentLessonIndex + 1} / ${lessons.length}`;
         }
-        
+
         if (prevButton) {
             prevButton.disabled = currentLessonIndex === 0;
         }
@@ -1705,7 +1736,7 @@ builtins.input = _fallback_input
             const isExpanded = toggleExplanation.getAttribute('aria-expanded') === 'true';
             const explanationContent = document.getElementById('lesson-explanation');
             const collapseIcon = toggleExplanation.querySelector('.collapse-icon');
-            
+
             if (isExpanded) {
                 toggleExplanation.setAttribute('aria-expanded', 'false');
                 explanationContent.classList.add('collapsed');
@@ -1724,11 +1755,11 @@ builtins.input = _fallback_input
         const codeBlockRegex = /```(?:python)?\n?([\s\S]*?)```/g;
         const matches = [];
         let match;
-        
+
         while ((match = codeBlockRegex.exec(explanation)) !== null) {
             matches.push(match[1].trim());
         }
-        
+
         return matches.length > 0 ? matches[0] : null;
     }
 
@@ -1822,12 +1853,12 @@ builtins.input = _fallback_input
             outputConsole.className = '';
         });
     }
-    
+
     // --- Input Handling ---
     function handleInputSubmit() {
         const value = userInput.value;
         console.log('[INPUT] handleInputSubmit called, value:', JSON.stringify(value));
-        
+
         // Resolve the current input promise
         if (window._currentInputResolver) {
             const stringValue = String(value);
@@ -1837,22 +1868,22 @@ builtins.input = _fallback_input
         } else {
             console.warn('[INPUT] No input resolver found!');
         }
-        
+
         // Hide input container with animation
         inputContainer.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
         inputContainer.style.opacity = '0';
         inputContainer.style.transform = 'translateY(-10px)';
-        
+
         setTimeout(() => {
             inputContainer.style.display = 'none';
             userInput.value = '';
         }, 200);
     }
-    
+
     if (submitInput) {
         submitInput.addEventListener('click', handleInputSubmit);
     }
-    
+
     if (userInput) {
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -1889,15 +1920,15 @@ _capture_stderr = StringIO()
 sys.stdout = _capture_stdout
 sys.stderr = _capture_stderr
             `);
-            
+
             let stdout = '';
             let stderr = '';
             let hasError = false;
-            
+
             // Check if code contains input()
             const hasInput = code.includes('input(');
             console.log('[EXEC] Code contains input():', hasInput);
-            
+
             // Create timeout promise
             const timeoutPromise = new Promise((_, reject) => {
                 timeoutId = setTimeout(() => {
@@ -1907,22 +1938,22 @@ sys.stderr = _capture_stderr
                     }
                 }, EXECUTION_TIMEOUT);
             });
-            
+
             // Execute user code with timeout protection
             try {
                 const executionPromise = (async () => {
                     if (hasInput) {
                         console.log('[EXEC] Using runPythonAsync for code with input()');
-                        
+
                         // Transform the code: replace input(...) with await input(...)
                         let transformedCode = code;
                         transformedCode = transformedCode.replace(/(?<!await\s)(?<!await\s\()\binput\s*\(/g, 'await input(');
-                        
+
                         // Split code by newlines and indent each line
                         const codeLines = transformedCode.split('\n');
                         const indentedCode = codeLines.map(line => '    ' + line).join('\n');
                         const wrappedCode = `async def _run_user_code():\n${indentedCode}\n\nawait _run_user_code()`;
-                        
+
                         await pyodide.runPythonAsync(wrappedCode);
                         console.log('[EXEC] runPythonAsync completed');
                     } else {
@@ -1931,10 +1962,10 @@ sys.stderr = _capture_stderr
                     }
                     executionCompleted = true;
                 })();
-                
+
                 // Race between execution and timeout
                 await Promise.race([executionPromise, timeoutPromise]);
-                
+
                 if (timeoutId) {
                     clearTimeout(timeoutId);
                 }
@@ -1945,7 +1976,7 @@ sys.stderr = _capture_stderr
                 executionCompleted = true;
                 hasError = true;
                 let errorStr = error.toString();
-                
+
                 // 改進常見錯誤訊息的用戶友好性
                 if (errorStr.includes('ValueError: invalid literal for int()')) {
                     const match = errorStr.match(/invalid literal for int\(\) with base 10: '([^']*)'/);
@@ -1991,10 +2022,10 @@ sys.stderr = _capture_stderr
                 } else if (errorStr.includes('KeyError')) {
                     errorStr = `鍵值錯誤：${errorStr}\n\n💡 提示：\n1. 檢查字典中是否存在該鍵\n2. 使用 .get() 方法安全地獲取字典值\n3. 使用 in 運算符檢查鍵是否存在`;
                 }
-                
+
                 stderr = errorStr;
             }
-            
+
             // Get captured output
             try {
                 stdout = pyodide.runPython('_capture_stdout.getvalue()');
@@ -2017,13 +2048,13 @@ sys.stderr = _capture_stderr
             } catch (e) {
                 // Ignore errors in getting captured output
             }
-            
+
             // Restore stdout/stderr
             pyodide.runPython(`
 sys.stdout = _original_stdout
 sys.stderr = _original_stderr
             `);
-            
+
             return {
                 stdout: stdout || '',
                 stderr: stderr || '',
@@ -2184,11 +2215,11 @@ sys.stderr = _original_stderr
 
     // --- Code Execution ---
     let executionStartTime = 0;
-    
+
     async function executeCode() {
         const code = codeEditor.value.trim();
         const lesson = lessons[currentLessonIndex];
-        
+
         if (!code) {
             outputConsole.textContent = '⚠️ 請輸入一些程式碼！';
             outputConsole.className = 'error';
@@ -2229,7 +2260,32 @@ sys.stderr = _original_stderr
         try {
             let result;
 
-            if (executionMode === 'server') {
+            if (lesson.type === 'parsons') {
+                // Handle Parsons Problem Validation
+                const parsonsResult = checkParsonsSolution(lesson);
+
+                // Construct result object trying to mimic a Python execution result
+                result = {
+                    is_correct: parsonsResult.isCorrect,
+                    stdout: parsonsResult.isCorrect ? "（邏輯順序正確）" : "（邏輯順序尚未正確）",
+                    stderr: parsonsResult.isCorrect ? "" : parsonsResult.message,
+                    message: parsonsResult.message,
+                    execution_time: Date.now() - executionStartTime
+                };
+
+                // Add visual feedback
+                const targetBlocks = document.querySelectorAll('.parsons-target .parsons-block');
+                targetBlocks.forEach(el => {
+                    el.classList.remove('parsons-correct', 'parsons-incorrect');
+                });
+
+                if (parsonsResult.isCorrect) {
+                    targetBlocks.forEach(el => el.classList.add('parsons-correct'));
+                } else {
+                    targetBlocks.forEach(el => el.classList.add('parsons-incorrect'));
+                }
+
+            } else if (executionMode === 'server') {
                 result = await executeCodeOnServer(code, lesson);
             } else {
                 const ready = await ensurePyodideReady();
@@ -2239,7 +2295,7 @@ sys.stderr = _original_stderr
                 } else {
                     // Execute code with Pyodide
                     const executionResult = await executeCodeWithPyodide(code);
-                    
+
                     // Validate against lesson with improved validator support
                     let is_correct = false;
                     let message = "執行完成。";
@@ -2253,7 +2309,7 @@ sys.stderr = _original_stderr
                             const validatorType = validator?.type || 'none';
                             const expected_output = (validator?.expected_output || "").trim();
                             const actual_output = executionResult.stdout.trim();
-                            
+
                             switch (validatorType) {
                                 case "stdout_equals":
                                     if (actual_output === expected_output) {
@@ -2309,7 +2365,7 @@ sys.stderr = _original_stderr
                     }
 
                     const executionTime = executionStartTime > 0 ? Date.now() - executionStartTime : 0;
-                    
+
                     result = {
                         is_correct: is_correct,
                         stdout: executionResult.stdout,
@@ -2353,14 +2409,14 @@ sys.stderr = _original_stderr
                 outputConsole.className = '';
                 return;
             }
-            
+
             // Update learning stats for error
             if (lesson) {
                 updateLearningStats(lesson.id, false, 0, true);
             }
-            
+
             showError(`執行時發生錯誤：${errorMessage}`);
-            
+
             // Display error in console
             outputConsole.textContent = `❌ 執行時發生錯誤：${errorMessage}`;
             outputConsole.className = 'error';
@@ -2374,7 +2430,7 @@ sys.stderr = _original_stderr
     if (runButton) {
         runButton.addEventListener('click', executeCode);
     }
-    
+
     function handleFloatingRun() {
         const editorVisible = codeEditor ? isElementMostlyVisible(codeEditor, 0.3) : true;
         if (!editorVisible) {
@@ -2391,7 +2447,7 @@ sys.stderr = _original_stderr
     // --- Output Comparison ---
     function toggleOutputComparison() {
         if (!outputComparison || !lastResult) return;
-        
+
         const isVisible = outputComparison.style.display !== 'none';
         if (isVisible) {
             outputComparison.style.display = 'none';
@@ -2418,10 +2474,10 @@ sys.stderr = _original_stderr
     // --- UI Updates ---
     function displayResult(result) {
         let output = result.stdout;
-        
+
         // Hide error details initially
         if (errorDetails) errorDetails.style.display = 'none';
-        
+
         if (result.stderr) {
             // Show detailed error information
             if (errorDetails && errorContent) {
@@ -2430,31 +2486,31 @@ sys.stderr = _original_stderr
             }
             output += `\n\n--- 錯誤 ---\n${result.stderr}`;
         }
-        
+
         if (result.message) {
             output += `\n\n${result.message}`;
         }
-        
+
         // Add execution time if available
         if (result.execution_time && result.execution_time > 0) {
             output += `\n\n⏱️ 執行時間：${result.execution_time}ms`;
         }
-        
+
         outputConsole.textContent = output || '(沒有任何輸出)';
-        
+
         outputConsole.className = '';
         if (result.is_correct) {
             outputConsole.classList.add('correct');
             if (compareOutput) compareOutput.style.display = 'none';
             if (outputComparison) outputComparison.style.display = 'none';
             if (errorDetails) errorDetails.style.display = 'none';
-            
+
             // Show completion status
             const lesson = lessons[currentLessonIndex];
             if (lesson && lessonStatus) {
                 lessonStatus.style.display = 'flex';
             }
-        } else if(result.stderr) {
+        } else if (result.stderr) {
             outputConsole.classList.add('error');
             if (compareOutput) compareOutput.style.display = 'none';
             if (outputComparison) outputComparison.style.display = 'none';
@@ -2468,7 +2524,7 @@ sys.stderr = _original_stderr
 
         updateWorkflowState();
     }
-    
+
     function showError(message) {
         console.error('應用錯誤：', message);
         if (lessonTitle) lessonTitle.textContent = '⚠️ 發生錯誤';
@@ -2502,13 +2558,13 @@ sys.stderr = _original_stderr
             e.preventDefault();
             executeCode();
         }
-        
+
         // Ctrl+L or Cmd+L to clear code
         if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
             e.preventDefault();
             if (clearButton) clearButton.click();
         }
-        
+
         // Ctrl+B or Cmd+B to toggle sidebar
         if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
             e.preventDefault();
@@ -2518,19 +2574,19 @@ sys.stderr = _original_stderr
                 openSidebar();
             }
         }
-        
+
         // Ctrl+R or Cmd+R to reset code
         if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
             e.preventDefault();
             if (resetButton) resetButton.click();
         }
-        
+
         // Ctrl+Shift+F for format code
         if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'F') {
             e.preventDefault();
             if (formatButton) formatButton.click();
         }
-        
+
         // Ctrl+J or Cmd+J to jump to editor
         if ((e.ctrlKey || e.metaKey) && e.key === 'j') {
             e.preventDefault();
@@ -2538,7 +2594,7 @@ sys.stderr = _original_stderr
                 jumpToEditor();
             }
         }
-        
+
         // Arrow keys for navigation (when not in input fields)
         if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
             if (e.key === 'ArrowLeft' && !prevButton.disabled) {
@@ -2558,7 +2614,7 @@ sys.stderr = _original_stderr
             saveDraftForLesson(lesson.id, codeEditor.value);
         }
     });
-    
+
     // --- Load Pyodide Script Dynamically ---
     async function loadPyodideScript() {
         // Check if already loaded
@@ -2586,28 +2642,28 @@ sys.stderr = _original_stderr
                 if (outputConsole) {
                     outputConsole.textContent = `正在從 CDN ${i + 1} 載入 Pyodide 腳本...\n如果載入時間過長，請檢查網絡連接。`;
                 }
-                
+
                 await new Promise((resolve, reject) => {
                     let resolved = false;
                     let timeoutId;
                     let checkInterval;
-                    
+
                     const script = document.createElement('script');
                     script.src = url;
                     script.async = true;
                     script.crossOrigin = 'anonymous';
-                    
+
                     const cleanup = () => {
                         if (timeoutId) clearTimeout(timeoutId);
                         if (checkInterval) clearInterval(checkInterval);
                         script.onload = null;
                         script.onerror = null;
                     };
-                    
+
                     script.onload = () => {
                         if (resolved) return;
                         console.log(`[PYODIDE] 腳本標籤載入成功: ${url}`);
-                        
+
                         // Wait for loadPyodide to be available (check multiple times)
                         let attempts = 0;
                         checkInterval = setInterval(() => {
@@ -2624,7 +2680,7 @@ sys.stderr = _original_stderr
                             }
                         }, 500);
                     };
-                    
+
                     script.onerror = (event) => {
                         if (resolved) return;
                         resolved = true;
@@ -2636,7 +2692,7 @@ sys.stderr = _original_stderr
                         }
                         reject(new Error(`無法從 ${url} 載入腳本（網絡錯誤或 CDN 無法訪問）`));
                     };
-                    
+
                     // Add timeout for script loading (25 seconds)
                     timeoutId = setTimeout(() => {
                         if (!resolved) {
@@ -2649,11 +2705,11 @@ sys.stderr = _original_stderr
                             reject(new Error(`載入超時: ${url} (25秒)`));
                         }
                     }, 25000);
-                    
+
                     document.head.appendChild(script);
                     console.log(`[PYODIDE] 已添加腳本標籤到 DOM: ${url}`);
                 });
-                
+
                 // Successfully loaded
                 console.log(`[PYODIDE] ✓ 成功從 CDN ${i + 1} 載入 Pyodide`);
                 return true;
@@ -2663,7 +2719,7 @@ sys.stderr = _original_stderr
                 if (outputConsole) {
                     outputConsole.textContent = `CDN ${i + 1} 載入失敗，嘗試下一個...\n錯誤: ${error.message}`;
                 }
-                
+
                 if (i === cdnUrls.length - 1) {
                     // All CDNs failed
                     const errorMsg = `所有 CDN 載入失敗。\n\n最後一個錯誤: ${error.message}\n\n💡 解決方案：\n1. 檢查網絡連接\n2. 檢查防火牆/代理設置\n3. 嘗試使用 VPN\n4. 檢查瀏覽器控制台 (F12) 查看詳細錯誤`;
@@ -2673,10 +2729,10 @@ sys.stderr = _original_stderr
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
         }
-        
+
         return false;
     }
-    
+
     // --- Theme Toggle ---
     function loadTheme() {
         const savedTheme = localStorage.getItem('python_tutor_theme') || 'light';
@@ -2702,46 +2758,46 @@ sys.stderr = _original_stderr
     // --- Code Formatting ---
     function formatCode() {
         if (!codeEditor) return;
-        
+
         let code = codeEditor.value;
         if (!code.trim()) return;
-        
+
         // Basic formatting: fix indentation
         const lines = code.split('\n');
         let formattedLines = [];
         let indentLevel = 0;
         const indentSize = 4;
-        
+
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
             const trimmed = line.trim();
-            
+
             // Decrease indent for lines that end blocks
-            if (trimmed && (trimmed.startsWith('elif ') || trimmed.startsWith('else:') || 
+            if (trimmed && (trimmed.startsWith('elif ') || trimmed.startsWith('else:') ||
                 trimmed.startsWith('except') || trimmed.startsWith('finally:'))) {
                 indentLevel = Math.max(0, indentLevel - 1);
             }
-            
+
             // Add line with proper indentation
             if (trimmed) {
                 formattedLines.push(' '.repeat(indentLevel * indentSize) + trimmed);
             } else {
                 formattedLines.push('');
             }
-            
+
             // Increase indent for lines that start blocks
-            if (trimmed && (trimmed.endsWith(':') && !trimmed.startsWith('#') && 
+            if (trimmed && (trimmed.endsWith(':') && !trimmed.startsWith('#') &&
                 !trimmed.includes('"""') && !trimmed.includes("'''"))) {
                 // Don't increase for one-line if statements
                 if (!trimmed.match(/^(if|elif|else|for|while|def|class|try|except|finally)\s+.*:\s*#/)) {
                     indentLevel++;
                 }
             }
-            
+
             // Decrease indent after block ends
             if (i < lines.length - 1) {
                 const nextLine = lines[i + 1].trim();
-                if (nextLine && !nextLine.startsWith('#') && 
+                if (nextLine && !nextLine.startsWith('#') &&
                     !nextLine.startsWith('elif ') && !nextLine.startsWith('else:') &&
                     !nextLine.startsWith('except') && !nextLine.startsWith('finally:')) {
                     // Check if we should decrease indent
@@ -2752,7 +2808,7 @@ sys.stderr = _original_stderr
                 }
             }
         }
-        
+
         codeEditor.value = formattedLines.join('\n');
         updateLineNumbers();
         setDraftState('dirty');
@@ -2767,13 +2823,13 @@ sys.stderr = _original_stderr
     function showCodeHistory() {
         const lesson = lessons[currentLessonIndex];
         if (!lesson) return;
-        
+
         const history = getCodeHistoryForLesson(lesson.id);
         if (history.length === 0) {
             alert('此課程尚無程式碼歷史記錄。');
             return;
         }
-        
+
         // Create modal for history
         const modal = document.createElement('div');
         modal.className = 'history-modal';
@@ -2797,20 +2853,20 @@ sys.stderr = _original_stderr
                 </div>
             </div>
         `;
-        
+
         document.body.appendChild(modal);
-        
+
         // Close modal
         modal.querySelector('.history-modal-close').addEventListener('click', () => {
             modal.remove();
         });
-        
+
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.remove();
             }
         });
-        
+
         // Restore code
         modal.querySelectorAll('.history-restore-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -2851,7 +2907,7 @@ sys.stderr = _original_stderr
             exportDate: new Date().toISOString(),
             version: '1.1'
         };
-        
+
         const json = JSON.stringify(data, null, 2);
         const blob = new Blob([json], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -2886,7 +2942,7 @@ sys.stderr = _original_stderr
     function showStatistics() {
         const lesson = lessons[currentLessonIndex];
         if (!lesson) return;
-        
+
         const stats = learningStats[lesson.id] || {
             total_executions: 0,
             successful_executions: 0,
@@ -2895,7 +2951,7 @@ sys.stderr = _original_stderr
             total_time: 0,
             average_time: 0
         };
-        
+
         const modal = document.createElement('div');
         modal.className = 'stats-modal';
         modal.innerHTML = `
@@ -2940,13 +2996,13 @@ sys.stderr = _original_stderr
                 </div>
             </div>
         `;
-        
+
         document.body.appendChild(modal);
-        
+
         modal.querySelector('.stats-modal-close').addEventListener('click', () => {
             modal.remove();
         });
-        
+
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.remove();
@@ -2966,3 +3022,110 @@ sys.stderr = _original_stderr
     updateLineNumbers();
     updateWorkflowState();
 });
+
+// --- Parsons Problem Logic ---
+function initializeParsonsProblem(lesson) {
+    const parsonsContainer = document.getElementById('parsons-container');
+    const editorContainer = document.getElementById('editor-container');
+    const codeEditorElement = document.getElementById('code-editor'); // Textarea
+    const codeEditorWrapper = codeEditorElement.parentElement; // Editor container
+    const sourceContainer = document.getElementById('parsons-source');
+    const targetContainer = document.getElementById('parsons-target');
+
+    if (!parsonsContainer || !sourceContainer || !targetContainer) return;
+
+    // Reset containers
+    sourceContainer.innerHTML = '';
+    const placeholder = document.createElement('div');
+    placeholder.className = 'parsons-placeholder';
+    placeholder.textContent = '拖拉積木到這裡...';
+    targetContainer.innerHTML = '';
+    targetContainer.appendChild(placeholder);
+
+    // Shuffle and render blocks
+    const blocks = [...(lesson.parsons_blocks || [])].map((code, index) => ({ code, originalIndex: index }));
+    // Simple shuffle
+    blocks.sort(() => Math.random() - 0.5);
+
+    blocks.forEach((block, displayIndex) => {
+        const el = document.createElement('div');
+        el.className = 'parsons-block';
+        el.textContent = block.code;
+        el.dataset.code = block.code;
+        el.dataset.originalIndex = block.originalIndex;
+        sourceContainer.appendChild(el);
+    });
+
+    // Initialize Sortable
+    if (typeof Sortable !== 'undefined') {
+        new Sortable(sourceContainer, {
+            group: 'parsons',
+            animation: 150,
+            sort: false // Source list is not sortable by user, only draggable FROM
+        });
+
+        new Sortable(targetContainer, {
+            group: 'parsons',
+            animation: 150,
+            onAdd: function (evt) {
+                const placeholder = targetContainer.querySelector('.parsons-placeholder');
+                if (placeholder) placeholder.style.display = 'none';
+                updateParsonsCode();
+            },
+            onRemove: function (evt) {
+                if (targetContainer.children.length === 0 ||
+                    (targetContainer.children.length === 1 && targetContainer.children[0].classList.contains('parsons-placeholder'))) {
+                    const p = targetContainer.querySelector('.parsons-placeholder');
+                    if (p) p.style.display = 'block';
+                }
+                updateParsonsCode();
+            },
+            onSort: function (evt) {
+                updateParsonsCode();
+            }
+        });
+    }
+}
+
+function updateParsonsCode() {
+    const targetContainer = document.getElementById('parsons-target');
+    const codeEditor = document.getElementById('code-editor');
+
+    if (!targetContainer || !codeEditor) return;
+
+    // Collect code from blocks in target container
+    const blocks = Array.from(targetContainer.querySelectorAll('.parsons-block'));
+    const code = blocks.map(el => el.dataset.code).join('\n');
+
+    // Sync to hidden editor for execution
+    codeEditor.value = code;
+    // Also trigger input event if needed for state updates
+    codeEditor.dispatchEvent(new Event('input'));
+}
+
+function checkParsonsSolution(lesson) {
+    const targetContainer = document.getElementById('parsons-target');
+    if (!targetContainer) return { isCorrect: false, message: '找不到容器' };
+
+    const blocks = Array.from(targetContainer.querySelectorAll('.parsons-block'));
+    const currentOrder = blocks.map(el => parseInt(el.dataset.originalIndex));
+
+    const expectedOrder = lesson.validator.expected_order;
+
+    // Simple array comparison
+    if (currentOrder.length !== expectedOrder.length) {
+        return { isCorrect: false, message: '積木數目不正確' };
+    }
+
+    for (let i = 0; i < currentOrder.length; i++) {
+        if (currentOrder[i] !== expectedOrder[i]) {
+            const isCorrect = false;
+            // Special check: sometimes valid code order might differ from exact block ID if blocks are identical, 
+            // but usually parsons blocks are unique lines or we enforce strict order.
+            // For now strict order of original indices.
+            return { isCorrect: false, message: '順序不正確，請再試試！' };
+        }
+    }
+
+    return { isCorrect: true, message: '太棒了！邏輯順序正確！' };
+}

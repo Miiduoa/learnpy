@@ -75,6 +75,34 @@ print("Hello, World!")
         }
     },
     {
+        "id": "PS1-0",
+        "title": "邏輯拼圖：印出多行",
+        "type": "parsons",
+        "explanation": """
+## 什麼是邏輯拼圖？
+
+這是一種不一樣的練習方式！您不需要從頭打字，只需要將打亂順序的程式碼積木，拖拉到正確的位置並排列順序。
+
+**為什麼要這樣做？**
+寫程式不只是打字，更重要的是「邏輯順序」。這練習幫您專注於思考「程式執行的順序」，而不用擔心語法打錯。
+
+## 題目說明
+請將左邊的程式碼積木拖拉到右邊，排列出正確的順序，使其能依序印出：
+1. 第一行
+2. 第二行
+3. 第三行
+""",
+        "parsons_blocks": [
+            "print(\"第二行\")",
+            "print(\"第三行\")",
+            "print(\"第一行\")"
+        ],
+        "validator": {
+            "type": "parsons_order",
+            "expected_order": [2, 0, 1]  # Indices of the original blocks in the correct order
+        }
+    },
+    {
         "id": "PT1-0",
         "title": "印出多行訊息",
         "explanation": """
