@@ -1,0 +1,17 @@
+{
+  "id": "HW11",
+  "title": "函數綜合應用：參數傳遞、字串處理與遞迴",
+  "explanation": "\n## 為什麼需要綜合應用？\n\n這個作業整合了函數的多個重要概念：參數傳遞（mutable/immutable）、字串處理和遞迴函數。\n\n**實際應用：**\n- 理解函數的參數傳遞機制\n- 掌握字串的常用方法\n- 運用遞迴解決問題\n\n**為什麼要綜合練習？**\n因為實際程式開發中，這些概念經常會一起使用。\n\n## 本作業涵蓋的概念\n\n### 1. 參數傳遞（Mutable / Immutable）\n\n**不可變物件（Immutable）：**\n- 數字、字串、元組\n- 函數內修改不會影響原變數\n\n**可變物件（Mutable）：**\n- 列表、字典、集合\n- 函數內修改會影響原物件\n\n### 2. 字串處理\n\n**常用方法：**\n- `upper()`：轉大寫\n- `lower()`：轉小寫\n- `strip()`：去除首尾空白\n- `split()`：分割字串\n- `join()`：連接字串\n\n### 3. 遞迴函數\n\n**遞迴的兩個必要條件：**\n- 基本情況（Base Case）：停止條件\n- 遞迴情況（Recursive Case）：呼叫自己\n\n## 實際範例\n\n結合這些概念，我們可以建立更強大的函數：\n\n```\ndef process_text(text, words_list):\n    # 字串處理\n    text = text.strip().upper()\n    words = text.split()\n    \n    # 可變物件會被修改\n    words_list.extend(words)\n    \n    return len(words)\n\ndef count_chars(text, n):\n    # 遞迴計算字元數\n    if n == 0:\n        return 0\n    return 1 + count_chars(text, n - 1)\n\n# 使用範例\nmy_list = []\nresult = process_text(\"  hello world  \", my_list)\nprint(result)  # 2\nprint(my_list)  # ['HELLO', 'WORLD']（被修改了）\n```\n\n**記住：** \n- 理解 mutable/immutable 的差異\n- 熟練使用字串方法\n- 掌握遞迴的設計原則\n- 綜合運用這些概念解決實際問題\n",
+  "exercise": "請定義一個函數 `process_and_count(text, result_list)`：\n1. 將 `text` 轉換為大寫並去除首尾空白\n2. 用空格分割成單詞列表\n3. 將單詞列表加入到 `result_list`（可變物件會被修改）\n4. 回傳單詞數量\n\n然後定義一個遞迴函數 `factorial(n)` 計算階乘。\n\n最後執行：\n```\ntext = '  python programming  '\nwords = []\ncount = process_and_count(text, words)\nprint(count)\nprint(words)\nprint(factorial(3))\n```",
+  "hint": "結合字串處理、可變物件修改和遞迴函數。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "2\n['PYTHON', 'PROGRAMMING']\n6\n",
+    "code_requirements": {
+      "requires_function": true,
+      "requires_loop": false,
+      "forbids_hardcode": true
+    }
+  },
+  "_order": 101
+}

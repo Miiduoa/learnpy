@@ -1,0 +1,12 @@
+{
+  "id": "EX5-6",
+  "title": "List-複製(Deep Copy)",
+  "explanation": "\n## 為什麼需要深複製？\n\n在 Python 中，列表的賦值只是建立一個新的參考，而不是複製內容。深複製可以建立一個完全獨立的新列表。\n\n**實際應用：**\n- 避免意外修改原列表\n- 建立獨立的副本\n- 資料保護\n\n**為什麼不用賦值？**\n因為賦值只是建立參考，修改新列表會影響原列表。\n\n## 淺複製 vs 深複製\n\n### 淺複製（Shallow Copy）\n\n**什麼是淺複製？**\n只複製第一層，如果列表中有嵌套列表，嵌套列表仍然是參考。\n\n**語法：**\n```\nnew_list = original[:]  # 或 list(original)\n```\n\n**問題：**\n如果列表中有嵌套列表，修改嵌套列表會影響原列表。\n\n### 深複製（Deep Copy）\n\n**什麼是深複製？**\n完全複製所有層級，建立完全獨立的新列表。\n\n**語法：**\n```\nimport copy\nnew_list = copy.deepcopy(original)\n```\n\n**為什麼叫 deep？**\n因為它會「深入」所有層級，複製所有嵌套的物件。\n\n## copy 模組\n\n**為什麼需要 import？**\n`copy` 是 Python 的模組，需要先匯入才能使用。\n\n**語法：**\n```\nimport copy\n```\n\n**為什麼叫 copy？**\n`copy` 是「複製」的意思，這個模組提供複製功能。\n\n## deepcopy() 函式\n\n**什麼是 deepcopy()？**\n`deepcopy()` 是 `copy` 模組的函式，用來建立深複製。\n\n**語法：**\n```\ncopy.deepcopy(要複製的物件)\n```\n\n**為什麼叫 deepcopy？**\n因為它會「深入」所有層級進行複製。\n\n## 實際範例\n\n### 簡單列表（一層）\n\n```\nimport copy\noriginal = [1, 2, 3]\nnew_list = copy.deepcopy(original)\nnew_list[0] = 99\nprint(original)  # [1, 2, 3]\nprint(new_list)  # [99, 2, 3]\n```\n\n**結果：**\n```\n[1, 2, 3]\n[99, 2, 3]\n```\n\n### 嵌套列表（多層）\n\n```\nimport copy\noriginal = [1, 2, [3, 4]]\nnew_list = copy.deepcopy(original)\nnew_list[2][0] = 99\nprint(original)  # [1, 2, [3, 4]]\nprint(new_list)  # [1, 2, [99, 4]]\n```\n\n**執行過程：**\n1. `original = [1, 2, [3, 4]]`\n2. `new_list = copy.deepcopy(original)` → 建立完全獨立的副本\n3. `new_list[2][0] = 99` → 只修改新列表\n4. `original` 不變：`[1, 2, [3, 4]]`\n5. `new_list` 改變：`[1, 2, [99, 4]]`\n\n**如果使用淺複製：**\n```\noriginal = [1, 2, [3, 4]]\nnew_list = original[:]  # 淺複製\nnew_list[2][0] = 99\nprint(original)  # [1, 2, [99, 4]]（也被修改了！）\n```\n\n**記住：** \n- 賦值只是建立參考\n- 淺複製只複製第一層\n- 深複製複製所有層級\n- 使用 `copy.deepcopy()` 建立深複製\n- 深複製建立完全獨立的副本\n",
+  "exercise": "有一個列表 `original = [1, 2, 3]`。請使用深複製建立一個新列表 `new_list`，然後修改 `new_list[0] = 99`，最後分別印出兩個列表（先 original，後 new_list）。",
+  "hint": "使用 `copy.deepcopy()` 或 `list()` 函式。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "[1, 2, 3]\n[99, 2, 3]\n"
+  },
+  "_order": 42
+}

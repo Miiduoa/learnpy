@@ -1,0 +1,12 @@
+{
+  "id": "EX5-4",
+  "title": "List-Indexing",
+  "explanation": "\n## 什麼是索引？\n\n我們可以使用**索引（index）**來存取列表中的元素。\n\n**為什麼需要索引？**\n就像書的頁碼一樣，索引讓我們可以「直接跳到某個位置」來存取元素，而不需要從頭開始找。\n\n## 為什麼索引從 0 開始？\n\n**重要概念：** 列表的索引從 **0** 開始，不是從 1 開始！\n\n**為什麼？**\n這是程式設計的慣例，因為：\n1. 計算機科學中，0 是第一個數字\n2. 讓索引和「距離第一個元素的距離」一致\n3. 讓某些計算更簡單\n\n**類比：**\n- 列表 = 一排房子\n- 索引 = 門牌號碼\n- 第一間房子的門牌是 0 號，不是 1 號\n\n## 正索引和負索引\n\n### 正索引（從前面開始）\n\n```\nfruits = [\"apple\", \"banana\", \"orange\"]\n索引：      0         1         2\n```\n\n- `fruits[0]` → 第一個元素 \"apple\"\n- `fruits[1]` → 第二個元素 \"banana\"\n- `fruits[2]` → 第三個元素 \"orange\"\n\n**為什麼第一個是 0？**\n因為 0 表示「距離第一個元素的距離是 0」，也就是第一個元素本身。\n\n### 負索引（從後面開始）\n\n**為什麼需要負索引？**\n有時候我們想從後面開始數，例如「最後一個」、「倒數第二個」。\n\n- `fruits[-1]` → 最後一個元素 \"orange\"\n- `fruits[-2]` → 倒數第二個元素 \"banana\"\n- `fruits[-3]` → 倒數第三個元素 \"apple\"\n\n**為什麼負索引從 -1 開始？**\n因為 -1 表示「距離最後一個元素的距離是 0」，也就是最後一個元素本身。\n\n## 修改元素\n\n**列表是可變的！**\n我們可以直接修改列表中的元素。\n\n**語法：**\n```\n列表名稱[索引] = 新值\n```\n\n**為什麼可以修改？**\n因為列表是「可變的」（mutable），可以直接改變內容。這跟字串不同（字串是不可變的）。\n\n## 實際範例\n\n```\nfruits = [\"apple\", \"banana\", \"orange\"]\nprint(fruits[0])    # 印出 \"apple\"（第一個元素）\nprint(fruits[1])    # 印出 \"banana\"（第二個元素）\nprint(fruits[-1])   # 印出 \"orange\"（最後一個元素）\n\nfruits[1] = \"grape\"  # 將第二個元素改為 \"grape\"\nprint(fruits)        # 印出 [\"apple\", \"grape\", \"orange\"]\n```\n\n**執行過程：**\n1. 建立列表 `[\"apple\", \"banana\", \"orange\"]`\n2. 印出索引 0 的元素：`\"apple\"`\n3. 印出索引 1 的元素：`\"banana\"`\n4. 印出索引 -1 的元素：`\"orange\"`\n5. 修改索引 1 的元素為 `\"grape\"`\n6. 列表變成 `[\"apple\", \"grape\", \"orange\"]`\n\n## 常見錯誤\n\n❌ **索引超出範圍：**\n```\nfruits = [\"apple\", \"banana\"]\nprint(fruits[2])  # 錯誤！只有索引 0 和 1\n```\n\n✅ **正確：**\n```\nfruits = [\"apple\", \"banana\"]\nprint(fruits[0])  # 第一個\nprint(fruits[1])  # 第二個\nprint(fruits[-1]) # 最後一個\n```\n\n**記住：** \n- 索引從 0 開始\n- 正索引從前面數，負索引從後面數\n- 索引不能超出範圍（0 到 len-1 或 -1 到 -len）\n",
+  "exercise": "有一個列表 items = ['a', 'b', 'c', 'd']。請印出第一個元素和最後一個元素（分兩行）。",
+  "hint": "使用索引 0 和 -1。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "a\nd\n"
+  },
+  "_order": 40
+}

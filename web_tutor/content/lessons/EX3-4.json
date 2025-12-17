@@ -1,0 +1,12 @@
+{
+  "id": "EX3-4",
+  "title": "列印第 n 個英文字母",
+  "explanation": "\n## 什麼是 ASCII 碼？\n\n**ASCII（American Standard Code for Information Interchange）** 是一種編碼系統，將字元對應到數字。\n\n**為什麼需要 ASCII 碼？**\n電腦只能處理數字，所以需要將字元轉換成數字來儲存和處理。\n\n**常見的 ASCII 碼：**\n- 大寫字母 A-Z：65-90\n- 小寫字母 a-z：97-122\n- 數字 0-9：48-57\n\n## chr() 和 ord() 函式\n\nPython 提供了兩個函式來處理字元和 ASCII 碼：\n\n### ord() - 字元轉數字\n```\nord('A')  # 回傳 65\n```\n**作用：** 將字元轉換為對應的 ASCII 碼（數字）\n\n**為什麼叫 ord？**\nord 是 \"ordinal\"（序數）的縮寫，表示字元的順序編號。\n\n### chr() - 數字轉字元\n```\nchr(65)  # 回傳 'A'\n```\n**作用：** 將 ASCII 碼（數字）轉換為對應的字元\n\n**為什麼叫 chr？**\nchr 是 \"character\"（字元）的縮寫。\n\n## 如何計算第 n 個字母？\n\n**規律：**\n- A 是第 1 個，ASCII 碼是 65\n- B 是第 2 個，ASCII 碼是 66\n- C 是第 3 個，ASCII 碼是 67\n- ...\n\n**公式：** 第 n 個字母的 ASCII 碼 = 65 + (n - 1)\n\n**為什麼是 n - 1？**\n因為 A 是第 1 個，但它的 ASCII 碼是 65，所以需要減 1。\n\n**簡化：** 第 n 個字母 = `chr(64 + n)` 或 `chr(65 + n - 1)`\n\n## 實際範例\n\n要印出第 3 個大寫字母（C）：\n```\nprint(chr(65 + 2))  # 65 是 A，加 2 就是 C\n```\n\n**計算過程：**\n1. A 是第 1 個，ASCII 碼是 65\n2. 第 3 個 = 65 + (3 - 1) = 65 + 2 = 67\n3. `chr(67)` = 'C'\n\n**記住：** \n- `ord()` 是字元 → 數字\n- `chr()` 是數字 → 字元\n- 大寫字母從 65 開始，小寫字母從 97 開始\n",
+  "exercise": "請印出第 5 個大寫英文字母（E）。",
+  "hint": "A 是第 1 個（ASCII 65），E 是第 5 個，所以是 65 + 4。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "E\n"
+  },
+  "_order": 20
+}

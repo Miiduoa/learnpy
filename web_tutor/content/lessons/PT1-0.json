@@ -1,0 +1,12 @@
+{
+  "id": "PT1-0",
+  "title": "印出多行訊息",
+  "explanation": "\n## 如何印出多行？\n\n您可以連續使用好幾個 `print()` 函式，來印出多行訊息。\n\n**為什麼需要多個 print()？**\n每個 `print()` 函式會印出一行，然後自動換行。所以如果您想要印出兩行不同的內容，就需要使用兩個 `print()`。\n\n## 程式執行的順序\n\n**重要概念：** 程式會**由上到下，一次執行一行**，就像您閱讀文章一樣，從第一行讀到最後一行。\n\n例如：\n```\nprint(\"第一行\")\nprint(\"第二行\")\n```\n\n**執行過程：**\n1. Python 先執行第一行：`print(\"第一行\")` → 螢幕顯示「第一行」，然後換行\n2. Python 再執行第二行：`print(\"第二行\")` → 螢幕顯示「第二行」，然後換行\n\n**結果：**\n```\n第一行\n第二行\n```\n\n## 為什麼每個 print() 會自動換行？\n\n這是 `print()` 函式的預設行為。每次執行 `print()` 後，它會自動在輸出後面加上一個「換行符號」，讓下一次的輸出從新的一行開始。\n\n**類比：** 就像您寫完一行字後，按 Enter 鍵換到下一行一樣！\n\n## 實際範例\n\n如果您想要印出：\n```\nHello\nWorld\n```\n\n您需要寫：\n```\nprint(\"Hello\")\nprint(\"World\")\n```\n\n**記住：** 每一行要印的內容，都需要一個獨立的 `print()` 函式！\n",
+  "exercise": "請撰寫程式，在螢幕上分兩行印出以下內容：\n第一行是：Hello, Gemini!\n第二行是：I'm learning Python.",
+  "hint": "您需要使用兩個 print() 函式，每一行對應一個。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "Hello, Gemini!\nI'm learning Python.\n"
+  },
+  "_order": 2
+}

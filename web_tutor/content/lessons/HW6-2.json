@@ -1,0 +1,12 @@
+{
+  "id": "HW6-2",
+  "title": "帳密檢查：最多三次機會",
+  "explanation": "\n## 為什麼需要限制嘗試次數？\n\n我們可以使用迴圈來限制嘗試次數，這是安全機制的重要部分。\n\n**實際應用：**\n- 防止暴力破解\n- 保護帳號安全\n- 限制登入嘗試\n\n## 計數器模式\n\n**為什麼需要計數器？**\n因為我們要追蹤「已經嘗試了幾次」。\n\n**語法：**\n```\nattempts = 0\nmax_attempts = 3\n```\n\n**為什麼初始值是 0？**\n因為計數從 0 開始，第一次嘗試後變成 1。\n\n## 迴圈條件\n\n**為什麼用 `attempts < max_attempts`？**\n因為我們要限制在最多 3 次，所以當 `attempts < 3` 時繼續嘗試。\n\n**語法：**\n```\nwhile attempts < max_attempts:\n    # 嘗試登入\n    attempts = attempts + 1\n```\n\n**為什麼在迴圈內加 1？**\n因為每次嘗試後，次數就加 1。\n\n## 登入檢查\n\n**為什麼需要兩個條件？**\n因為帳號和密碼都要正確才能登入。\n\n**語法：**\n```\nif input_user == username and input_pass == password:\n    print(\"登入成功\")\n    break\n```\n\n**為什麼用 break？**\n因為登入成功後，不需要繼續嘗試，直接跳出迴圈。\n\n## while-else 結構\n\n**什麼是 while-else？**\n`while-else` 是 Python 的特殊語法：\n- 如果迴圈正常結束（沒有 break），會執行 else 區塊\n- 如果迴圈被 break 中斷，不會執行 else 區塊\n\n**為什麼需要 else？**\n因為我們想知道「是否用完了所有機會都沒登入成功」。\n\n**語法：**\n```\nwhile attempts < max_attempts:\n    # ...\n    if 登入成功:\n        break\nelse:\n    print(\"登入失敗\")\n```\n\n## 實際範例\n\n```\nusername = \"admin\"\npassword = \"1234\"\nmax_attempts = 3\nattempts = 0\n\nwhile attempts < max_attempts:\n    input_user = \"user\"  # 假設輸入\n    input_pass = \"wrong\"  # 假設輸入\n    attempts = attempts + 1\n    \n    if input_user == username and input_pass == password:\n        print(\"登入成功\")\n        break\n    else:\n        remaining = max_attempts - attempts\n        print(\"帳號或密碼錯誤，還剩\", remaining, \"次機會\")\nelse:\n    print(\"登入失敗\")\n```\n\n**執行過程（假設都失敗）：**\n1. 第一次：`attempts = 1`，檢查失敗，印出「還剩 2 次機會」\n2. 第二次：`attempts = 2`，檢查失敗，印出「還剩 1 次機會」\n3. 第三次：`attempts = 3`，檢查失敗，印出「還剩 0 次機會」\n4. 迴圈結束（`attempts < 3` → `False`）\n5. 執行 else：印出「登入失敗」\n\n**如果第三次成功：**\n1. 第一次：失敗\n2. 第二次：失敗\n3. 第三次：成功，執行 `break`，跳出迴圈\n4. 不執行 else（因為有 break）\n\n**記住：** \n- 使用計數器追蹤嘗試次數\n- 使用 `while attempts < max_attempts` 限制次數\n- 登入成功用 `break` 跳出\n- 使用 `while-else` 處理失敗情況\n",
+  "exercise": "系統帳號是 'user'，密碼是 'pass'。\n請寫一個程式，最多嘗試 3 次。\n假設第一次輸入 ('user', 'wrong')，第二次輸入 ('wrong', 'pass')，第三次輸入 ('user', 'pass')。\n每次錯誤後印出「錯誤，剩餘 X 次」，成功後印出「登入成功」。",
+  "hint": "使用 while 迴圈控制次數，用 if 檢查帳密。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "錯誤，剩餘 2 次\n錯誤，剩餘 1 次\n登入成功\n"
+  },
+  "_order": 59
+}

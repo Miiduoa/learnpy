@@ -1,0 +1,12 @@
+{
+  "id": "EX10-4",
+  "title": "function chr() & ord() & 字串相連",
+  "explanation": "\n## chr() 和 ord() 函式\n\n`chr()` 和 `ord()` 是 Python 內建函數，用來處理字元和 ASCII 碼。\n\n**為什麼需要這兩個函式？**\n因為有時候我們需要在字元和數字之間轉換，例如生成字母序列。\n\n### ord() - 字元轉數字\n\n```\nord('A')  # 回傳 65\n```\n\n**作用：** 將字元轉換為對應的 ASCII 碼（數字）\n\n**為什麼叫 ord？**\nord 是 \"ordinal\"（序數）的縮寫，表示字元的順序編號。\n\n### chr() - 數字轉字元\n\n```\nchr(65)  # 回傳 'A'\n```\n\n**作用：** 將 ASCII 碼（數字）轉換為對應的字元\n\n**為什麼叫 chr？**\nchr 是 \"character\"（字元）的縮寫。\n\n**配對使用：**\n- `ord()` 和 `chr()` 是互逆的\n- `chr(ord('A'))` = 'A'\n- `ord(chr(65))` = 65\n\n## 字串相連\n\n**為什麼需要字串相連？**\n有時候我們需要將多個字串組合成一個。\n\n**語法：**\n```\n字串1 + 字串2\n```\n\n**為什麼用 `+`？**\n在 Python 中，`+` 運算子可以連接字串，就像數學的加法一樣。\n\n**注意：** 字串和數字不能直接相加！需要先轉換。\n\n**範例：**\n```\nstr1 = \"Hello\"\nstr2 = \"World\"\nresult = str1 + \" \" + str2  # \"Hello World\"\n```\n\n**執行過程：**\n1. `str1 + \" \"` → \"Hello \"\n2. `\"Hello \" + str2` → \"Hello World\"\n\n## 建立字串處理函數\n\n**為什麼需要函數？**\n將字串處理邏輯封裝成函數，可以重複使用。\n\n**範例：生成字元範圍**\n```\ndef char_range(start, end):\n    result = \"\"\n    for i in range(ord(start), ord(end) + 1):\n        result = result + chr(i)\n    return result\n```\n\n**執行邏輯：**\n1. 將起始字元轉為 ASCII 碼\n2. 將結束字元轉為 ASCII 碼\n3. 用迴圈從起始到結束，將每個 ASCII 碼轉回字元\n4. 用 `+` 連接所有字元\n\n**為什麼 `ord(end) + 1`？**\n因為 `range()` 是「左閉右開」，所以需要 +1 才能包含結束字元。\n\n## 實際範例\n\n```\ndef char_string(start, end):\n    result = \"\"\n    for i in range(ord(start), ord(end) + 1):\n        result = result + chr(i)\n    return result\n\nprint(char_string('A', 'D'))\n```\n\n**執行過程：**\n1. `ord('A')` = 65，`ord('D')` = 68\n2. `range(65, 69)` → 65, 66, 67, 68\n3. 迴圈：\n   - `chr(65)` = 'A'，`result = \"\" + \"A\" = \"A\"`\n   - `chr(66)` = 'B'，`result = \"A\" + \"B\" = \"AB\"`\n   - `chr(67)` = 'C'，`result = \"AB\" + \"C\" = \"ABC\"`\n   - `chr(68)` = 'D'，`result = \"ABC\" + \"D\" = \"ABCD\"`\n4. 回傳 \"ABCD\"\n\n**結果：** `ABCD`\n\n**記住：** \n- `ord()` 字元 → 數字\n- `chr()` 數字 → 字元\n- 字串用 `+` 連接\n- `range()` 是左閉右開，所以結束值要 +1\n",
+  "exercise": "請定義一個函數 `char_string(start, end)`，回傳從 `start` 到 `end` 的所有字元連接成的字串。\n然後呼叫 `char_string('A', 'D')` 並印出結果。",
+  "hint": "使用 `ord()` 和 `chr()`，用迴圈建立字串。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "ABCD\n"
+  },
+  "_order": 84
+}

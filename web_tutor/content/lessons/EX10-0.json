@@ -1,0 +1,12 @@
+{
+  "id": "EX10-0",
+  "title": "function: default argument。判斷是否及格",
+  "explanation": "\n## 為什麼需要函數？\n\n函數（Function）可以讓我們將程式碼組織成可重複使用的區塊。\n\n**沒有函數的問題：**\n每次要判斷是否及格，都要寫一次 `if-else`，程式碼會重複。\n\n**使用函數：**\n寫一次函數，之後就可以重複使用，而且程式碼更清楚！\n\n## 定義函數\n\n**語法：**\n```\ndef 函數名稱(參數1, 參數2=預設值):\n    # 函數內容\n    return 結果\n```\n\n**為什麼用 def？**\n`def` 是 \"define\"（定義）的縮寫，表示「定義一個函數」。\n\n**為什麼需要 return？**\n`return` 用來回傳結果，讓呼叫函數的地方可以取得結果。\n\n## 預設參數（Default Argument）\n\n**什麼是預設參數？**\n預設參數是「有預設值」的參數，如果呼叫時沒有提供，就使用預設值。\n\n**為什麼需要預設參數？**\n因為有些參數有常用的值，設定預設值可以讓呼叫更方便。\n\n**語法：**\n```\ndef 函數名稱(參數1, 參數2=預設值):\n```\n\n**為什麼預設參數在後面？**\n因為 Python 需要知道哪些參數有預設值，所以預設參數必須放在沒有預設值的參數後面。\n\n## 實際範例\n\n```\ndef check_pass(score, passing=60):\n    if score >= passing:\n        return \"及格\"\n    else:\n        return \"不及格\"\n```\n\n**參數說明：**\n- `score`：學生成績（必須提供）\n- `passing=60`：及格分數（預設 60，可以不提供）\n\n## 呼叫函數\n\n### 使用預設值\n\n```\nprint(check_pass(70))\n```\n\n**執行過程：**\n1. 呼叫 `check_pass(70)`\n2. `score = 70`，`passing = 60`（使用預設值）\n3. `70 >= 60` → `True`\n4. 回傳 `\"及格\"`\n5. 印出：`及格`\n\n### 使用自訂值\n\n```\nprint(check_pass(50, 70))\n```\n\n**執行過程：**\n1. 呼叫 `check_pass(50, 70)`\n2. `score = 50`，`passing = 70`（使用自訂值）\n3. `50 >= 70` → `False`\n4. 回傳 `\"不及格\"`\n5. 印出：`不及格`\n\n## 預設參數的優點\n\n**為什麼用預設參數？**\n1. **方便**：大多數情況用預設值，不需要每次都提供\n2. **靈活**：特殊情況可以自訂值\n3. **清楚**：函數定義就說明了預設行為\n\n**記住：** \n- `def` 定義函數\n- `return` 回傳結果\n- 預設參數用 `參數=預設值`\n- 預設參數必須在後面\n- 呼叫時可以不提供預設參數\n",
+  "exercise": "請定義一個函數 `check_pass(score, passing=60)`，如果 `score >= passing` 就回傳「及格」，否則回傳「不及格」。\n然後呼叫 `check_pass(70)` 並印出結果。",
+  "hint": "使用 `def` 定義函數，使用 `return` 回傳值。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "及格\n"
+  },
+  "_order": 80
+}

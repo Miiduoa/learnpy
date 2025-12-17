@@ -1,0 +1,12 @@
+{
+  "id": "HW10-3",
+  "title": "進制轉換: 十進位轉其他進位(2, 8, 16) (-1 for exit)",
+  "explanation": "\n## 為什麼需要通用進制轉換函數？\n\n我們可以建立一個通用的進制轉換函數，可以轉換到任何進位（2、8、16等）。\n\n**實際應用：**\n- 多種進制轉換\n- 程式碼重用\n- 統一介面\n\n**為什麼不用多個函數？**\n因為轉換邏輯相同，只是進位不同，用一個函數加上參數更簡潔。\n\n## 通用轉換策略\n\n**為什麼用 base 參數？**\n因為不同的進位只是除數不同，邏輯相同。\n\n**語法：**\n```\ndef convert_base(decimal, base):\n    digits = \"0123456789ABCDEF\"\n    if decimal == 0:\n        return \"0\"\n    result = \"\"\n    while decimal > 0:\n        remainder = decimal % base\n        result = digits[remainder] + result\n        decimal = decimal // base\n    return result\n```\n\n**參數說明：**\n- `decimal`：十進位數字\n- `base`：目標進位（2、8、16等）\n\n**執行邏輯：**\n1. 如果數字是 0，直接回傳 \"0\"\n2. 重複以下步驟直到數字為 0：\n   - 取餘數（`decimal % base`）\n   - 將餘數對應到字元（`digits[remainder]`）\n   - 將字元加到結果前面\n   - 除以進位（`decimal // base`）\n\n## 字元對應表\n\n**為什麼用字串？**\n因為可以用索引來對應數字和字元。\n\n**語法：**\n```\ndigits = \"0123456789ABCDEF\"\n```\n\n**對應關係：**\n- 0-9：對應 0-9\n- 10-15：對應 A-F（用於十六進位）\n\n**為什麼只到 F？**\n因為十六進位只需要 16 個字元，但這個字串可以支援到十六進位。\n\n## 實際範例\n\n### 二進位轉換（base=2）\n\n```\nprint(convert_base(10, 2))\n```\n\n**執行過程：**\n1. `decimal = 10`, `base = 2`\n2. 第一次：`10 % 2 = 0` → `digits[0] = \"0\"` → `result = \"0\"`, `decimal = 10 // 2 = 5`\n3. 第二次：`5 % 2 = 1` → `digits[1] = \"1\"` → `result = \"1\" + \"0\" = \"10\"`, `decimal = 5 // 2 = 2`\n4. 第三次：`2 % 2 = 0` → `digits[0] = \"0\"` → `result = \"0\" + \"10\" = \"010\"`, `decimal = 2 // 2 = 1`\n5. 第四次：`1 % 2 = 1` → `digits[1] = \"1\"` → `result = \"1\" + \"010\" = \"1010\"`, `decimal = 1 // 2 = 0`\n6. 迴圈結束，回傳 `\"1010\"`\n\n**結果：** `1010`\n\n### 八進位轉換（base=8）\n\n```\nprint(convert_base(10, 8))\n```\n\n**執行過程：**\n1. `decimal = 10`, `base = 8`\n2. 第一次：`10 % 8 = 2` → `digits[2] = \"2\"` → `result = \"2\"`, `decimal = 10 // 8 = 1`\n3. 第二次：`1 % 8 = 1` → `digits[1] = \"1\"` → `result = \"1\" + \"2\" = \"12\"`, `decimal = 1 // 8 = 0`\n4. 迴圈結束，回傳 `\"12\"`\n\n**結果：** `12`\n\n### 十六進位轉換（base=16）\n\n```\nprint(convert_base(10, 16))\n```\n\n**執行過程：**\n1. `decimal = 10`, `base = 16`\n2. 第一次：`10 % 16 = 10` → `digits[10] = \"A\"` → `result = \"A\"`, `decimal = 10 // 16 = 0`\n3. 迴圈結束，回傳 `\"A\"`\n\n**結果：** `A`\n\n**記住：** \n- 使用 `base` 參數支援多種進位\n- 轉換邏輯相同，只是除數不同\n- 使用字串索引對應數字和字元\n- 從低位到高位建立結果\n",
+  "exercise": "請定義一個函數 `convert(n, base)`，將十進位數 `n` 轉換為 `base` 進位。\n然後分別呼叫 `convert(10, 2)`、`convert(10, 8)`、`convert(10, 16)` 並印出結果（每個一行）。",
+  "hint": "使用除法和取餘數，將餘數對應到對應進位的字元。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "1010\n12\nA\n"
+  },
+  "_order": 93
+}

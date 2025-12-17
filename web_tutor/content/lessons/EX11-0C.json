@@ -1,0 +1,12 @@
+{
+  "id": "EX11-0C",
+  "title": "硬做成call by reference的效果",
+  "explanation": "\n## 為什麼需要「傳參考」的效果？\n\n雖然 Python 對於不可變物件是「傳值」，但我們可以透過回傳值或列表包裝來達到類似「傳參考」的效果。\n\n**實際應用：**\n- 需要修改不可變物件\n- 模擬其他語言的傳參考行為\n- 函數需要修改參數\n\n**為什麼需要？**\n因為有時候我們希望函數能夠修改不可變物件的值。\n\n## 方法 1：使用回傳值\n\n**為什麼用回傳值？**\n因為函數不能直接修改不可變物件，但可以回傳新值，讓呼叫者更新。\n\n**語法：**\n```\ndef increment(x):\n    return x + 1\n\nnum = 10\nnum = increment(num)  # 透過回傳值來更新\n```\n\n**執行邏輯：**\n1. 呼叫 `increment(10)`\n2. 函數計算 `10 + 1 = 11`\n3. 回傳 `11`\n4. 呼叫者將結果賦值給 `num`：`num = 11`\n\n**為什麼有效？**\n因為雖然函數內不能修改原變數，但可以回傳新值，讓呼叫者更新。\n\n## 方法 2：使用列表包裝\n\n**為什麼用列表包裝？**\n因為列表是可變物件，函數內可以修改列表的元素。\n\n**語法：**\n```\ndef increment_wrapper(lst):\n    lst[0] = lst[0] + 1\n\nnum_list = [10]\nincrement_wrapper(num_list)\nprint(num_list[0])\n```\n\n**執行邏輯：**\n1. `num_list = [10]`（用列表包裝數字）\n2. 呼叫 `increment_wrapper([10])`\n3. 函數內修改列表元素：`lst[0] = 10 + 1 = 11`\n4. 因為列表是可變物件，原列表被修改\n5. `num_list[0] = 11`\n\n**為什麼有效？**\n因為列表是可變物件，函數內修改會影響原列表。\n\n## 兩種方法的比較\n\n### 方法 1：回傳值（推薦）\n\n**優點：**\n- 清楚明確\n- 不改變原變數的型態\n- 符合 Python 的慣例\n\n**缺點：**\n- 需要記得賦值\n\n### 方法 2：列表包裝\n\n**優點：**\n- 函數內直接修改\n- 類似其他語言的傳參考\n\n**缺點：**\n- 改變了變數的型態（從數字變成列表）\n- 需要包裝和解包\n\n## 實際範例\n\n### 方法 1：回傳值\n\n```\ndef increment(x):\n    return x + 1\n\nnum = 10\nnum = increment(num)\nprint(num)  # 11\n```\n\n**結果：** `11`\n\n### 方法 2：列表包裝\n\n```\ndef increment_wrapper(lst):\n    lst[0] = lst[0] + 1\n\nnum_list = [10]\nincrement_wrapper(num_list)\nprint(num_list[0])  # 11\n```\n\n**結果：** `11`\n\n**記住：** \n- 不可變物件不能直接修改\n- 使用回傳值讓呼叫者更新（推薦）\n- 使用列表包裝可以達到傳參考的效果\n- 回傳值方法更符合 Python 的慣例\n",
+  "exercise": "有一個數字 `x = 50`。請定義一個函數 `double(n)`，回傳 `n * 2`。\n然後將 `x` 設為 `double(x)` 的結果，並印出 `x`。",
+  "hint": "透過回傳值來更新變數。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "100\n"
+  },
+  "_order": 96
+}

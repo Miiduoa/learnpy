@@ -1,0 +1,12 @@
+{
+  "id": "PT4-2",
+  "title": "連續擲骰子直到出現1",
+  "explanation": "\n## 為什麼需要條件停止的迴圈？\n\n我們可以使用 `while` 迴圈配合 `random` 來模擬擲骰子，直到出現特定結果。\n\n**實際應用：**\n- 模擬遊戲\n- 隨機實驗\n- 條件滿足時停止\n\n## while True 配合 break\n\n**為什麼用 `while True`？**\n因為我們不知道要擲幾次，只知道「出現 1 就停止」。\n\n**模式：**\n```\nwhile True:\n    # 執行操作\n    if 停止條件:\n        break  # 跳出迴圈\n```\n\n**為什麼需要 break？**\n因為 `while True` 是無限迴圈，必須用 `break` 來停止。\n\n## random 模組\n\n**為什麼需要 import？**\n`random` 是 Python 的模組，需要先匯入才能使用。\n\n**語法：**\n```\nimport random\nrandom.randint(1, 6)  # 產生 1 到 6 之間的隨機整數\n```\n\n**為什麼叫 randint？**\n- `rand` = random（隨機）\n- `int` = integer（整數）\n- `randint` = 隨機整數\n\n**語法：** `random.randint(最小值, 最大值)`\n- 包含最小值和最大值\n- 例如 `random.randint(1, 6)` 可能產生 1, 2, 3, 4, 5, 6\n\n## 計數器\n\n**為什麼需要計數器？**\n有時候我們想知道「執行了幾次」。\n\n**語法：**\n```\ncount = 0\nwhile True:\n    count = count + 1  # 每次加 1\n    # ...\n```\n\n**為什麼初始值是 0？**\n因為計數從 0 開始，第一次執行後變成 1。\n\n## 實際範例\n\n```\nimport random\ncount = 0\nwhile True:\n    dice = random.randint(1, 6)\n    count = count + 1\n    print(dice)\n    if dice == 1:\n        break\nprint(\"總共擲了\", count, \"次\")\n```\n\n**執行過程：**\n1. 匯入 `random` 模組\n2. 初始化 `count = 0`\n3. 進入無限迴圈：\n   - 第一次：`dice = 3`（假設），`count = 1`，印出 3，繼續\n   - 第二次：`dice = 5`（假設），`count = 2`，印出 5，繼續\n   - 第三次：`dice = 1`，`count = 3`，印出 1，執行 `break`，跳出迴圈\n4. 印出：`總共擲了 3 次`\n\n**結果（範例）：**\n```\n3\n5\n1\n總共擲了 3 次\n```\n\n**注意：** 每次執行的結果可能不同，因為是隨機的！\n\n**記住：** \n- `while True` 需要配合 `break` 使用\n- `random.randint(1, 6)` 產生 1-6 的隨機數\n- 使用計數器追蹤執行次數\n- 條件滿足時用 `break` 跳出\n",
+  "exercise": "請寫一個程式，連續擲一顆骰子（1-6），每次印出結果，直到出現 1 為止。然後印出「結束」。",
+  "hint": "使用 `while True` 和 `random.randint(1, 6)`，當出現 1 時用 `break` 跳出。",
+  "validator": {
+    "type": "stdout_ends_with",
+    "expected_output": "結束\n"
+  },
+  "_order": 27
+}

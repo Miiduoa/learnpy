@@ -1,0 +1,12 @@
+{
+  "id": "EX8-2",
+  "title": "Dictionary sorting function",
+  "explanation": "\n## 為什麼需要排序字典？\n\n我們可以使用 `sorted()` 函式來排序字典，但字典本身是無序的，所以我們排序的是「鍵值對列表」。\n\n**為什麼字典是無序的？**\n在 Python 3.7 之前，字典確實是無序的。雖然 Python 3.7+ 保持了插入順序，但我們仍然需要排序功能來按特定規則排列。\n\n## sorted() 函式\n\n**什麼是 sorted()？**\n`sorted()` 是 Python 的內建函式，可以對任何可迭代物件進行排序。\n\n**語法：**\n```\nsorted(可迭代物件, key=排序依據)\n```\n\n**為什麼需要 key 參數？**\n當我們要按「值」排序而不是按「鍵」排序時，需要告訴 Python「要比較哪個部分」。\n\n## 按鍵排序\n\n**為什麼要先轉換為 items()？**\n因為 `sorted()` 需要可迭代物件，`items()` 回傳鍵值對列表。\n\n**語法：**\n```\nsorted_dict = sorted(my_dict.items())\n```\n\n**執行方式：**\n- `items()` 回傳 `[('鍵1', 值1), ('鍵2', 值2), ...]`\n- `sorted()` 按第一個元素（鍵）排序\n\n## 按值排序\n\n**為什麼需要 key 參數？**\n因為預設是按第一個元素（鍵）排序，我們要按第二個元素（值）排序。\n\n**語法：**\n```\nsorted_dict = sorted(my_dict.items(), key=lambda x: x[1])\n```\n\n## 什麼是 lambda？\n\n**lambda 是什麼？**\n`lambda` 是一個**匿名函式**（沒有名稱的函式），用來寫簡單的函式。\n\n**語法：**\n```\nlambda 參數: 回傳值\n```\n\n**為什麼叫 lambda？**\n來自數學的 lambda 演算（λ-calculus），表示「匿名函式」。\n\n**範例：**\n```\nlambda x: x[1]\n```\n\n**解釋：**\n- `lambda` → 定義匿名函式\n- `x` → 參數（一個鍵值對，例如 `('Alice', 85)`）\n- `x[1]` → 回傳第二個元素（值，例如 `85`）\n\n**等價的普通函式：**\n```\ndef get_value(x):\n    return x[1]\n```\n\n**為什麼用 lambda？**\n因為這個函式很簡單，只用一次，不需要定義完整的函式。\n\n## 實際範例\n\n### 按鍵排序\n```\nmy_dict = {\"c\": 3, \"a\": 1, \"b\": 2}\nsorted_dict = sorted(my_dict.items())\nprint(sorted_dict)  # [('a', 1), ('b', 2), ('c', 3)]\n```\n\n### 按值排序\n```\nscores = {'Alice': 85, 'Bob': 90, 'Charlie': 75}\nsorted_dict = sorted(scores.items(), key=lambda x: x[1])\nprint(sorted_dict)  # [('Charlie', 75), ('Alice', 85), ('Bob', 90)]\n```\n\n**執行過程（按值排序）：**\n1. `scores.items()` → `[('Alice', 85), ('Bob', 90), ('Charlie', 75)]`\n2. `lambda x: x[1]` 告訴 Python：比較每個鍵值對的第二個元素（值）\n3. 比較值：75, 85, 90\n4. 排序結果：`[('Charlie', 75), ('Alice', 85), ('Bob', 90)]`\n\n**記住：** \n- `sorted()` 可以排序任何可迭代物件\n- `key` 參數指定排序依據\n- `lambda` 是匿名函式，適合簡單的函式\n- `x[0]` 是鍵，`x[1]` 是值\n",
+  "exercise": "有一個字典 scores = {'Alice': 85, 'Bob': 90, 'Charlie': 75}。請按值（分數）由低到高排序，並印出排序後的鍵值對列表。",
+  "hint": "使用 `sorted()` 和 `key=lambda x: x[1]`。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "[('Charlie', 75), ('Alice', 85), ('Bob', 90)]\n"
+  },
+  "_order": 63
+}

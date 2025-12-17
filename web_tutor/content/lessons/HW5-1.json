@@ -1,0 +1,12 @@
+{
+  "id": "HW5-1",
+  "title": "成績計算",
+  "explanation": "\n## 為什麼需要統計功能？\n\n我們可以使用列表來儲存多筆成績，然後進行各種統計計算。\n\n**實際應用：**\n- 計算總分和平均\n- 找出最高分和最低分\n- 分析成績分布\n\n## Python 的內建統計函式\n\nPython 提供了許多內建函式來處理列表，讓我們不需要自己寫迴圈。\n\n### sum() - 計算總和\n\n**作用：** 計算列表中所有數字的總和\n\n**語法：**\n```\nsum(列表)\n```\n\n**為什麼需要 sum()？**\n雖然可以用迴圈累加，但 `sum()` 更簡潔、更快速。\n\n### len() - 計算長度\n\n**作用：** 計算列表中有多少個元素\n\n**語法：**\n```\nlen(列表)\n```\n\n**為什麼需要 len()？**\n計算平均時需要知道「有幾個數字」。\n\n### max() - 找出最大值\n\n**作用：** 找出列表中的最大值\n\n**語法：**\n```\nmax(列表)\n```\n\n### min() - 找出最小值\n\n**作用：** 找出列表中的最小值\n\n**語法：**\n```\nmin(列表)\n```\n\n## 計算平均\n\n**公式：** 平均 = 總分 ÷ 人數\n\n**為什麼要分兩步？**\n1. 先計算總分：`total = sum(scores)`\n2. 再計算平均：`average = total / len(scores)`\n\n**為什麼不直接寫 `sum(scores) / len(scores)`？**\n可以！但分開寫更清楚，也方便除錯。\n\n## 實際範例\n\n```\nscores = [85, 90, 75, 88, 92]\ntotal = sum(scores)           # 總分\naverage = total / len(scores) # 平均\nmax_score = max(scores)       # 最高分\nmin_score = min(scores)       # 最低分\n\nprint(\"總分：\", total)\nprint(\"平均：\", average)\nprint(\"最高分：\", max_score)\nprint(\"最低分：\", min_score)\n```\n\n**執行過程：**\n1. `sum(scores)` → 85 + 90 + 75 + 88 + 92 = 430\n2. `len(scores)` → 5（有 5 個成績）\n3. `average = 430 / 5 = 86.0`\n4. `max(scores)` → 92（最大值）\n5. `min(scores)` → 75（最小值）\n\n**結果：**\n```\n總分： 430\n平均： 86.0\n最高分： 92\n最低分： 75\n```\n\n**記住：** \n- `sum()` 計算總和\n- `len()` 計算長度\n- `max()` 找出最大值\n- `min()` 找出最小值\n- 平均 = 總分 ÷ 人數\n",
+  "exercise": "有一個成績列表 `scores = [85, 90, 75, 88, 92]`。請計算並印出總分、平均分、最高分和最低分（分四行，格式：總分：xxx、平均：xxx、最高分：xxx、最低分：xxx）。",
+  "hint": "使用 `sum()`, `len()`, `max()`, `min()` 函式。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "總分： 430\n平均： 86.0\n最高分： 92\n最低分： 75\n"
+  },
+  "_order": 47
+}

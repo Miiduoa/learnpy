@@ -1,0 +1,12 @@
+{
+  "id": "HW9-1",
+  "title": "班級成績統計",
+  "explanation": "\n## 為什麼需要複雜的資料結構？\n\n我們可以結合列表和字典來進行複雜的成績統計。\n\n**實際應用：**\n- 班級成績管理\n- 多科成績計算\n- 學生資料處理\n\n**為什麼用列表的字典？**\n- 列表：儲存多個學生\n- 字典：每個學生有多個屬性（姓名、成績）\n\n## 資料結構\n\n**語法：**\n```\nstudents = [\n    {\"name\": \"Alice\", \"scores\": [85, 90, 88]},\n    {\"name\": \"Bob\", \"scores\": [75, 80, 82]},\n    {\"name\": \"Charlie\", \"scores\": [92, 88, 90]}\n]\n```\n\n**結構說明：**\n- 外層列表：每個元素是一個學生（字典）\n- 內層字典：`\"name\"` 是姓名，`\"scores\"` 是成績列表\n- 成績列表：該學生的各科成績\n\n**視覺化：**\n```\nstudents = [\n    {                    # 學生 0\n        \"name\": \"Alice\",\n        \"scores\": [85, 90, 88]  # 三科成績\n    },\n    {                    # 學生 1\n        \"name\": \"Bob\",\n        \"scores\": [75, 80, 82]\n    },\n    ...\n]\n```\n\n## 存取資料\n\n**為什麼用字典的鍵？**\n因為字典用「鍵」來存取「值」，比索引更清楚。\n\n**語法：**\n```\nstudent[\"name\"]    # 取得姓名\nstudent[\"scores\"] # 取得成績列表\n```\n\n**為什麼用方括號？**\n就像列表用索引一樣，字典用鍵來存取值。\n\n## 計算平均\n\n**為什麼用 sum() 和 len()？**\n因為成績列表可能有多個元素，用內建函式更方便。\n\n**語法：**\n```\navg = sum(student[\"scores\"]) / len(student[\"scores\"])\n```\n\n**執行邏輯：**\n1. `student[\"scores\"]` → 取得成績列表\n2. `sum(...)` → 計算總分\n3. `len(...)` → 計算科目數\n4. 總分 ÷ 科目數 = 平均\n\n## 實際範例\n\n```\nstudents = [\n    {\"name\": \"Alice\", \"scores\": [85, 90]},\n    {\"name\": \"Bob\", \"scores\": [75, 80]}\n]\n\nfor student in students:\n    avg = sum(student[\"scores\"]) / len(student[\"scores\"])\n    print(student[\"name\"], \"平均：\", avg)\n```\n\n**執行過程：**\n1. 第一次：`student = {\"name\": \"Alice\", \"scores\": [85, 90]}`\n   - `sum([85, 90]) = 175`\n   - `len([85, 90]) = 2`\n   - `avg = 175 / 2 = 87.5`\n   - 印出：`Alice 平均： 87.5`\n2. 第二次：`student = {\"name\": \"Bob\", \"scores\": [75, 80]}`\n   - `sum([75, 80]) = 155`\n   - `len([75, 80]) = 2`\n   - `avg = 155 / 2 = 77.5`\n   - 印出：`Bob 平均： 77.5`\n\n**結果：**\n```\nAlice 平均： 87.5\nBob 平均： 77.5\n```\n\n**記住：** \n- 列表的字典：列表儲存多個字典\n- 使用 `student[\"name\"]` 和 `student[\"scores\"]` 存取資料\n- 使用 `sum()` 和 `len()` 計算平均\n",
+  "exercise": "有一個學生列表 students = [{'name': 'Alice', 'scores': [85, 90]}, {'name': 'Bob', 'scores': [75, 80]}]。\n請計算每個學生的平均成績並印出（格式：Alice 平均：87.5）。",
+  "hint": "使用迴圈遍歷每個學生，計算平均。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "Alice 平均： 87.5\nBob 平均： 77.5\n"
+  },
+  "_order": 78
+}

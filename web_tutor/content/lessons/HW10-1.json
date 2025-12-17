@@ -1,0 +1,12 @@
+{
+  "id": "HW10-1",
+  "title": "班級成績統計:以function方式，改寫[HW9-1]",
+  "explanation": "\n## 為什麼要用函數改寫？\n\n我們可以將成績統計改寫成函數，讓程式碼更模組化、更容易重用。\n\n**實際應用：**\n- 程式碼重用\n- 邏輯封裝\n- 更容易測試和維護\n\n**為什麼不用直接寫？**\n- 函數可以重用，不需要重複寫相同的邏輯\n- 函數可以測試，確保正確性\n- 函數讓程式碼更清楚\n\n## 計算平均函數\n\n**為什麼要單獨寫一個函數？**\n因為計算平均是常用的功能，單獨寫成函數可以重用。\n\n**語法：**\n```\ndef calculate_average(scores):\n    return sum(scores) / len(scores)\n```\n\n**執行邏輯：**\n1. 接收成績列表\n2. 計算總分（`sum(scores)`）\n3. 計算科目數（`len(scores)`）\n4. 回傳平均（總分 ÷ 科目數）\n\n**為什麼用 return？**\n因為呼叫者需要取得平均分數。\n\n## 統計函數\n\n**為什麼需要這個函數？**\n因為統計所有學生的邏輯可以封裝成一個函數。\n\n**語法：**\n```\ndef student_stats(students):\n    for student in students:\n        name = student[\"name\"]\n        avg = calculate_average(student[\"scores\"])\n        print(name, \"平均：\", avg)\n```\n\n**執行邏輯：**\n1. 遍歷每個學生\n2. 取得學生姓名和成績\n3. 呼叫 `calculate_average()` 計算平均\n4. 印出結果\n\n**為什麼呼叫其他函數？**\n因為函數可以呼叫其他函數，讓程式碼更模組化。\n\n## 實際範例\n\n```\ndef calculate_average(scores):\n    return sum(scores) / len(scores)\n\ndef student_stats(students):\n    for student in students:\n        name = student[\"name\"]\n        avg = calculate_average(student[\"scores\"])\n        print(name, \"平均：\", avg)\n\nstudents = [{\"name\": \"Alice\", \"scores\": [85, 90]}, {\"name\": \"Bob\", \"scores\": [75, 80]}]\nstudent_stats(students)\n```\n\n**執行過程：**\n1. 定義 `calculate_average()` 函數\n2. 定義 `student_stats()` 函數\n3. 建立學生列表\n4. 呼叫 `student_stats(students)`：\n   - 第一次：`student = {\"name\": \"Alice\", \"scores\": [85, 90]}`\n     - `name = \"Alice\"`\n     - `calculate_average([85, 90])` → `(85 + 90) / 2 = 87.5`\n     - 印出：`Alice 平均： 87.5`\n   - 第二次：`student = {\"name\": \"Bob\", \"scores\": [75, 80]}`\n     - `name = \"Bob\"`\n     - `calculate_average([75, 80])` → `(75 + 80) / 2 = 77.5`\n     - 印出：`Bob 平均： 77.5`\n\n**結果：**\n```\nAlice 平均： 87.5\nBob 平均： 77.5\n```\n\n**記住：** \n- 用函數封裝邏輯，提高重用性\n- 函數可以呼叫其他函數\n- 將常用功能寫成函數，方便重用\n- 函數讓程式碼更模組化、更容易維護\n",
+  "exercise": "請定義一個函數 calc_avg(scores)，計算平均分數。\n然後定義 print_stats(students)，對每個學生計算並印出平均。\n最後建立 students = [{'name': 'Alice', 'scores': [85, 90]}]，呼叫 print_stats(students)。",
+  "hint": "使用 `sum()` 和 `len()` 計算平均。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "Alice 平均： 87.5\n"
+  },
+  "_order": 91
+}

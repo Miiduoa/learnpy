@@ -1,0 +1,12 @@
+{
+  "id": "PT10-2",
+  "title": "進制轉換: 十進位轉十六進位",
+  "explanation": "\n## 為什麼需要進制轉換？\n\n我們可以建立函數來進行進制轉換，這是程式設計中常見的需求。\n\n**實際應用：**\n- 顏色碼（RGB 轉十六進位）\n- 記憶體位址\n- 資料編碼\n\n**為什麼要手動轉換？**\n雖然 Python 有內建函式，但理解轉換過程有助於理解進制概念。\n\n## 十六進位系統\n\n**什麼是十六進位？**\n十六進位使用 0-9 和 A-F 來表示數字，每位的權值是 16 的次方。\n\n**十六進位字元：**\n- 0-9：對應十進位的 0-9\n- A-F：對應十進位的 10-15\n\n**為什麼需要 A-F？**\n因為一位數只能表示 0-15，需要 16 個符號。\n\n## 轉換策略\n\n**為什麼用除法和取餘數？**\n因為我們要「從低位到高位」建立結果，每次取餘數得到最低位。\n\n**步驟：**\n1. 如果數字是 0，直接回傳 \"0\"\n2. 重複以下步驟直到數字為 0：\n   - 取餘數（得到最低位）\n   - 將餘數對應到十六進位字元\n   - 將字元加到結果前面\n   - 除以 16（去掉最低位）\n\n## 字串連接\n\n**為什麼用 `hex_digits[remainder] + result`？**\n因為我們要將新字元加到結果的「前面」（因為是從低位到高位建立）。\n\n**語法：**\n```\nresult = hex_digits[remainder] + result\n```\n\n**為什麼是「前面」？**\n因為我們先得到最低位，然後是次低位，所以要從前面加。\n\n## 實際範例\n\n```\ndef decimal_to_hex(decimal):\n    hex_digits = \"0123456789ABCDEF\"\n    result = \"\"\n    if decimal == 0:\n        return \"0\"\n    while decimal > 0:\n        remainder = decimal % 16\n        result = hex_digits[remainder] + result\n        decimal = decimal // 16\n    return result\n\nprint(decimal_to_hex(255))\n```\n\n**執行過程（255）：**\n1. `decimal = 255`\n2. 第一次：\n   - `remainder = 255 % 16 = 15`\n   - `hex_digits[15] = \"F\"`\n   - `result = \"F\" + \"\" = \"F\"`\n   - `decimal = 255 // 16 = 15`\n3. 第二次：\n   - `remainder = 15 % 16 = 15`\n   - `hex_digits[15] = \"F\"`\n   - `result = \"F\" + \"F\" = \"FF\"`\n   - `decimal = 15 // 16 = 0`\n4. 迴圈結束（`decimal = 0`）\n5. 回傳 `\"FF\"`\n\n**結果：** `FF`\n\n**驗證：** `15 * 16 + 15 = 240 + 15 = 255` ✓\n\n**記住：** \n- 使用除法和取餘數進行進制轉換\n- 從低位到高位建立結果\n- 將新字元加到結果前面\n- 使用字串索引對應到十六進位字元\n",
+  "exercise": "請定義一個函數 `dec_to_hex(n)`，將十進位數轉換為十六進位字串。\n然後呼叫 `dec_to_hex(16)` 並印出結果。",
+  "hint": "使用除法和取餘數，將餘數對應到十六進位字元。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "10\n"
+  },
+  "_order": 90
+}

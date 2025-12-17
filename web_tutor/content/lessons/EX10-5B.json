@@ -1,0 +1,12 @@
+{
+  "id": "EX10-5B",
+  "title": "Local variable vs. Global variable (修改全域變數)",
+  "explanation": "\n## 為什麼需要 global 關鍵字？\n\n如果要在函數內**修改**全域變數，需要使用 `global` 關鍵字。\n\n**為什麼不能直接修改？**\n因為 Python 的設計哲學：函數應該盡量獨立，不應該隨意修改全域變數。使用 `global` 是「明確宣告」要修改全域變數。\n\n**沒有 global 會怎樣？**\n如果函數內有 `變數 = 值`，Python 會認為這是「建立新的區域變數」，而不是修改全域變數。\n\n**錯誤範例：**\n```\ncount = 0\n\ndef increment():\n    count = count + 1  # 錯誤！Python 認為這是區域變數\n\nincrement()\nprint(count)  # 還是 0，沒有改變！\n```\n\n**為什麼會出錯？**\n因為 Python 看到 `count = count + 1` 時，會認為 `count` 是區域變數，但右邊的 `count` 還沒定義，所以出錯！\n\n## global 關鍵字\n\n**語法：**\n```\nglobal 變數名稱\n```\n\n**作用：** 告訴 Python「這個變數是全域變數，我要修改它」。\n\n**為什麼叫 global？**\n`global` 是「全域」的意思，明確告訴 Python 要使用全域變數。\n\n**使用規則：**\n- `global` 必須在函數內使用\n- `global` 必須在修改變數之前宣告\n- 一個函數可以宣告多個全域變數\n\n## 實際範例\n\n```\ncount = 0  # 全域變數\n\ndef increment():\n    global count  # 宣告要使用全域變數\n    count = count + 1\n\nincrement()\nprint(count)  # 1\n```\n\n**執行過程：**\n1. 定義全域變數 `count = 0`\n2. 定義函數 `increment()`\n3. 呼叫函數：\n   - `global count` → 告訴 Python 使用全域變數\n   - `count = count + 1` → 修改全域變數：0 + 1 = 1\n4. 函數結束\n5. 印出 `count`：1（全域變數已被修改）\n\n**如果沒有 global：**\n```\ncount = 0\n\ndef increment():\n    count = count + 1  # 錯誤！UnboundLocalError\n\nincrement()\n```\n\n**記住：** \n- 修改全域變數必須使用 `global` 關鍵字\n- `global` 必須在修改之前宣告\n- 讀取全域變數不需要 `global`，但修改需要\n",
+  "exercise": "有一個全域變數 `counter = 10`。請定義一個函數 `add_one()`，使用 `global` 關鍵字將 `counter` 加 1。\n呼叫函數後，印出 `counter` 的值。",
+  "hint": "在函數內使用 `global counter` 來修改全域變數。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "11\n"
+  },
+  "_order": 86
+}

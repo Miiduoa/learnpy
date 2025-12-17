@@ -1,0 +1,12 @@
+{
+  "id": "PT8-2",
+  "title": "MonthDays：輸入英文縮寫之月份，印出全名，並印出該月有幾天",
+  "explanation": "\n## 為什麼用字典對應月份？\n\n我們可以使用字典來對應月份縮寫和全名，以及天數。\n\n**為什麼不用列表？**\n- 列表用數字索引，但月份縮寫是字串\n- 字典用「鍵」（縮寫）來找「值」（全名或天數），更直觀\n\n**實際應用：**\n- 月份轉換\n- 資料查詢\n- 對應表\n\n## 建立兩個字典\n\n**為什麼需要兩個字典？**\n因為我們需要儲存兩種資訊：\n- 縮寫 → 全名\n- 縮寫 → 天數\n\n**語法：**\n```\nmonth_names = {\"Jan\": \"January\", \"Feb\": \"February\", \"Mar\": \"March\"}\nmonth_days = {\"Jan\": 31, \"Feb\": 28, \"Mar\": 31}\n```\n\n**結構說明：**\n- 兩個字典使用相同的鍵（月份縮寫）\n- 不同的值（一個是全名，一個是天數）\n\n## 查詢字典\n\n**為什麼用縮寫作為鍵？**\n因為縮寫是輸入，我們要用它來查詢對應的值。\n\n**語法：**\n```\n字典名稱[鍵]\n```\n\n**範例：**\n```\nabbr = \"Jan\"\nprint(month_names[abbr])  # \"January\"\nprint(month_days[abbr])   # 31\n```\n\n**執行過程：**\n1. `month_names[\"Jan\"]` → 查詢鍵 \"Jan\" 對應的值 → \"January\"\n2. `month_days[\"Jan\"]` → 查詢鍵 \"Jan\" 對應的值 → 31\n\n## 實際範例\n\n```\nmonth_names = {\"Jan\": \"January\", \"Feb\": \"February\", \"Mar\": \"March\"}\nmonth_days = {\"Jan\": 31, \"Feb\": 28, \"Mar\": 31}\n\nmonth = \"Feb\"\nprint(month_names[month])  # \"February\"\nprint(month_days[month])   # 28\n```\n\n**執行過程：**\n1. `month = \"Feb\"`\n2. `month_names[\"Feb\"]` → \"February\"\n3. `month_days[\"Feb\"]` → 28\n4. 印出：`February`\n5. 印出：`28`\n\n**結果：**\n```\nFebruary\n28\n```\n\n## 為什麼用字典而不是列表？\n\n**列表的方式（較複雜）：**\n```\nmonths = [\"Jan\", \"Feb\", \"Mar\"]\nnames = [\"January\", \"February\", \"March\"]\ndays = [31, 28, 31]\n\n# 需要先找到索引\nindex = months.index(\"Feb\")\nprint(names[index])  # \"February\"\nprint(days[index])   # 28\n```\n\n**字典的方式（較簡單）：**\n```\nmonth_names = {\"Feb\": \"February\"}\nmonth_days = {\"Feb\": 28}\n\nprint(month_names[\"Feb\"])  # 直接查詢\nprint(month_days[\"Feb\"])\n```\n\n**字典的優點：** 直接查詢，不需要找索引！\n\n**記住：** \n- 用字典建立對應表\n- 使用相同的鍵可以對應多個值\n- 字典查詢比列表索引更直觀\n",
+  "exercise": "有一個月份字典 months = {'Jan': 'January', 'Feb': 'February', 'Mar': 'March'}\n和天數字典 days = {'Jan': 31, 'Feb': 28, 'Mar': 31}。\n如果輸入 month = 'Feb'，請印出全名和天數（分兩行）。",
+  "hint": "使用字典查詢對應的值。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "February\n28\n"
+  },
+  "_order": 67
+}

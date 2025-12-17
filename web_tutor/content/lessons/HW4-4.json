@@ -1,0 +1,15 @@
+{
+  "id": "HW4-4",
+  "title": "判斷【遞增數】",
+  "explanation": "\n## 什麼是遞增數？\n\n遞增數是指每一位數字都比前一位大的數字，例如 1234、5678 等。\n\n**實際應用：**\n- 數字驗證\n- 模式識別\n- 數學問題\n\n**為什麼需要檢查？**\n因為我們需要判斷一個數字是否符合遞增的規則。\n\n## 取得每一位數字\n\n**為什麼需要先取得所有位數？**\n因為我們要比較相鄰的位數，需要先取得所有位數。\n\n**語法：**\n```\nnum = 1234\ndigits = []\nwhile num > 0:\n    digits.append(num % 10)\n    num = num // 10\ndigits.reverse()\n```\n\n**執行邏輯：**\n1. 使用 `% 10` 取得個位數\n2. 使用 `// 10` 去掉個位數\n3. 重複直到 `num` 變成 0\n4. 反轉列表得到正確順序\n\n**為什麼要 reverse()？**\n因為我們是從個位數開始取得，需要反轉成正確順序。\n\n## 檢查遞增\n\n**為什麼用迴圈檢查？**\n因為我們要比較每一對相鄰的位數。\n\n**語法：**\n```\nis_increasing = True\nfor i in range(len(digits) - 1):\n    if digits[i] >= digits[i+1]:\n        is_increasing = False\n        break\n```\n\n**執行邏輯：**\n1. 假設是遞增數（`is_increasing = True`）\n2. 遍歷每一對相鄰位數（`i` 和 `i+1`）\n3. 如果發現 `digits[i] >= digits[i+1]` → 不是遞增數，設為 `False`，跳出\n4. 如果所有相鄰位數都符合 → 是遞增數\n\n**為什麼 `range(len(digits) - 1)`？**\n因為我們要比較 `i` 和 `i+1`，最後一個索引是 `len(digits) - 1`，所以 `i` 最大是 `len(digits) - 2`。\n\n**為什麼用 >=？**\n因為「遞增」表示「嚴格遞增」，前一位必須**小於**後一位，如果 `>=` 就不是遞增。\n\n## 實際範例\n\n### 檢查 1234\n\n```\nnum = 1234\ndigits = []\nwhile num > 0:\n    digits.append(num % 10)\n    num = num // 10\ndigits.reverse()  # [1, 2, 3, 4]\n\nis_increasing = True\nfor i in range(len(digits) - 1):  # range(3) → i = 0, 1, 2\n    if digits[i] >= digits[i+1]:\n        is_increasing = False\n        break\n\nif is_increasing:\n    print(\"是遞增數\")\nelse:\n    print(\"不是遞增數\")\n```\n\n**執行過程：**\n1. 取得位數：`digits = [1, 2, 3, 4]`\n2. 檢查：\n   - `i = 0`：`digits[0] = 1`, `digits[1] = 2` → `1 < 2` ✓\n   - `i = 1`：`digits[1] = 2`, `digits[2] = 3` → `2 < 3` ✓\n   - `i = 2`：`digits[2] = 3`, `digits[3] = 4` → `3 < 4` ✓\n3. 所有檢查都通過 → `is_increasing = True`\n4. 印出：`是遞增數`\n\n### 檢查 1231\n\n```\ndigits = [1, 2, 3, 1]\nis_increasing = True\nfor i in range(3):\n    if digits[i] >= digits[i+1]:\n        is_increasing = False\n        break\n```\n\n**執行過程：**\n1. `i = 0`：`1 < 2` ✓\n2. `i = 1`：`2 < 3` ✓\n3. `i = 2`：`3 >= 1` → `True`，設 `is_increasing = False`，`break`\n4. 印出：`不是遞增數`\n\n**記住：** \n- 先取得所有位數\n- 使用迴圈比較相鄰位數\n- 使用 `>=` 判斷是否違反遞增規則\n- 一旦發現違反就跳出（`break`）\n- 所有位數都符合才是遞增數\n\n## 使用 input() 接收數字\n\n使用 `input()` 可以讓程式更實用，可以判斷任意數字是否為遞增數：\n\n```\nnum = int(input())\n```\n\n這樣使用者可以輸入任何數字，程式都能判斷是否為遞增數。\n",
+  "exercise": "請寫一個程式，使用 `int(input())` 接收一個數字，然後判斷它是否為遞增數（每一位都比前一位大）。如果是，印出「是遞增數」，否則印出「不是遞增數」。\n\n**提示：** 當程式執行時，您可以在輸入框中輸入一個數字（例如：1234）來測試程式。",
+  "hint": "使用 `int(input())` 接收輸入，將數字分解成各位數，然後檢查是否每一位都比前一位大。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "是遞增數\n",
+    "test_inputs": [
+      "1234"
+    ]
+  },
+  "_order": 36
+}

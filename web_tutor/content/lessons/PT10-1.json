@@ -1,0 +1,12 @@
+{
+  "id": "PT10-1",
+  "title": "員工程式語言專長登錄，以function方式",
+  "explanation": "\n## 為什麼要用函數管理員工專長？\n\n我們可以將員工專長管理改寫成函數，讓程式碼更模組化、更容易維護。\n\n**實際應用：**\n- 員工管理系統\n- 技能搜尋\n- 資料庫操作\n\n**為什麼不用直接操作？**\n- 函數可以封裝邏輯，避免重複程式碼\n- 函數可以驗證資料，確保正確性\n- 函數可以重用，提高效率\n\n## 全域字典\n\n**為什麼用全域字典？**\n因為多個函數需要共用同一個員工資料庫。\n\n**語法：**\n```\nemployees = {}\n```\n\n**為什麼在函數外定義？**\n因為要在多個函數間共用，所以定義在函數外（全域變數）。\n\n## 新增員工函數\n\n**為什麼需要這個函數？**\n因為新增員工的邏輯可能很複雜，封裝成函數更方便。\n\n**語法：**\n```\ndef add_employee(name, skills):\n    employees[name] = skills\n    return \"已新增員工\"\n```\n\n**執行邏輯：**\n1. 接收員工名稱和專長集合\n2. 將資料存入字典\n3. 回傳確認訊息\n\n**為什麼用 return？**\n因為呼叫者可能想知道操作是否成功。\n\n## 搜尋專長函數\n\n**為什麼需要這個函數？**\n因為搜尋邏輯可能很複雜，封裝成函數可以重用。\n\n**語法：**\n```\ndef find_skill(skill_name):\n    result = []\n    for name, skills in employees.items():\n        if skill_name in skills:\n            result.append(name)\n    return result\n```\n\n**執行邏輯：**\n1. 建立空列表儲存結果\n2. 遍歷所有員工\n3. 如果該員工有這個專長，將名稱加入列表\n4. 回傳結果列表\n\n**為什麼用 items()？**\n因為需要同時取得員工名稱和專長集合。\n\n## 實際範例\n\n```\nemployees = {}\n\ndef add_employee(name, skills):\n    employees[name] = skills\n    return \"已新增員工\"\n\ndef find_skill(skill_name):\n    result = []\n    for name, skills in employees.items():\n        if skill_name in skills:\n            result.append(name)\n    return result\n\nadd_employee(\"Alice\", {\"Python\", \"Java\"})\nadd_employee(\"Bob\", {\"Python\", \"C++\"})\nprint(find_skill(\"Python\"))\n```\n\n**執行過程：**\n1. 新增 Alice：`employees = {\"Alice\": {\"Python\", \"Java\"}}`\n2. 新增 Bob：`employees = {\"Alice\": {\"Python\", \"Java\"}, \"Bob\": {\"Python\", \"C++\"}}`\n3. 搜尋 \"Python\"：\n   - 遍歷員工：\n     - Alice：`\"Python\" in {\"Python\", \"Java\"}` → `True`，加入 \"Alice\"\n     - Bob：`\"Python\" in {\"Python\", \"C++\"}` → `True`，加入 \"Bob\"\n   - 結果：`[\"Alice\", \"Bob\"]`\n\n**結果：** `['Alice', 'Bob']`\n\n**記住：** \n- 用函數封裝邏輯，提高重用性\n- 使用全域字典儲存共用資料\n- 函數可以回傳結果，讓呼叫者使用\n- 函數讓程式碼更模組化、更容易維護\n",
+  "exercise": "請定義一個函數 add_skill(employee_dict, name, skills)，將員工和專長加入字典。\n然後建立一個空字典 emps = {}，呼叫 add_skill(emps, 'Alice', {'Python'})，最後印出字典。",
+  "hint": "在函數內修改字典。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "{'Alice': {'Python'}}\n"
+  },
+  "_order": 89
+}

@@ -1,0 +1,12 @@
+{
+  "id": "EX2-2",
+  "title": "邏輯與巢狀 if",
+  "explanation": "\n## 為什麼需要邏輯運算子？\n\n有時候我們需要組合多個條件，例如「今天是假日**而且**天氣好」，或者「今天不是假日」。\n\n**邏輯運算子**可以幫助我們組合條件。\n\n## 什麼是布林值？\n\n**布林值（Boolean）** 只有兩個值：\n- `True`（真、是）\n- `False`（假、否）\n\n**為什麼需要布林值？**\n條件判斷的結果就是布林值。例如 `5 > 3` 的結果是 `True`，`5 < 3` 的結果是 `False`。\n\n## 邏輯運算子：not\n\n`not` 是一個邏輯運算子，它可以將一個布林值**反轉**。\n\n**語法：**\n```\nnot 布林值\n```\n\n**效果：**\n- `not True` → `False`（真變成假）\n- `not False` → `True`（假變成真）\n\n**為什麼需要 not？**\n有時候我們需要檢查「不是...」的情況，例如「今天不忙」就是 `not is_busy`。\n\n## 什麼是巢狀 if？\n\n**巢狀 if** 就是在一個 `if` 裡面再放一個 `if`，形成多層次的判斷。\n\n**為什麼需要巢狀 if？**\n當我們需要「先檢查一個條件，如果成立，再檢查另一個條件」時，就需要巢狀 if。\n\n**生活中的例子：**\n- 如果今天是假日（第一層判斷）\n  - 而且天氣好（第二層判斷）\n    - 那就去郊遊\n\n## 實際範例\n\n```\nis_holiday = True\nis_raining = False\nif is_holiday:\n    if not is_raining:\n        print(\"太棒了，是個出遊的好日子！\")\n```\n\n**執行過程：**\n1. 檢查外層條件：`is_holiday` 是 `True` → 進入 if 區塊\n2. 檢查內層條件：`not is_raining` → `not False` → `True` → 進入內層 if 區塊\n3. 執行：`print(\"太棒了，是個出遊的好日子！\")`\n\n**如果 `is_holiday` 是 `False` 會怎樣？**\n外層條件不成立，Python 會直接跳過整個 if 區塊，不會檢查內層條件。\n\n**記住：** 巢狀 if 需要多層縮排，內層的 if 要比外層的 if 多縮排一層！\n",
+  "exercise": "有兩個布林變數 `is_holiday = True` 和 `is_busy = False`。請寫一個判斷式，如果今天是假日 (`is_holiday` 是 `True`)，**而且**今天不忙 (`is_busy` **不是** `True`)，就印出「可以放鬆一下」。",
+  "hint": "您需要一個 `if` 裡面包著另一個 `if`。外層檢查 `is_holiday`，內層檢查 `not is_busy`。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "可以放鬆一下\n"
+  },
+  "_order": 9
+}

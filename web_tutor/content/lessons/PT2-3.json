@@ -1,0 +1,12 @@
+{
+  "id": "PT2-3",
+  "title": "帳密檢查：為成績計算系統加上帳密檢查",
+  "explanation": "\n## 為什麼需要帳密檢查？\n\n在實際應用中，我們經常需要檢查使用者輸入的帳號和密碼是否正確，這是系統安全的基本要求。\n\n**實際應用：**\n- 系統登入\n- 資料保護\n- 使用者認證\n\n**為什麼需要兩個條件？**\n因為帳號和密碼都要正確才能登入，缺一不可。\n\n## 邏輯運算子：and\n\n**什麼是 and？**\n`and` 表示「而且」，兩個條件都要成立。\n\n**語法：**\n```\n條件1 and 條件2\n```\n\n**執行邏輯：**\n- 如果條件1是 `False`，直接回傳 `False`（不檢查條件2）\n- 如果條件1是 `True`，才檢查條件2\n- 只有兩個條件都是 `True`，才回傳 `True`\n\n**為什麼用 and？**\n因為登入需要「帳號正確」**而且**「密碼正確」。\n\n## 條件判斷\n\n**為什麼需要兩個 ==？**\n因為我們要分別檢查帳號和密碼是否正確。\n\n**語法：**\n```\nif input_username == username and input_password == password:\n    print(\"登入成功\")\nelse:\n    print(\"帳號或密碼錯誤\")\n```\n\n**執行邏輯：**\n1. 檢查：`input_username == username`\n2. 檢查：`input_password == password`\n3. 如果兩個都是 `True` → 登入成功\n4. 如果任何一個是 `False` → 登入失敗\n\n## 實際範例\n\n```\nusername = \"admin\"\npassword = \"1234\"\ninput_username = \"admin\"\ninput_password = \"1234\"\n\nif input_username == username and input_password == password:\n    print(\"登入成功\")\nelse:\n    print(\"帳號或密碼錯誤\")\n```\n\n**執行過程：**\n1. 檢查：`\"admin\" == \"admin\"` → `True`\n2. 檢查：`\"1234\" == \"1234\"` → `True`\n3. `True and True` → `True`\n4. 印出：`登入成功`\n\n**如果帳號錯誤：**\n```\ninput_username = \"user\"\nif \"user\" == \"admin\" and ...  # False，直接回傳 False\n# 不檢查密碼，直接印出「帳號或密碼錯誤」\n```\n\n**如果密碼錯誤：**\n```\ninput_password = \"wrong\"\nif \"admin\" == \"admin\" and \"wrong\" == \"1234\":  # True and False → False\n# 印出「帳號或密碼錯誤」\n```\n\n**記住：** \n- 使用 `and` 檢查兩個條件\n- 兩個條件都要成立才登入成功\n- `and` 會短路評估（第一個條件是 False 就不檢查第二個）\n- 帳號和密碼都要正確才能登入\n",
+  "exercise": "系統設定的帳號是 'student'，密碼是 'python123'。\n使用者輸入的帳號是 input_user = 'student'，密碼是 input_pass = 'python123'。\n請檢查帳號和密碼是否都正確，如果正確就印出「登入成功」，否則印出「登入失敗」。",
+  "hint": "使用 `and` 運算子來同時檢查兩個條件。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "登入成功\n"
+  },
+  "_order": 14
+}

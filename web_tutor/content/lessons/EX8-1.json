@@ -1,0 +1,12 @@
+{
+  "id": "EX8-1",
+  "title": "dict_keys, dict_values, dict_items",
+  "explanation": "\n## 為什麼需要這些方法？\n\n字典提供了三個重要的方法來取得鍵、值和鍵值對。這些方法讓我們可以「批量處理」字典的內容。\n\n**為什麼不能直接用字典？**\n有時候我們只需要鍵、只需要值，或者需要同時處理鍵值對。這些方法讓我們可以分別取得。\n\n## 三個重要方法\n\n### keys() - 取得所有鍵\n\n**作用：** 取得字典中所有的鍵（key）\n\n**語法：**\n```\n字典名稱.keys()\n```\n\n**為什麼叫 keys？**\n因為字典的「鍵」就是 key，這個方法回傳所有的鍵。\n\n### values() - 取得所有值\n\n**作用：** 取得字典中所有的值（value）\n\n**語法：**\n```\n字典名稱.values()\n```\n\n**為什麼叫 values？**\n因為字典的「值」就是 value，這個方法回傳所有的值。\n\n### items() - 取得所有鍵值對\n\n**作用：** 取得字典中所有的鍵值對（key-value pairs）\n\n**語法：**\n```\n字典名稱.items()\n```\n\n**為什麼叫 items？**\n因為每個「項目」（item）就是一個鍵值對。\n\n## 視圖物件（View Object）\n\n**這些方法回傳的是什麼？**\n這些方法回傳的是「視圖物件」（View Object），不是列表。\n\n**為什麼不是列表？**\n因為視圖物件是「動態的」，如果字典改變，視圖也會跟著改變。這樣更有效率。\n\n**如何轉換為列表？**\n使用 `list()` 函式：\n```\nlist(字典名稱.keys())\nlist(字典名稱.values())\nlist(字典名稱.items())\n```\n\n## 實際範例\n\n```\nmy_dict = {\"a\": 1, \"b\": 2, \"c\": 3}\n\nkeys = my_dict.keys()      # 取得所有鍵\nvalues = my_dict.values()  # 取得所有值\nitems = my_dict.items()    # 取得所有鍵值對\n\nprint(list(keys))    # ['a', 'b', 'c']\nprint(list(values))  # [1, 2, 3]\nprint(list(items))   # [('a', 1), ('b', 2), ('c', 3)]\n```\n\n**執行過程：**\n1. `keys()` 回傳鍵的視圖物件，轉換為列表：`['a', 'b', 'c']`\n2. `values()` 回傳值的視圖物件，轉換為列表：`[1, 2, 3]`\n3. `items()` 回傳鍵值對的視圖物件，每個鍵值對是一個元組 `(鍵, 值)`\n\n**為什麼 items() 回傳的是元組？**\n因為元組可以同時儲存鍵和值，而且元組是不可變的，適合用來表示「一對」資料。\n\n**記住：** \n- `keys()` → 所有鍵\n- `values()` → 所有值\n- `items()` → 所有鍵值對（元組）\n- 需要轉換為列表時，使用 `list()`\n",
+  "exercise": "有一個字典 data = {'x': 10, 'y': 20, 'z': 30}。請印出所有鍵的列表。",
+  "hint": "使用 `keys()` 方法，然後轉換為列表。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "['x', 'y', 'z']\n"
+  },
+  "_order": 62
+}

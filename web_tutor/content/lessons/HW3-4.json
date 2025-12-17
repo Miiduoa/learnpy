@@ -1,0 +1,12 @@
+{
+  "id": "HW3-4",
+  "title": "列印大小寫英文字母",
+  "explanation": "\n## 為什麼需要 chr() 和迴圈？\n\n我們可以使用 `chr()` 和迴圈來印出所有英文字母，這是 ASCII 碼和迴圈的應用。\n\n**實際應用：**\n- 字母生成\n- 字元處理\n- 練習迴圈\n\n**為什麼不用手動寫？**\n因為有 26 個字母，用迴圈更簡潔。\n\n## ASCII 碼範圍\n\n**大寫字母：**\n- A-Z 的 ASCII 碼是 65-90\n- 共 26 個字母\n\n**小寫字母：**\n- a-z 的 ASCII 碼是 97-122\n- 共 26 個字母\n\n**為什麼大寫和小寫的 ASCII 碼不同？**\n因為在 ASCII 碼中，大寫和小寫是不同的字元，有不同的編碼。\n\n**為什麼大寫從 65 開始？**\n因為 ASCII 碼中，65 對應 'A'，66 對應 'B'，依此類推。\n\n**為什麼小寫從 97 開始？**\n因為 ASCII 碼中，97 對應 'a'，98 對應 'b'，依此類推。\n\n## 使用迴圈印出\n\n**為什麼用 range(26)？**\n因為有 26 個字母，`range(26)` 產生 0 到 25。\n\n**語法：**\n```\nfor i in range(26):\n    print(chr(65 + i), end=\"\")  # 大寫\nprint()\nfor i in range(26):\n    print(chr(97 + i), end=\"\")  # 小寫\nprint()\n```\n\n**執行邏輯：**\n1. 第一個迴圈：`i` 從 0 到 25\n   - `chr(65 + i)` → 從 'A' 到 'Z'\n   - 用 `end=\"\"` 讓字母不換行\n2. 換行\n3. 第二個迴圈：`i` 從 0 到 25\n   - `chr(97 + i)` → 從 'a' 到 'z'\n   - 用 `end=\"\"` 讓字母不換行\n4. 換行\n\n## 實際範例\n\n```\nfor i in range(26):\n    print(chr(65 + i), end=\"\")\nprint()\nfor i in range(26):\n    print(chr(97 + i), end=\"\")\nprint()\n```\n\n**執行過程（大寫）：**\n1. `i = 0`：`chr(65 + 0) = chr(65) = 'A'`\n2. `i = 1`：`chr(65 + 1) = chr(66) = 'B'`\n3. `i = 2`：`chr(65 + 2) = chr(67) = 'C'`\n4. ...依此類推到 'Z'\n5. 換行\n\n**執行過程（小寫）：**\n1. `i = 0`：`chr(97 + 0) = chr(97) = 'a'`\n2. `i = 1`：`chr(97 + 1) = chr(98) = 'b'`\n3. `i = 2`：`chr(97 + 2) = chr(99) = 'c'`\n4. ...依此類推到 'z'\n5. 換行\n\n**結果：**\n```\nABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghijklmnopqrstuvwxyz\n```\n\n**記住：** \n- 大寫字母 A-Z：ASCII 碼 65-90\n- 小寫字母 a-z：ASCII 碼 97-122\n- 使用 `chr()` 將 ASCII 碼轉換成字元\n- 使用 `range(26)` 產生 26 個字母\n- 使用 `end=\"\"` 讓字母不換行\n",
+  "exercise": "請分別印出所有大寫字母（A-Z）和所有小寫字母（a-z），各一行。",
+  "hint": "使用兩個迴圈，一個從 65 到 90，一個從 97 到 122。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "ABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghijklmnopqrstuvwxyz\n"
+  },
+  "_order": 32
+}

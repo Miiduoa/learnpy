@@ -1,0 +1,12 @@
+{
+  "id": "HW10-2",
+  "title": "計算日期差距：以function方式，改寫[HW5-2]",
+  "explanation": "\n## 為什麼要用函數改寫日期計算？\n\n我們可以將日期計算改寫成函數，讓程式碼更模組化、更容易重用。\n\n**實際應用：**\n- 日期計算工具\n- 程式碼重用\n- 邏輯封裝\n\n**為什麼不用直接寫？**\n- 函數可以重用，不需要重複寫相同的邏輯\n- 函數可以測試，確保正確性\n- 函數讓程式碼更清楚\n\n## 日期計算函數\n\n**為什麼要寫成函數？**\n因為日期計算的邏輯可能很複雜，封裝成函數更方便。\n\n**語法：**\n```\ndef days_between(month1, day1, month2, day2):\n    days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]\n    days1 = sum(days_in_month[:month1-1]) + day1\n    days2 = sum(days_in_month[:month2-1]) + day2\n    return abs(days2 - days1)\n```\n\n**參數說明：**\n- `month1, day1`：第一個日期\n- `month2, day2`：第二個日期\n\n**執行邏輯：**\n1. 定義月份天數列表\n2. 計算從年初到第一個日期的天數\n3. 計算從年初到第二個日期的天數\n4. 計算差值並取絕對值\n5. 回傳結果\n\n**為什麼用 return？**\n因為呼叫者需要取得日期差。\n\n## 實際範例\n\n```\ndef days_between(month1, day1, month2, day2):\n    days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]\n    days1 = sum(days_in_month[:month1-1]) + day1\n    days2 = sum(days_in_month[:month2-1]) + day2\n    return abs(days2 - days1)\n\nresult = days_between(3, 15, 5, 20)\nprint(result)\n```\n\n**執行過程：**\n1. 呼叫 `days_between(3, 15, 5, 20)`\n2. 計算第一個日期（3月15日）：\n   - `days_in_month[:2] = [31, 28]`\n   - `sum([31, 28]) = 59`\n   - `days1 = 59 + 15 = 74`\n3. 計算第二個日期（5月20日）：\n   - `days_in_month[:4] = [31, 28, 31, 30]`\n   - `sum([31, 28, 31, 30]) = 120`\n   - `days2 = 120 + 20 = 140`\n4. 計算差值：`abs(140 - 74) = 66`\n5. 回傳 `66`\n6. 印出：`66`\n\n**結果：** `66`\n\n**記住：** \n- 用函數封裝邏輯，提高重用性\n- 函數可以接收多個參數\n- 函數可以回傳結果\n- 將常用功能寫成函數，方便重用\n",
+  "exercise": "請定義一個函數 `date_diff(m1, d1, m2, d2)`，計算兩個日期之間的天數。\n月份天數：`days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]`。\n然後呼叫 `date_diff(3, 15, 5, 20)` 並印出結果。",
+  "hint": "計算從年初到每個日期的天數，然後相減。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "66\n"
+  },
+  "_order": 92
+}

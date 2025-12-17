@@ -1,0 +1,12 @@
+{
+  "id": "HW9-2",
+  "title": "電腦擇友",
+  "explanation": "\n## 為什麼用集合找共同興趣？\n\n我們可以使用集合來找出共同興趣，這是集合的實際應用。\n\n**實際應用：**\n- 社交配對\n- 興趣匹配\n- 共同點分析\n\n**為什麼用集合？**\n- 集合的交集運算可以快速找出共同元素\n- 集合自動去重，不會重複計算\n\n## 計算交集\n\n**什麼是交集？**\n交集是兩個集合中「共同」的元素。\n\n**語法：**\n```\ncommon = 集合1 & 集合2\n```\n\n**為什麼用 `&`？**\n`&` 是集合的交集運算子，找出兩個集合都有的元素。\n\n## 判斷標準\n\n**為什麼用 `>= 2`？**\n因為我們設定「共同興趣 >= 2 個」才適合做朋友。\n\n**語法：**\n```\nif len(common) >= 2:\n    print(\"適合做朋友\")\nelse:\n    print(\"不太適合\")\n```\n\n**為什麼用 len()？**\n`len(集合)` 可以知道集合中有多少個元素（共同興趣的數量）。\n\n## 實際範例\n\n```\nperson1_interests = {\"reading\", \"music\", \"sports\"}\nperson2_interests = {\"music\", \"travel\", \"sports\"}\n\ncommon = person1_interests & person2_interests\nif len(common) >= 2:\n    print(\"適合做朋友\")\nelse:\n    print(\"不太適合\")\n```\n\n**執行過程：**\n1. 計算交集：`{\"reading\", \"music\", \"sports\"} & {\"music\", \"travel\", \"sports\"}`\n   - \"reading\"：只在 person1 中 ✗\n   - \"music\"：兩者都有 ✓\n   - \"sports\"：兩者都有 ✓\n   - \"travel\"：只在 person2 中 ✗\n   - 交集：`{\"music\", \"sports\"}`\n2. 計算數量：`len({\"music\", \"sports\"}) = 2`\n3. 判斷：`2 >= 2` → `True`\n4. 印出：`適合做朋友`\n\n**結果：** `適合做朋友`\n\n**如果共同興趣只有 1 個：**\n```\nperson1 = {\"reading\", \"music\"}\nperson2 = {\"music\", \"travel\"}\ncommon = {\"music\"}\nlen(common) = 1\n1 >= 2 → False\n印出：不太適合\n```\n\n**記住：** \n- 使用 `&` 計算交集\n- 使用 `len()` 計算共同興趣數量\n- 根據數量判斷是否適合\n",
+  "exercise": "有兩個人的興趣集合：person1 = {'reading', 'music', 'sports'} 和 person2 = {'music', 'travel', 'sports'}。\n請找出共同興趣，如果共同興趣 >= 2 個，印出「適合做朋友」，否則印出「不太適合」。",
+  "hint": "計算交集的大小。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "適合做朋友\n"
+  },
+  "_order": 79
+}

@@ -1,0 +1,12 @@
+{
+  "id": "HW6-1",
+  "title": "輸入n筆成績，印出成績表，並印出各科平均及最高分",
+  "explanation": "\n## 為什麼需要計算各科統計？\n\n我們可以計算每科的平均分和最高分，這是成績分析的重要功能。\n\n**實際應用：**\n- 班級成績分析\n- 科目表現評估\n- 教學改進參考\n\n## 提取各科成績\n\n**為什麼需要提取？**\n因為我們要分別計算每科的統計，需要先將該科的所有成績收集起來。\n\n**策略：**\n從每個學生的成績中，提取同一科的成績。\n\n**語法（不使用列表生成式）：**\n```\neng_scores = []\nfor s in scores:\n    eng_scores.append(s[0])\n```\n\n**執行邏輯：**\n1. 遍歷每個學生的成績\n2. 取得該學生的第一科成績（`s[0]`）\n3. 加入列表\n\n**為什麼用索引 [0]？**\n因為第一科（英文）在索引 0 的位置。\n\n## 計算平均和最高\n\n**為什麼用 sum() 和 len()？**\n因為成績列表可能有多個元素，用內建函式更方便。\n\n**語法：**\n```\neng_avg = sum(eng_scores) / len(eng_scores)\neng_max = max(eng_scores)\n```\n\n**執行邏輯：**\n1. `sum(eng_scores)` → 計算總分\n2. `len(eng_scores)` → 計算人數\n3. 總分 ÷ 人數 = 平均\n4. `max(eng_scores)` → 找出最高分\n\n## 實際範例\n\n```\nscores = [[85, 90], [75, 80], [92, 88]]\n\n# 計算第一科（英文）的平均和最高\neng_scores = []\nfor s in scores:\n    eng_scores.append(s[0])\n\neng_avg = sum(eng_scores) / len(eng_scores)\neng_max = max(eng_scores)\nprint(\"英文平均：\", eng_avg)\nprint(\"英文最高：\", eng_max)\n\n# 計算第二科（數學）的平均和最高\nmath_scores = []\nfor s in scores:\n    math_scores.append(s[1])\n\nmath_avg = sum(math_scores) / len(math_scores)\nmath_max = max(math_scores)\nprint(\"數學平均：\", math_avg)\nprint(\"數學最高：\", math_max)\n```\n\n**執行過程：**\n1. 提取英文成績：\n   - `scores[0][0] = 85`\n   - `scores[1][0] = 75`\n   - `scores[2][0] = 92`\n   - `eng_scores = [85, 75, 92]`\n2. 計算英文統計：\n   - `eng_avg = (85 + 75 + 92) / 3 = 84.0`\n   - `eng_max = 92`\n3. 提取數學成績：\n   - `scores[0][1] = 90`\n   - `scores[1][1] = 80`\n   - `scores[2][1] = 88`\n   - `math_scores = [90, 80, 88]`\n4. 計算數學統計：\n   - `math_avg = (90 + 80 + 88) / 3 = 86.0`\n   - `math_max = 90`\n\n**結果：**\n```\n英文平均： 84.0\n英文最高： 92\n數學平均： 86.0\n數學最高： 90\n```\n\n**記住：** \n- 使用迴圈提取各科成績\n- 使用 `sum()` 和 `len()` 計算平均\n- 使用 `max()` 找出最高分\n- 對每科分別計算統計\n",
+  "exercise": "有一個成績陣列 `scores = [[85, 90], [75, 80], [92, 88]]`。\n請計算並印出：\n1. 英文科平均和最高分（格式：英文平均：84.0，英文最高：92）\n2. 數學科平均和最高分（格式：數學平均：86.0，數學最高：90）",
+  "hint": "分別提取每科的成績，計算平均和最高。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "英文平均： 84.0\n英文最高： 92\n數學平均： 86.0\n數學最高： 90\n"
+  },
+  "_order": 58
+}

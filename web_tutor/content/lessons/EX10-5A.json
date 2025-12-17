@@ -1,0 +1,12 @@
+{
+  "id": "EX10-5A",
+  "title": "Local variable vs. Global variable",
+  "explanation": "\n## 什麼是變數的作用域？\n\n變數的**作用域（scope）**決定了變數在哪裡可以被存取。\n\n**為什麼需要作用域？**\n作用域可以：\n- 避免變數名稱衝突\n- 讓函數獨立運作，不會互相干擾\n- 讓程式碼更容易理解和維護\n\n**生活中的類比：**\n- 全域變數 = 公共區域的東西（大家都可以用）\n- 區域變數 = 私人房間的東西（只有房間裡的人可以用）\n\n## 全域變數（Global Variable）\n\n**什麼是全域變數？**\n在**函數外**定義的變數，整個程式都可以存取。\n\n**為什麼叫「全域」？**\n因為它可以在程式的任何地方（包括函數內）被存取。\n\n**範例：**\n```\nglobal_var = 10  # 全域變數（在函數外定義）\n```\n\n## 區域變數（Local Variable）\n\n**什麼是區域變數？**\n在**函數內**定義的變數，只在函數內有效。\n\n**為什麼叫「區域」？**\n因為它只能在定義它的函數內使用，函數外無法存取。\n\n**範例：**\n```\ndef my_function():\n    local_var = 20  # 區域變數（在函數內定義）\n```\n\n## 存取規則\n\n### 函數內可以存取全域變數\n\n**為什麼可以？**\n因為全域變數是「公開的」，函數內可以直接讀取。\n\n```\nglobal_var = 10  # 全域變數\n\ndef my_function():\n    print(global_var)  # 可以存取全域變數 ✓\n```\n\n### 函數外無法存取區域變數\n\n**為什麼不能？**\n因為區域變數是「私有的」，只在函數內有效。\n\n```\ndef my_function():\n    local_var = 20  # 區域變數\n\nmy_function()\nprint(local_var)  # 錯誤！無法存取區域變數 ✗\n```\n\n## 實際範例\n\n```\nglobal_var = 10  # 全域變數\n\ndef my_function():\n    local_var = 20  # 區域變數\n    print(global_var)  # 可以存取全域變數\n    print(local_var)   # 可以存取區域變數\n\nmy_function()\nprint(global_var)  # 可以存取\n# print(local_var)  # 錯誤！無法存取區域變數\n```\n\n**執行過程：**\n1. 定義全域變數 `global_var = 10`\n2. 定義函數 `my_function()`\n3. 呼叫函數：\n   - 建立區域變數 `local_var = 20`\n   - 印出全域變數：10\n   - 印出區域變數：20\n4. 函數結束，區域變數消失\n5. 印出全域變數：10（仍然可以存取）\n6. 嘗試印出區域變數：錯誤！\n\n**記住：** \n- 全域變數：函數外定義，整個程式都可以存取\n- 區域變數：函數內定義，只在函數內有效\n- 函數內可以讀取全域變數，但函數外無法存取區域變數\n",
+  "exercise": "有一個全域變數 `x = 100`。請定義一個函數 `test()`，在函數內建立一個區域變數 `x = 50`，然後印出區域變數 `x`。\n呼叫函數後，再印出全域變數 `x`。",
+  "hint": "函數內的 `x` 是區域變數，不會影響全域變數。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "50\n100\n"
+  },
+  "_order": 85
+}

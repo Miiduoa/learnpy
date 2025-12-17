@@ -1,0 +1,12 @@
+{
+  "id": "EX10-3",
+  "title": "計算長方形的面積及周長：function return (回傳多個值)",
+  "explanation": "\n## 為什麼需要回傳多個值？\n\n有時候我們需要從函數取得多個結果，例如同時計算面積和周長。\n\n**沒有多值回傳的問題：**\n需要呼叫函數兩次，或者建立兩個不同的函數，程式碼會重複。\n\n**使用多值回傳：**\n一次呼叫就可以取得多個結果！\n\n## Python 的多值回傳\n\n**重要概念：** Python 函數可以回傳多個值（實際上是一個元組）。\n\n**為什麼是元組？**\n因為元組可以同時儲存多個值，而且順序固定，適合用來回傳「一組相關的結果」。\n\n**語法：**\n```\nreturn 值1, 值2, 值3, ...\n```\n\n**實際上：** `return 值1, 值2` 等同於 `return (值1, 值2)`，Python 會自動包裝成元組。\n\n## 解包（Unpacking）\n\n**什麼是解包？**\n解包就是將元組中的值分別賦值給多個變數。\n\n**語法：**\n```\n變數1, 變數2 = 函數()\n```\n\n**為什麼需要解包？**\n因為函數回傳的是一個元組，如果我們想要分別使用每個值，就需要解包。\n\n**類比：** 就像您收到一個包裹（元組），裡面有兩個東西，您需要「拆開包裹」才能分別使用。\n\n## 實際範例\n\n```\ndef rectangle_info(width, height):\n    area = width * height\n    perimeter = 2 * (width + height)\n    return area, perimeter\n\na, p = rectangle_info(5, 3)\nprint(\"面積：\", a)\nprint(\"周長：\", p)\n```\n\n**執行過程：**\n1. 呼叫 `rectangle_info(5, 3)`\n2. 計算：`area = 5 * 3 = 15`\n3. 計算：`perimeter = 2 * (5 + 3) = 16`\n4. 回傳：`(15, 16)`（元組）\n5. 解包：`a = 15`, `p = 16`\n6. 印出面積和周長\n\n**如果不解包會怎樣？**\n```\nresult = rectangle_info(5, 3)\nprint(result)  # 會印出 (15, 16)，是一個元組\n```\n\n**記住：** \n- 回傳多個值時，用逗號分隔\n- 接收多個值時，用多個變數解包\n- 順序很重要！第一個變數對應第一個回傳值\n",
+  "exercise": "請定義一個函數 `rect_info(width, height)`，回傳面積和周長（按此順序）。\n然後呼叫 `rect_info(4, 6)`，將結果解包到 `area` 和 `perimeter`，並分別印出（先面積，後周長）。",
+  "hint": "使用 `return area, perimeter` 回傳兩個值。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "24\n20\n"
+  },
+  "_order": 83
+}

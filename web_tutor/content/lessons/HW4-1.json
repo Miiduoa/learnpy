@@ -1,0 +1,12 @@
+{
+  "id": "HW4-1",
+  "title": "帳密檢查&成績計算",
+  "explanation": "\n## 為什麼需要結合多個功能？\n\n結合條件判斷和迴圈，我們可以建立一個簡單的登入系統，這是實際應用的範例。\n\n**實際應用：**\n- 系統登入\n- 功能保護\n- 多步驟流程\n\n**為什麼需要先登入？**\n因為成績計算可能是敏感功能，需要先驗證身份。\n\n## 登入檢查\n\n**為什麼需要兩個條件？**\n因為帳號和密碼都要正確才能登入。\n\n**語法：**\n```\nif input_user == username and input_pass == password:\n    print(\"登入成功\")\n    # 執行後續功能\nelse:\n    print(\"登入失敗\")\n```\n\n**執行邏輯：**\n1. 檢查帳號和密碼\n2. 如果正確 → 登入成功，執行後續功能\n3. 如果不正確 → 登入失敗，不執行後續功能\n\n## 成績計算\n\n**為什麼在登入成功後才計算？**\n因為只有登入成功才能使用成績計算功能。\n\n**語法：**\n```\nscore1 = 85\nscore2 = 90\naverage = (score1 + score2) / 2\nprint(\"平均成績：\", average)\n```\n\n**執行邏輯：**\n1. 取得兩個成績\n2. 計算平均：`(score1 + score2) / 2`\n3. 印出結果\n\n**為什麼用括號？**\n因為要先計算 `score1 + score2`，再除以 2。\n\n## 實際範例\n\n```\nusername = \"admin\"\npassword = \"1234\"\ninput_user = \"admin\"\ninput_pass = \"1234\"\n\nif input_user == username and input_pass == password:\n    print(\"登入成功\")\n    score1 = 85\n    score2 = 90\n    average = (score1 + score2) / 2\n    print(\"平均成績：\", average)\nelse:\n    print(\"登入失敗\")\n```\n\n**執行過程：**\n1. 檢查：`\"admin\" == \"admin\"` → `True`\n2. 檢查：`\"1234\" == \"1234\"` → `True`\n3. `True and True` → `True`\n4. 執行 if 區塊：\n   - 印出：`登入成功`\n   - 計算：`average = (85 + 90) / 2 = 87.5`\n   - 印出：`平均成績： 87.5`\n\n**結果：**\n```\n登入成功\n平均成績： 87.5\n```\n\n**如果登入失敗：**\n```\ninput_pass = \"wrong\"\nif \"admin\" == \"admin\" and \"wrong\" == \"1234\":  # True and False → False\n    # 不執行\nelse:\n    print(\"登入失敗\")\n```\n\n**結果：** `登入失敗`\n\n**記住：** \n- 使用 `and` 檢查兩個條件\n- 登入成功後才執行後續功能\n- 平均 = 總分 ÷ 科目數\n- 使用括號確保計算順序正確\n",
+  "exercise": "系統帳號是 'student'，密碼是 'pass123'。\n輸入的帳號是 user = 'student'，密碼是 pwd = 'pass123'。\n如果登入成功，請計算兩科成績 math=85 和 english=75 的平均並印出「平均：」和平均分數。\n如果登入失敗，印出「登入失敗」。",
+  "hint": "先檢查帳密，成功後計算平均。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "平均： 80.0\n"
+  },
+  "_order": 33
+}

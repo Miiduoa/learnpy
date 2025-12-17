@@ -1,0 +1,12 @@
+{
+  "id": "EX5-7",
+  "title": "List-複製(Shallow Copy)",
+  "explanation": "\n## 淺複製 vs 深複製\n\n**淺複製（Shallow Copy）** 只複製**第一層**，如果列表中有嵌套列表，嵌套的部分仍然共享參考。\n\n**為什麼叫「淺」？**\n因為它只複製「表面」一層，不會深入嵌套結構。\n\n## 淺複製的方法\n\n### 方法 1：使用切片 `[:]`\n\n```\noriginal = [1, 2, 3]\nnew_list = original[:]\n```\n\n**為什麼 `[:]` 可以複製？**\n切片 `[:]` 表示「從頭到尾」，會建立一個新的列表。\n\n### 方法 2：使用 list() 函式\n\n```\nnew_list = list(original)\n```\n\n**為什麼 list() 可以複製？**\n`list()` 函式會將輸入轉換為新列表。\n\n### 方法 3：使用 copy() 方法\n\n```\nnew_list = original.copy()\n```\n\n**為什麼列表有 copy() 方法？**\n這是列表的內建方法，專門用來複製列表。\n\n## 淺複製的限制\n\n**對於簡單列表（沒有嵌套）：**\n淺複製和深複製效果相同，都可以建立獨立複本。\n\n**對於嵌套列表：**\n淺複製只複製第一層，嵌套列表仍然共享參考。\n\n**問題範例：**\n```\noriginal = [1, 2, [3, 4]]\nnew_list = original[:]  # 淺複製\nnew_list[2][0] = 99\nprint(original)  # [1, 2, [99, 4]] ← 原列表也被改變了！\n```\n\n**為什麼會這樣？**\n因為淺複製只複製了外層列表，內層的 `[3, 4]` 仍然是共享的。\n\n## 實際範例\n\n```\noriginal = [10, 20, 30]\nnew_list = original[:]  # 使用切片複製\nnew_list[0] = 99\nprint(original)  # [10, 20, 30]（原列表不變）\nprint(new_list)  # [99, 20, 30]（新列表改變）\n```\n\n**執行過程：**\n1. 建立原始列表 `[10, 20, 30]`\n2. 使用切片 `[:]` 建立新列表\n3. 修改新列表的第一個元素\n4. 原列表保持不變（因為是簡單列表，淺複製就夠了）\n\n**記住：** \n- 淺複製適合簡單列表（沒有嵌套）\n- 有嵌套列表時，需要深複製才能完全獨立\n- 三種方法效果相同：`[:]`、`list()`、`copy()`\n",
+  "exercise": "有一個列表 `original = [10, 20, 30]`。請使用切片 `[:]` 建立一個新列表 `new_list`，然後修改 `new_list[0] = 99`，最後分別印出兩個列表（先 original，後 new_list）。",
+  "hint": "使用 `new_list = original[:]` 來複製。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "[10, 20, 30]\n[99, 20, 30]\n"
+  },
+  "_order": 43
+}

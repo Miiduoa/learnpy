@@ -1,0 +1,12 @@
+{
+  "id": "HW4-2",
+  "title": "猜幸運數字(1~9)最多三次機會",
+  "explanation": "\n## 為什麼需要限制嘗試次數？\n\n我們可以使用迴圈來限制嘗試次數，這是遊戲和互動程式的常見模式。\n\n**實際應用：**\n- 猜數字遊戲\n- 限制嘗試次數\n- 互動式程式\n\n**為什麼需要限制？**\n因為無限嘗試會讓遊戲失去挑戰性，限制次數增加趣味性。\n\n## 計數器模式\n\n**為什麼需要計數器？**\n因為我們要追蹤「已經嘗試了幾次」。\n\n**語法：**\n```\nattempts = 0\nmax_attempts = 3\n```\n\n**為什麼初始值是 0？**\n因為計數從 0 開始，第一次嘗試後變成 1。\n\n## 迴圈條件\n\n**為什麼用 `attempts < max_attempts`？**\n因為我們要限制在最多 3 次，所以當 `attempts < 3` 時繼續嘗試。\n\n**語法：**\n```\nwhile attempts < max_attempts:\n    # 猜數字\n    attempts = attempts + 1\n```\n\n**為什麼在迴圈內加 1？**\n因為每次嘗試後，次數就加 1。\n\n## 猜數字邏輯\n\n**為什麼需要三個條件？**\n因為有三種情況：猜對、太小、太大。\n\n**語法：**\n```\nif guess == lucky_number:\n    print(\"猜對了！\")\n    break\nelif guess < lucky_number:\n    print(\"太小了\")\nelse:\n    print(\"太大了\")\n```\n\n**執行邏輯：**\n1. 如果猜對 → 印出「猜對了」，用 `break` 跳出\n2. 如果太小 → 印出「太小了」，繼續\n3. 如果太大 → 印出「太大了」，繼續\n\n**為什麼用 break？**\n因為猜對後不需要繼續嘗試，直接跳出迴圈。\n\n## 實際範例\n\n```\nlucky_number = 7\nmax_attempts = 3\nattempts = 0\n\nwhile attempts < max_attempts:\n    guess = 5  # 假設輸入\n    attempts = attempts + 1\n    \n    if guess == lucky_number:\n        print(\"猜對了！\")\n        break\n    elif guess < lucky_number:\n        print(\"太小了\")\n    else:\n        print(\"太大了\")\n```\n\n**執行過程（假設都猜錯）：**\n1. 第一次：`guess = 5`，`attempts = 1`\n   - `5 < 7` → 印出「太小了」\n2. 第二次：`guess = 8`，`attempts = 2`\n   - `8 > 7` → 印出「太大了」\n3. 第三次：`guess = 6`，`attempts = 3`\n   - `6 < 7` → 印出「太小了」\n4. 迴圈結束（`attempts < 3` → `False`）\n\n**如果第二次猜對：**\n1. 第一次：`guess = 5`，印出「太小了」\n2. 第二次：`guess = 7`，`attempts = 2`\n   - `7 == 7` → 印出「猜對了！」，執行 `break`，跳出迴圈\n\n**記住：** \n- 使用計數器追蹤嘗試次數\n- 使用 `while attempts < max_attempts` 限制次數\n- 使用 `if-elif-else` 判斷猜測結果\n- 猜對後用 `break` 跳出\n- 提供提示（太小/太大）幫助使用者\n",
+  "exercise": "幸運數字是 `lucky = 5`。請寫一個程式，最多猜 3 次。\n如果猜的數字 `guess = 3` 小於幸運數字，印出「太小」；如果大於，印出「太大」；如果等於，印出「猜對了」並結束。\n（假設第一次猜 3，第二次猜 7，第三次猜 5）",
+  "hint": "使用迴圈控制次數，用 if-elif 判斷大小。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "太小\n太大\n猜對了\n"
+  },
+  "_order": 34
+}

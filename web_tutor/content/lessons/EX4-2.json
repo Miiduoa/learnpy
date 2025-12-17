@@ -1,0 +1,12 @@
+{
+  "id": "EX4-2",
+  "title": "While, Random, Continue, Break",
+  "explanation": "\n## 控制迴圈的執行\n\n在迴圈中，我們可以使用兩個關鍵字來控制執行流程：\n\n### break - 跳出迴圈\n\n**作用：** 立即跳出迴圈，不管條件是否還成立。\n\n**為什麼需要 break？**\n有時候我們需要在迴圈中間就停止，不需要等到條件變成 `False`。\n\n**語法：**\n```\nwhile 條件:\n    if 某個情況:\n        break  # 立即跳出迴圈\n```\n\n**類比：** 就像您在做作業時，如果完成了，就停止，不需要等到時間到。\n\n### continue - 跳過本次迴圈\n\n**作用：** 跳過本次迴圈的剩餘程式碼，繼續下一次迴圈。\n\n**為什麼需要 continue？**\n有時候我們想要「跳過某些情況，但繼續迴圈」。\n\n**語法：**\n```\nwhile 條件:\n    if 某個情況:\n        continue  # 跳過本次，繼續下一次\n    # 其他程式碼\n```\n\n**類比：** 就像您在做作業時，如果遇到不會的題目，先跳過，繼續做下一題。\n\n## random 模組\n\n**什麼是模組？**\n模組（Module）是 Python 提供的功能庫，需要先 `import` 才能使用。\n\n**為什麼需要 import？**\nPython 為了節省記憶體，不會自動載入所有功能。只有當您需要使用時，才載入。\n\n**random 模組：**\n```\nimport random\nrandom.randint(1, 10)  # 產生 1 到 10 之間的隨機整數\n```\n\n**為什麼叫 randint？**\n- `rand` = random（隨機）\n- `int` = integer（整數）\n- `randint` = 隨機整數\n\n**語法：** `random.randint(最小值, 最大值)`\n- 包含最小值和最大值\n- 例如 `random.randint(1, 10)` 可能產生 1, 2, 3, ..., 10\n\n## while True 迴圈\n\n**什麼是 `while True`？**\n`True` 永遠是 `True`，所以這是一個「無限迴圈」。\n\n**為什麼要用無限迴圈？**\n當我們不知道要執行幾次，只知道「某個條件滿足時就停止」時，可以用 `while True` 配合 `break`。\n\n**模式：**\n```\nwhile True:\n    # 做一些事情\n    if 停止條件:\n        break  # 滿足條件就跳出\n```\n\n## 實際範例\n\n```\nimport random\nwhile True:\n    num = random.randint(1, 10)\n    print(num)\n    if num == 7:\n        break\n```\n\n**執行過程：**\n1. 進入無限迴圈\n2. 產生隨機數（例如 3），印出 3\n3. 檢查：`3 == 7` → `False`，繼續迴圈\n4. 產生隨機數（例如 8），印出 8\n5. 檢查：`8 == 7` → `False`，繼續迴圈\n6. 產生隨機數（例如 7），印出 7\n7. 檢查：`7 == 7` → `True`，執行 `break`，跳出迴圈\n\n**記住：** \n- `break` 是跳出迴圈\n- `continue` 是跳過本次，繼續下一次\n- `while True` 需要配合 `break` 使用，否則會無限迴圈！\n",
+  "exercise": "請寫一個程式，使用 `while True` 迴圈，每次產生一個 1 到 10 的隨機數並印出。如果產生的數字是 5，就跳出迴圈。",
+  "hint": "記得 `import random`，使用 `random.randint(1, 10)` 產生隨機數，用 `if num == 5: break` 跳出。",
+  "validator": {
+    "type": "stdout_contains",
+    "expected_output": "5"
+  },
+  "_order": 22
+}

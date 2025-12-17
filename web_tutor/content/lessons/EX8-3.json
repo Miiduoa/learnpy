@@ -1,0 +1,12 @@
+{
+  "id": "EX8-3",
+  "title": "Empty Dictionary, add new element",
+  "explanation": "\n## 為什麼需要空字典？\n\n我們可以建立空字典，然後動態地新增元素。這在我們一開始不知道要儲存什麼資料時很有用。\n\n**實際應用：**\n- 使用者輸入的資料\n- 動態建立的配置\n- 逐步收集的資訊\n\n## 建立空字典\n\n**語法：**\n```\nmy_dict = {}\n```\n\n**為什麼用 `{}`？**\n空的大括號表示「空的字典」，就像空列表用 `[]` 一樣。\n\n**注意：** `{}` 是空字典，不是空集合！空集合要用 `set()`。\n\n## 新增元素的方法\n\n### 方法 1：使用賦值運算子\n\n**語法：**\n```\n字典名稱[\"鍵\"] = 值\n```\n\n**為什麼用方括號？**\n就像列表用索引來存取元素一樣，字典用「鍵」來存取「值」。\n\n**範例：**\n```\nmy_dict[\"key1\"] = \"value1\"\nmy_dict[\"key2\"] = \"value2\"\n```\n\n**如果鍵已存在會怎樣？**\n會覆蓋舊的值！這是修改元素的方式。\n\n**如果鍵不存在會怎樣？**\n會新增一個新的鍵值對！\n\n### 方法 2：使用 update() 方法\n\n**語法：**\n```\n字典名稱.update({鍵: 值})\n```\n\n**為什麼需要 update()？**\n`update()` 可以一次新增多個鍵值對，比逐個賦值更方便。\n\n**範例：**\n```\nmy_dict.update({\"key3\": \"value3\", \"key4\": \"value4\"})\n```\n\n**兩種方法的差異：**\n- 賦值：一次只能新增一個\n- `update()`：可以一次新增多個\n\n## 實際範例\n\n```\ndata = {}\ndata['name'] = 'Python'\ndata['version'] = 3\nprint(data)\n```\n\n**執行過程：**\n1. 建立空字典 `{}`\n2. 新增 `'name': 'Python'`\n3. 新增 `'version': 3`\n4. 字典變成 `{'name': 'Python', 'version': 3}`\n5. 印出字典\n\n**結果：** `{'name': 'Python', 'version': 3}`\n\n**記住：** \n- 空字典用 `{}`\n- 新增元素：`字典[\"鍵\"] = 值`\n- 可以一次新增多個：`update()`\n",
+  "exercise": "請建立一個空字典 data = {}，然後新增兩個鍵值對：'name': 'Python' 和 'version': 3，最後印出字典。",
+  "hint": "使用 data['name'] = 'Python' 的方式新增。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "{'name': 'Python', 'version': 3}\n"
+  },
+  "_order": 64
+}

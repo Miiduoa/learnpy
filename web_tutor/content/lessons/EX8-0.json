@@ -1,0 +1,12 @@
+{
+  "id": "EX8-0",
+  "title": "upper()",
+  "explanation": "\n## 字串方法：upper()\n\n字串的 `upper()` 方法可以將所有字母轉換為大寫。\n\n**什麼是方法（Method）？**\n方法是「屬於某個物件的函式」。`upper()` 是字串的專屬方法。\n\n**語法：**\n```\n字串變數.upper()\n```\n\n**為什麼用點號 `.`？**\n點號 `.` 表示「屬於」或「的」。`text.upper()` 意思是「text 這個字串的 upper 方法」。\n\n## 實際範例\n\n```\ntext = \"Hello World\"\nprint(text.upper())\n```\n\n**執行過程：**\n1. `text` 是字串 \"Hello World\"\n2. 呼叫 `text.upper()` → 轉換為大寫 \"HELLO WORLD\"\n3. 印出結果\n\n**結果：** `HELLO WORLD`\n\n**為什麼需要 upper()？**\n有時候我們需要統一格式，例如將使用者輸入轉換為大寫來比較，避免大小寫造成的問題。\n\n---\n\n## 字典（Dictionary）簡介\n\n字典是 Python 中另一個重要的資料結構，使用**鍵值對（key-value pairs）**來儲存資料。\n\n**為什麼叫「字典」？**\n就像查字典一樣：\n- 您要找「鍵」（key，例如「apple」這個單字）\n- 找到對應的「值」（value，例如「蘋果」這個解釋）\n\n**生活中的類比：**\n- 列表 = 編號的盒子（用數字 0, 1, 2... 來找）\n- 字典 = 有標籤的盒子（用有意義的名稱來找，例如「姓名」、「年齡」）\n\n## 為什麼用大括號 `{}`？\n\n**大括號的作用：**\n- `{}` 告訴 Python：「這是一個字典」\n- 字典中的每個項目是「鍵: 值」的格式，用逗號分隔\n\n**為什麼用冒號 `:`？**\n冒號 `:` 用來分隔「鍵」和「值」。`\"name\": \"Alice\"` 表示「鍵是 name，值是 Alice」。\n\n## 建立字典\n\n### 空字典\n```\nmy_dict = {}\n```\n\n### 有初始值的字典\n```\nmy_dict = {\"name\": \"Alice\", \"age\": 25}\n```\n\n**語法說明：**\n- `{` → 字典開始\n- `\"name\": \"Alice\"` → 第一個鍵值對（鍵是 \"name\"，值是 \"Alice\"）\n- `,` → 分隔符號\n- `\"age\": 25` → 第二個鍵值對（鍵是 \"age\"，值是 25）\n- `}` → 字典結束\n\n## 存取元素\n\n**為什麼用方括號 `[]` 來存取？**\n就像列表用索引來存取元素一樣，字典用「鍵」來存取「值」。\n\n```\nprint(my_dict[\"name\"])  # 印出 \"Alice\"\nprint(my_dict[\"age\"])   # 印出 25\n```\n\n**語法：** `字典名稱[\"鍵\"]`\n\n**為什麼鍵要用引號？**\n因為鍵通常是字串，需要用引號標記。如果鍵是數字，可以不用引號（但通常鍵都是字串）。\n",
+  "exercise": "有一個字串 text = 'python'。請使用 upper() 方法將它轉換為大寫並印出。",
+  "hint": "使用 `text.upper()`。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "PYTHON\n"
+  },
+  "_order": 61
+}

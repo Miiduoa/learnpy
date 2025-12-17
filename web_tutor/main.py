@@ -34,86 +34,15 @@ except ImportError:
 # --- Code Execution ---
 # 
 # 注意：目前前端使用 Pyodide 在瀏覽器中執行 Python 程式碼，
-# 以下執行邏輯保留作為備用方案或未來擴展使用。
-# 如果不需要服務器端執行，可以移除相關代碼以簡化應用。
-
-# Use a thread pool executor for running Python code
-executor = ThreadPoolExecutor(max_workers=4)
-
-def run_code_sync(code_string, inputs=None):
-    """
-    Executes a string of Python code and captures its stdout, stderr, and any exceptions.
-    Returns a dictionary with 'stdout' and 'stderr'.
-    This is the same implementation as in tutor.py but adapted for web use.
-    
-    Args:
-        code_string: Python code to execute
-        inputs: List of input values for input() function calls
-    """
-    if inputs is None:
-        inputs = []
-    
-    # Track input index using a list to allow modification in nested function
-    input_index = [0]
-    
-    def custom_input(prompt=""):
-        """Custom input() function that reads from the provided inputs list."""
-        if input_index[0] < len(inputs):
-            value = inputs[input_index[0]]
-            input_index[0] += 1
-            # Print the prompt if provided (standard input() behavior)
-            if prompt:
-                print(prompt, end='', flush=True)
-            return value
-        else:
-            # If no more inputs available, return empty string
-            if prompt:
-                print(prompt, end='', flush=True)
-            return ""
-    
-    old_stdout = sys.stdout
-    redirected_output = StringIO()
-    sys.stdout = redirected_output
-    error_output = StringIO()
-    
-    # Create a custom globals dict with our custom input function
-    # Handle __builtins__ properly (it might be a module or dict)
-    if isinstance(__builtins__, dict):
-        custom_builtins = __builtins__.copy()
-    else:
-        # If __builtins__ is a module, create a dict with its contents
-        import builtins
-        custom_builtins = {name: getattr(builtins, name) for name in dir(builtins) if not name.startswith('_')}
-        custom_builtins.update(__builtins__.__dict__ if hasattr(__builtins__, '__dict__') else {})
-    
-    custom_builtins['input'] = custom_input
-    
-    custom_globals = {
-        '__builtins__': custom_builtins,
-        'input': custom_input
-    }
-    
-    try:
-        exec(code_string, custom_globals)
-    except Exception as e:
-        error_output.write(str(e))
-        import traceback
-        error_output.write('\n')
-        error_output.write('\n'.join(traceback.format_exc().split('\n')[-3:-1]))
-    finally:
-        sys.stdout = old_stdout
-
-    return {
-        "stdout": redirected_output.getvalue(),
-        "stderr": error_output.getvalue()
-    }
+# 服務器端執行已被移除以確保安全性。
+# 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # On startup - nothing special needed
     yield
-    # On shutdown - cleanup executor
-    executor.shutdown(wait=True)
+    # On shutdown - nothing to cleanup now
+    pass
 
 app = FastAPI(lifespan=lifespan)
 
@@ -148,27 +77,6 @@ class CodeExecutionRequest(BaseModel):
         # Allow extra fields to be ignored
         extra = "forbid"
 
-# --- Helper Functions ---
-
-async def run_code_async(code: str, inputs=None):
-    """
-    Executes code using a thread pool executor and returns the result.
-    This is simpler and more reliable than using Jupyter kernel.
-    
-    Args:
-        code: Python code to execute
-        inputs: List of input values for input() function calls
-    """
-    try:
-        # Run the code execution in a thread pool to avoid blocking
-        loop = asyncio.get_event_loop()
-        result = await loop.run_in_executor(executor, run_code_sync, code, inputs)
-        return result
-    except Exception as e:
-        print(f"FATAL EXECUTION ERROR: {type(e).__name__}: {e}")
-        import traceback
-        traceback.print_exc()
-        return {"stdout": "", "stderr": f"A fatal error occurred during code execution: {e}"}
 
 
 # --- API Endpoints ---

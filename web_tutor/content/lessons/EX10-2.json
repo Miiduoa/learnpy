@@ -1,0 +1,12 @@
+{
+  "id": "EX10-2",
+  "title": "function improve [Ex9-2] (英數及格)",
+  "explanation": "\n## 為什麼要將程式碼改寫成函數？\n\n我們可以將之前的程式碼改寫成函數，讓它更容易重複使用。\n\n**沒有函數的問題：**\n每次要找出兩科都及格的學生，都要寫一次 `english_pass & math_pass`，程式碼會重複。\n\n**使用函數：**\n寫一次函數，之後就可以重複使用，而且程式碼更清楚！\n\n## 建立函數\n\n**語法：**\n```\ndef both_pass(english_pass, math_pass):\n    return english_pass & math_pass\n```\n\n**函數名稱：** `both_pass`（兩科都及格）\n\n**參數：**\n- `english_pass`：英文及格的學生集合\n- `math_pass`：數學及格的學生集合\n\n**回傳值：** 兩個集合的交集（兩科都及格的學生）\n\n**為什麼用 `&`？**\n`&` 是集合的交集運算子，找出兩個集合都有的元素。\n\n## 實際範例\n\n```\ndef both_pass(english_pass, math_pass):\n    return english_pass & math_pass\n\nenglish_set = {1, 3, 5, 7}\nmath_set = {2, 3, 5, 6}\nresult = both_pass(english_set, math_set)\nprint(result)\n```\n\n**執行過程：**\n1. 定義函數 `both_pass`\n2. 建立兩個集合：\n   - `english_set = {1, 3, 5, 7}`（英文及格）\n   - `math_set = {2, 3, 5, 6}`（數學及格）\n3. 呼叫函數：`both_pass(english_set, math_set)`\n   - 計算交集：`{1, 3, 5, 7} & {2, 3, 5, 6} = {3, 5}`\n   - 回傳 `{3, 5}`\n4. 印出結果：`{3, 5}`\n\n**結果：** `{3, 5}`（座號 3 和 5 的學生兩科都及格）\n\n## 函數的優點\n\n**為什麼要用函數？**\n1. **重複使用**：一次定義，多次使用\n2. **程式碼清晰**：函數名稱說明功能\n3. **易於維護**：修改時只需改一處\n4. **模組化**：將複雜問題分解\n\n**記住：** \n- 將重複的程式碼改寫成函數\n- 函數名稱要清楚說明功能\n- 使用集合運算子 `&` 計算交集\n",
+  "exercise": "請定義一個函數 `both_pass(eng_set, math_set)`，回傳兩個集合的交集（兩科都及格的學生）。\n然後呼叫 `both_pass({1, 3, 5}, {2, 3, 5})` 並印出結果。",
+  "hint": "使用 `&` 運算子計算交集。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "{3, 5}\n"
+  },
+  "_order": 82
+}

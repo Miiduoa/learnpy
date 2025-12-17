@@ -1,0 +1,12 @@
+{
+  "id": "PT8-1",
+  "title": "帳密檢查：最多三次機會。使用字典(Dictionary)",
+  "explanation": "\n## 為什麼用字典儲存帳密？\n\n我們可以使用字典來儲存多個帳號和密碼。\n\n**為什麼不用列表？**\n- 列表用數字索引，但帳號是字串\n- 字典用「鍵」（帳號）來找「值」（密碼），更直觀\n\n**實際應用：**\n- 會員系統\n- 使用者認證\n- 帳號管理\n\n## 字典的結構\n\n**語法：**\n```\naccounts = {\"帳號1\": \"密碼1\", \"帳號2\": \"密碼2\", ...}\n```\n\n**範例：**\n```\naccounts = {\"user1\": \"pass1\", \"user2\": \"pass2\", \"admin\": \"admin123\"}\n```\n\n**結構說明：**\n- 鍵（key）：帳號名稱\n- 值（value）：對應的密碼\n\n## 檢查登入\n\n**為什麼需要兩個條件？**\n1. 帳號必須存在\n2. 密碼必須正確\n\n**語法：**\n```\nif 帳號 in 字典 and 字典[帳號] == 密碼:\n    print(\"登入成功\")\nelse:\n    print(\"帳號或密碼錯誤\")\n```\n\n## in 運算子\n\n**什麼是 in？**\n`in` 運算子用來檢查「鍵是否存在於字典中」。\n\n**語法：**\n```\n鍵 in 字典\n```\n\n**回傳值：**\n- `True`：如果鍵存在\n- `False`：如果鍵不存在\n\n**為什麼先檢查 in？**\n如果帳號不存在，直接存取 `accounts[帳號]` 會出錯！\n\n## 邏輯運算子：and\n\n**什麼是 and？**\n`and` 表示「而且」，兩個條件都要成立。\n\n**語法：**\n```\n條件1 and 條件2\n```\n\n**執行邏輯：**\n- 如果條件1是 `False`，直接回傳 `False`（不檢查條件2）\n- 如果條件1是 `True`，才檢查條件2\n\n**為什麼用 and？**\n因為登入需要「帳號存在」**而且**「密碼正確」。\n\n## 實際範例\n\n```\naccounts = {\"user1\": \"pass1\", \"user2\": \"pass2\", \"admin\": \"admin123\"}\n\ninput_user = \"user1\"\ninput_pass = \"pass1\"\n\nif input_user in accounts and accounts[input_user] == input_pass:\n    print(\"登入成功\")\nelse:\n    print(\"帳號或密碼錯誤\")\n```\n\n**執行過程：**\n1. 檢查：`\"user1\" in accounts` → `True`（帳號存在）\n2. 檢查：`accounts[\"user1\"] == \"pass1\"` → `\"pass1\" == \"pass1\"` → `True`（密碼正確）\n3. `True and True` → `True`\n4. 印出：`登入成功`\n\n**如果帳號不存在：**\n```\ninput_user = \"unknown\"\nif \"unknown\" in accounts and ...  # False，直接回傳 False\n# 不會執行 accounts[\"unknown\"]，避免錯誤\n```\n\n**如果密碼錯誤：**\n```\ninput_user = \"user1\"\ninput_pass = \"wrong\"\nif \"user1\" in accounts and accounts[\"user1\"] == \"wrong\":\n    # True and False → False\n    print(\"帳號或密碼錯誤\")\n```\n\n**記住：** \n- 用字典儲存帳號和密碼\n- 先檢查 `in` 確認帳號存在\n- 使用 `and` 檢查兩個條件\n- 兩個條件都成立才登入成功\n",
+  "exercise": "有一個帳號字典 accounts = {'alice': '1234', 'bob': '5678'}。\n輸入的帳號是 user = 'alice'，密碼是 pwd = '1234'。\n請檢查帳號是否存在且密碼正確，如果正確印出「登入成功」，否則印出「登入失敗」。",
+  "hint": "使用 `in` 檢查鍵是否存在，然後比較值。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "登入成功\n"
+  },
+  "_order": 66
+}

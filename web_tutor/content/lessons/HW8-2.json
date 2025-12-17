@@ -1,0 +1,12 @@
+{
+  "id": "HW8-2",
+  "title": "CarBrand：汽車購買調查",
+  "explanation": "\n## 為什麼需要找出最受歡迎的品牌？\n\n我們可以進行更複雜的統計分析，找出出現次數最多的品牌。\n\n**實際應用：**\n- 市場調查\n- 資料分析\n- 找出熱門項目\n\n## 步驟 1：統計出現次數\n\n**為什麼要先統計？**\n因為我們需要知道每個品牌出現幾次，才能找出最多的。\n\n**語法：**\n```\ncount = {}\nfor brand in brands:\n    count[brand] = count.get(brand, 0) + 1\n```\n\n**結果範例：** `{'Toyota': 3, 'Honda': 2, 'BMW': 1}`\n\n## 步驟 2：找出最大值\n\n**為什麼用 values()？**\n因為我們要比較的是「次數」（值），不是品牌名稱（鍵）。\n\n**語法：**\n```\nmax_count = max(count.values())\n```\n\n**執行過程：**\n1. `count.values()` → `[3, 2, 1]`（所有次數）\n2. `max([3, 2, 1])` → `3`（最大值）\n\n## 步驟 3：找出對應的品牌\n\n**為什麼需要這一步？**\n因為我們知道最大值是 3，但不知道是哪個品牌。\n\n**方法：使用列表生成式和 items()**\n\n**語法：**\n```\npopular_brands = [b for b, c in count.items() if c == max_count]\n```\n\n**這是什麼？**\n這是「列表生成式」（List Comprehension），用來建立列表。\n\n**執行邏輯：**\n1. `count.items()` → `[('Toyota', 3), ('Honda', 2), ('BMW', 1)]`\n2. 對每個鍵值對 `(b, c)`：\n   - `b` = 品牌名稱\n   - `c` = 出現次數\n3. `if c == max_count` → 如果次數等於最大值\n4. `b` → 將品牌名稱加入列表\n\n**為什麼可能有多個品牌？**\n因為可能有多個品牌出現次數相同（都是最大值）。\n\n## 簡化方法：直接找最大值對應的鍵\n\n**如果只需要一個品牌（假設只有一個最大值）：**\n```\nmax_count = max(count.values())\nfor brand, cnt in count.items():\n    if cnt == max_count:\n        print(\"最受歡迎：\", brand)\n        break\n```\n\n## 實際範例\n\n```\nbrands = [\"Toyota\", \"Honda\", \"Toyota\", \"BMW\", \"Honda\", \"Toyota\"]\ncount = {}\nfor brand in brands:\n    count[brand] = count.get(brand, 0) + 1\n\nmax_count = max(count.values())\nfor brand, cnt in count.items():\n    if cnt == max_count:\n        print(\"最受歡迎：\", brand)\n        break\n```\n\n**執行過程：**\n1. 統計：`{'Toyota': 3, 'Honda': 2, 'BMW': 1}`\n2. 最大值：`max([3, 2, 1]) = 3`\n3. 遍歷字典：\n   - `('Toyota', 3)`：`3 == 3` → `True`，印出 \"最受歡迎： Toyota\"，`break`\n4. 結果：`最受歡迎： Toyota`\n\n**記住：** \n- 先統計出現次數\n- 使用 `max(count.values())` 找出最大值\n- 遍歷字典找出對應的品牌\n- 可能有多個品牌並列第一\n",
+  "exercise": "有一個品牌列表 brands = ['Toyota', 'Honda', 'Toyota', 'BMW', 'Toyota']。\n請統計每個品牌出現的次數，找出出現次數最多的品牌並印出「最受歡迎：」和品牌名稱。",
+  "hint": "統計後使用 `max()` 找出最大值。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "最受歡迎： Toyota\n"
+  },
+  "_order": 70
+}

@@ -1,0 +1,12 @@
+{
+  "id": "HW6-3",
+  "title": "n×n棋盤，檢查是否成一條線(直線or橫線)",
+  "explanation": "\n## 為什麼需要檢查是否成一條線？\n\n我們可以檢查棋盤上是否有完整的直線或橫線，這是棋類遊戲的常見需求。\n\n**實際應用：**\n- 井字遊戲（Tic-tac-toe）\n- 五子棋\n- 連線遊戲\n\n## 檢查橫線（Row）\n\n**為什麼要檢查橫線？**\n因為橫線是「同一行的所有元素都相同」。\n\n**策略：**\n1. 取得該行的第一個元素\n2. 如果第一個元素是 0（空），不是一條線\n3. 檢查該行的所有元素是否都等於第一個元素\n\n**簡化方法（不使用 all()）：**\n```\ndef check_row(matrix, row_index):\n    first = matrix[row_index][0]\n    if first == 0:\n        return False\n    for x in matrix[row_index]:\n        if x != first:\n            return False\n    return True\n```\n\n**執行邏輯：**\n1. 取得第一個元素 `first`\n2. 如果 `first == 0` → 回傳 `False`（空行不是一條線）\n3. 遍歷該行的每個元素\n4. 如果發現任何元素不等於 `first` → 回傳 `False`\n5. 如果所有元素都等於 `first` → 回傳 `True`\n\n## 檢查直線（Column）\n\n**為什麼要檢查直線？**\n因為直線是「同一列的所有元素都相同」。\n\n**策略：**\n1. 取得該列的第一個元素\n2. 如果第一個元素是 0（空），不是一條線\n3. 檢查該列的所有元素是否都等於第一個元素\n\n**簡化方法：**\n```\ndef check_col(matrix, col_index):\n    first = matrix[0][col_index]\n    if first == 0:\n        return False\n    for i in range(len(matrix)):\n        if matrix[i][col_index] != first:\n            return False\n    return True\n```\n\n**執行邏輯：**\n1. 取得第一個元素 `first`（第 0 行的該列元素）\n2. 如果 `first == 0` → 回傳 `False`\n3. 遍歷每一行（`i` 從 0 到 `len(matrix)-1`）\n4. 檢查第 `i` 行的第 `col_index` 列元素\n5. 如果發現任何元素不等於 `first` → 回傳 `False`\n6. 如果所有元素都等於 `first` → 回傳 `True`\n\n## 實際範例\n\n```\nboard = [[1, 1, 1], [2, 2, 0], [0, 0, 0]]\n\n# 檢查第一行（索引 0）\nfirst = board[0][0]  # 1\nif first == 0:\n    result = False\nelse:\n    is_line = True\n    for x in board[0]:\n        if x != first:\n            is_line = False\n            break\n    result = is_line\n\nif result:\n    print(\"第一行成一條線\")\nelse:\n    print(\"第一行不成一條線\")\n```\n\n**執行過程：**\n1. `first = board[0][0] = 1`\n2. `first != 0`，繼續檢查\n3. 遍歷 `board[0] = [1, 1, 1]`：\n   - `1 == 1` ✓\n   - `1 == 1` ✓\n   - `1 == 1` ✓\n4. 所有元素都等於 1 → `True`\n5. 印出：`第一行成一條線`\n\n**如果第一行是 `[1, 2, 1]`：**\n1. `first = 1`\n2. 遍歷 `[1, 2, 1]`：\n   - `1 == 1` ✓\n   - `2 == 1` ✗ → `False`，跳出\n3. 印出：`第一行不成一條線`\n\n**記住：** \n- 檢查橫線：遍歷該行的所有元素\n- 檢查直線：遍歷該列的所有元素（需要遍歷每一行）\n- 第一個元素是 0 時，不是一條線\n- 所有元素都相同且不為 0 時，才是一條線\n",
+  "exercise": "有一個 3x3 棋盤 `board = [[1, 1, 1], [2, 2, 0], [0, 0, 0]]`。\n請檢查第一行是否成一條線（所有元素相同且不為 0），如果是，印出「第一行成一條線」，否則印出「第一行不成一條線」。",
+  "hint": "檢查第一行的所有元素是否相同且不為 0。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "第一行成一條線\n"
+  },
+  "_order": 60
+}

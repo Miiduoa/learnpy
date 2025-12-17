@@ -1,0 +1,12 @@
+{
+  "id": "PT9-1",
+  "title": "食玩(Candy Toy)蒐集:輸入贈品代碼",
+  "explanation": "\n## 為什麼用集合追蹤收集？\n\n我們可以使用集合來追蹤已收集的贈品，因為集合會自動去重，而且可以快速檢查元素是否存在。\n\n**實際應用：**\n- 收集遊戲\n- 追蹤已完成的任務\n- 去重處理\n\n**為什麼不用列表？**\n- 列表需要手動檢查是否重複\n- 集合自動去重，而且 `in` 檢查更快\n\n## 檢查是否已收集\n\n**為什麼用 in 檢查？**\n`in` 可以快速檢查元素是否在集合中。\n\n**語法：**\n```\nif 元素 in 集合:\n    print(\"Duplicate\")  # 重複\nelse:\n    集合.add(元素)      # 新增\n    print(\"New\")        # 新的\n```\n\n**為什麼先檢查？**\n因為集合會自動去重，但我們想知道「這是新的還是重複的」。\n\n## add() 方法\n\n**什麼是 add()？**\n`add()` 是集合的方法，用來新增元素。\n\n**語法：**\n```\n集合名稱.add(元素)\n```\n\n**為什麼叫 add？**\n`add` 是「新增」的意思。\n\n**注意：** 如果元素已存在，`add()` 不會出錯，但也不會新增（因為集合不重複）。\n\n## 檢查收集進度\n\n**為什麼用 len()？**\n`len(集合)` 可以知道已經收集了多少個不同的贈品。\n\n**語法：**\n```\nif len(collected) == 目標數量:\n    print(\"Goal!\")\n    break\n```\n\n**為什麼用 break？**\n因為已經達成目標，不需要繼續收集。\n\n## 排序收集清單\n\n**為什麼要排序？**\n因為集合是無序的，排序後更容易閱讀。\n\n**語法：**\n```\nsorted(集合)\n```\n\n**為什麼用 sorted()？**\n`sorted()` 會回傳排序後的列表，不改變原集合。\n\n## 實際範例\n\n```\ncollected = set()\ncodes = [\"A\", \"B\", \"A\", \"C\", \"B\", \"D\", \"E\"]\n\nfor code in codes:\n    if code in collected:\n        print(\"Duplicate\")\n    else:\n        collected.add(code)\n        print(\"New\")\n    if len(collected) == 5:\n        print(\"Goal!\")\n        break\n\nprint(sorted(collected))\n```\n\n**執行過程：**\n1. 第一次：`code = \"A\"`，不在集合中 → 新增，印出 \"New\"，`collected = {\"A\"}`\n2. 第二次：`code = \"B\"`，不在集合中 → 新增，印出 \"New\"，`collected = {\"A\", \"B\"}`\n3. 第三次：`code = \"A\"`，已在集合中 → 印出 \"Duplicate\"，`collected = {\"A\", \"B\"}`\n4. 第四次：`code = \"C\"`，不在集合中 → 新增，印出 \"New\"，`collected = {\"A\", \"B\", \"C\"}`\n5. 第五次：`code = \"B\"`，已在集合中 → 印出 \"Duplicate\"\n6. 第六次：`code = \"D\"`，不在集合中 → 新增，印出 \"New\"，`collected = {\"A\", \"B\", \"C\", \"D\"}`\n7. 第七次：`code = \"E\"`，不在集合中 → 新增，印出 \"New\"，`collected = {\"A\", \"B\", \"C\", \"D\", \"E\"}`\n8. 檢查：`len(collected) == 5` → `True`，印出 \"Goal!\"，`break`\n9. 排序：`sorted(collected)` → `['A', 'B', 'C', 'D', 'E']`\n\n**結果：**\n```\nNew\nNew\nDuplicate\nNew\nDuplicate\nNew\nNew\nGoal!\n['A', 'B', 'C', 'D', 'E']\n```\n\n**記住：** \n- 用集合追蹤已收集的項目\n- 使用 `in` 檢查是否已存在\n- 使用 `add()` 新增元素\n- 使用 `len()` 檢查進度\n- 使用 `sorted()` 排序結果\n",
+  "exercise": "請建立一個空集合 collected = set()，然後依序加入 'A', 'B', 'A', 'C'。\n每次加入時，如果是新的就印出「New」，如果是重複的就印出「Duplicate」。\n最後印出排序後的集合。",
+  "hint": "使用 `in` 檢查是否已存在，使用 `add()` 新增。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "New\nNew\nDuplicate\nNew\n['A', 'B', 'C']\n"
+  },
+  "_order": 76
+}

@@ -1,0 +1,12 @@
+{
+  "id": "EX4-1",
+  "title": "While 迴圈",
+  "explanation": "\n## for 迴圈 vs while 迴圈\n\n除了 `for` 迴圈，Python 還提供 `while` 迴圈。\n\n**什麼時候用 for？**\n當您知道要執行幾次時，用 `for`。\n\n**什麼時候用 while？**\n當您不知道要執行幾次，只知道「條件成立就繼續」時，用 `while`。\n\n**生活中的類比：**\n- `for` = 「做 5 次」（知道次數）\n- `while` = 「做到完成為止」（不知道次數，只知道條件）\n\n## while 迴圈的語法\n\n```\nwhile 條件:\n    重複執行的程式碼\n```\n\n**執行流程：**\n1. 檢查條件\n2. 如果條件是 `True` → 執行程式碼，然後回到步驟 1\n3. 如果條件是 `False` → 跳出迴圈\n\n**為什麼需要冒號和縮排？**\n跟 `if` 和 `for` 一樣，`while` 後面需要冒號，區塊內的程式碼需要縮排。\n\n## 實際範例\n\n```\ncount = 0\nwhile count < 5:\n    print(count)\n    count = count + 1\n```\n\n**執行過程：**\n1. `count = 0`，檢查：`0 < 5` → `True` → 印出 0，`count = 1`\n2. 檢查：`1 < 5` → `True` → 印出 1，`count = 2`\n3. 檢查：`2 < 5` → `True` → 印出 2，`count = 3`\n4. 檢查：`3 < 5` → `True` → 印出 3，`count = 4`\n5. 檢查：`4 < 5` → `True` → 印出 4，`count = 5`\n6. 檢查：`5 < 5` → `False` → 跳出迴圈\n\n**結果：** 印出 0 到 4\n\n## 無限迴圈的危險\n\n**什麼是無限迴圈？**\n如果條件永遠是 `True`，迴圈就會永遠執行下去，程式會卡住！\n\n**錯誤範例：**\n```\ncount = 0\nwhile count < 5:\n    print(count)\n    # 忘記 count = count + 1！\n```\n`count` 永遠是 0，條件永遠是 `True`，迴圈永遠不會結束！\n\n**如何避免？**\n確保在迴圈內有程式碼會改變條件，讓條件最終變成 `False`。\n\n**記住：** 使用 `while` 時，一定要確保條件最終會變成 `False`，否則會形成無限迴圈！\n",
+  "exercise": "請使用 `while` 迴圈印出數字 1 到 5（每個數字一行）。",
+  "hint": "設定一個變數從 1 開始，在迴圈內印出並遞增，直到大於 5。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "1\n2\n3\n4\n5\n"
+  },
+  "_order": 21
+}

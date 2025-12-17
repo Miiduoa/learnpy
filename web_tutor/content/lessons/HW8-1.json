@@ -1,0 +1,12 @@
+{
+  "id": "HW8-1",
+  "title": "帳密檢查(功能表)：會員註冊(ID不能重複)",
+  "explanation": "\n## 為什麼需要會員系統？\n\n我們可以建立一個會員系統，使用字典來儲存帳號和密碼。\n\n**實際應用：**\n- 網站會員註冊\n- 使用者管理\n- 帳號驗證\n\n## 註冊功能\n\n**為什麼要檢查帳號是否存在？**\n因為每個帳號必須是唯一的，不能重複註冊。\n\n**邏輯：**\n- 如果帳號已存在 → 不能註冊\n- 如果帳號不存在 → 可以註冊\n\n**語法：**\n```\nif 帳號 in 字典:\n    print(\"帳號已存在\")\nelse:\n    字典[帳號] = 密碼\n    print(\"註冊成功\")\n```\n\n**為什麼用 in 檢查？**\n`in` 可以安全地檢查鍵是否存在，不會出錯。\n\n## 實際範例\n\n### 註冊功能\n```\nmembers = {}\nusername = \"newuser\"\npassword = \"newpass\"\n\nif username in members:\n    print(\"帳號已存在\")\nelse:\n    members[username] = password\n    print(\"註冊成功\")\n```\n\n**執行過程：**\n1. 檢查：`\"newuser\" in members` → `False`（帳號不存在）\n2. 執行 else：`members[\"newuser\"] = \"newpass\"`\n3. 字典變成 `{\"newuser\": \"newpass\"}`\n4. 印出：`註冊成功`\n\n**如果帳號已存在：**\n```\nmembers = {\"newuser\": \"newpass\"}\nusername = \"newuser\"\n\nif \"newuser\" in members:  # True\n    print(\"帳號已存在\")  # 不會註冊\n```\n\n## 登入功能\n\n**邏輯：**\n- 帳號必須存在\n- 密碼必須正確\n\n**語法：**\n```\nif 帳號 in 字典 and 字典[帳號] == 密碼:\n    print(\"登入成功\")\n```\n\n**為什麼用 and？**\n因為兩個條件都要成立：帳號存在**而且**密碼正確。\n\n## 實際範例\n\n```\nmembers = {\"user1\": \"pass1\"}\nusername = \"user1\"\npassword = \"pass1\"\n\nif username in members and members[username] == password:\n    print(\"登入成功\")\n```\n\n**執行過程：**\n1. 檢查：`\"user1\" in members` → `True`（帳號存在）\n2. 檢查：`members[\"user1\"] == \"pass1\"` → `\"pass1\" == \"pass1\"` → `True`（密碼正確）\n3. `True and True` → `True`\n4. 印出：`登入成功`\n\n**記住：** \n- 註冊前要檢查帳號是否已存在\n- 使用 `in` 檢查鍵是否存在\n- 登入需要兩個條件：帳號存在**而且**密碼正確\n",
+  "exercise": "有一個會員字典 members = {'user1': 'pass1'}。\n請檢查新帳號 new_user = 'user2' 是否已存在。如果不存在，將 new_user 和密碼 'pass2' 加入字典，並印出「註冊成功」。如果已存在，印出「帳號已存在」。",
+  "hint": "使用 `in` 檢查鍵是否存在。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "註冊成功\n"
+  },
+  "_order": 69
+}

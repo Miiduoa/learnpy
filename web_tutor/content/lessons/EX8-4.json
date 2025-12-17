@@ -1,0 +1,12 @@
+{
+  "id": "EX8-4",
+  "title": "startswith(), lower()",
+  "explanation": "\n## 字串方法：startswith()\n\n字串的 `startswith()` 方法可以檢查字串是否以特定字串開頭。\n\n**為什麼需要 startswith()？**\n有時候我們需要檢查字串的開頭，例如：\n- 檢查檔案名稱是否以特定副檔名開頭\n- 檢查網址是否以 \"http\" 開頭\n- 檢查郵件是否以特定前綴開頭\n\n**語法：**\n```\n字串.startswith(要檢查的前綴)\n```\n\n**回傳值：**\n- `True`：如果字串以指定前綴開頭\n- `False`：如果字串不以指定前綴開頭\n\n## 實際範例\n\n```\ntext = \"Hello World\"\nprint(text.startswith(\"Hello\"))  # True\nprint(text.startswith(\"World\"))  # False\n```\n\n**執行過程：**\n1. `text.startswith(\"Hello\")`：\n   - 檢查 \"Hello World\" 是否以 \"Hello\" 開頭\n   - 是 → 回傳 `True`\n2. `text.startswith(\"World\")`：\n   - 檢查 \"Hello World\" 是否以 \"World\" 開頭\n   - 否 → 回傳 `False`\n\n## 字串方法：lower()\n\n`lower()` 方法可以將所有字母轉換為小寫。\n\n**為什麼需要 lower()？**\n有時候我們需要統一格式，例如：\n- 將使用者輸入轉換為小寫來比較\n- 統一資料格式\n- 避免大小寫造成的問題\n\n**語法：**\n```\n字串.lower()\n```\n\n**與 upper() 的對比：**\n- `upper()` → 轉大寫\n- `lower()` → 轉小寫\n\n## 實際範例\n\n```\ntext = \"Hello World\"\nprint(text.lower())  # \"hello world\"\n```\n\n**執行過程：**\n1. `text.lower()` → 將所有字母轉為小寫\n2. 回傳 \"hello world\"\n3. 印出結果\n\n**注意：** `lower()` 不會改變原字串，而是回傳新的字串（因為字串是不可變的）。\n\n## 組合使用\n\n**為什麼可以組合？**\n因為方法可以「鏈式呼叫」，一個方法的結果可以立即呼叫另一個方法。\n\n**範例：**\n```\ntext = \"Hello World\"\nif text.lower().startswith(\"hello\"):\n    print(\"以小寫 hello 開頭\")\n```\n\n**執行過程：**\n1. `text.lower()` → \"hello world\"\n2. `\"hello world\".startswith(\"hello\")` → `True`\n3. 印出訊息\n\n**記住：** \n- `startswith()` 檢查開頭\n- `lower()` 轉小寫\n- 字串方法不會改變原字串，而是回傳新字串\n",
+  "exercise": "有一個字串 text = 'Python Programming'。請檢查它是否以 'Python' 開頭，如果是，印出「是」，否則印出「否」。",
+  "hint": "使用 `startswith()` 方法。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "是\n"
+  },
+  "_order": 65
+}

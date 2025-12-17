@@ -1,0 +1,12 @@
+{
+  "id": "EX10-5D",
+  "title": "Local variable vs. Global variable (列表)",
+  "explanation": "\n## 可變物件 vs 不可變物件\n\n對於**可變物件**（如列表、字典），即使不使用 `global`，也可以修改其內容，但不能重新賦值。\n\n**什麼是可變物件？**\n可以修改內容的物件，例如列表、字典、集合。\n\n**什麼是不可變物件？**\n不能修改內容的物件，例如數字、字串、元組。\n\n## 為什麼列表可以修改？\n\n**重要區別：**\n- **修改內容**：`my_list.append(4)` → 不需要 `global`\n- **重新賦值**：`my_list = [5, 6]` → 需要 `global` 或會建立區域變數\n\n**為什麼修改內容不需要 global？**\n因為 Python 看到 `my_list.append()` 時，會先找 `my_list` 這個變數。如果函數內沒有定義 `my_list`，就會使用全域的 `my_list`。\n\n**為什麼重新賦值需要 global？**\n因為 `my_list = [5, 6]` 是「賦值」，Python 會認為這是建立新的區域變數。\n\n## 實際範例\n\n### 修改內容（不需要 global）\n\n```\nmy_list = [1, 2, 3]  # 全域變數\n\ndef modify_list():\n    my_list.append(4)  # 可以修改內容 ✓\n\nmodify_list()\nprint(my_list)  # [1, 2, 3, 4]\n```\n\n**執行過程：**\n1. 定義全域列表 `my_list = [1, 2, 3]`\n2. 呼叫函數 `modify_list()`\n3. `my_list.append(4)`：\n   - Python 找不到區域變數 `my_list`\n   - 使用全域變數 `my_list`\n   - 修改列表內容\n4. 印出：`[1, 2, 3, 4]`（全域列表被修改）\n\n### 重新賦值（會建立區域變數）\n\n```\nmy_list = [1, 2, 3]  # 全域變數\n\ndef modify_list():\n    my_list = [5, 6]  # 這樣會建立新的區域變數 ✗\n\nmodify_list()\nprint(my_list)  # [1, 2, 3]（全域列表沒有改變）\n```\n\n**執行過程：**\n1. 定義全域列表 `my_list = [1, 2, 3]`\n2. 呼叫函數 `modify_list()`\n3. `my_list = [5, 6]`：\n   - Python 認為這是「賦值」\n   - 建立新的區域變數 `my_list = [5, 6]`\n   - 全域變數不受影響\n4. 函數結束，區域變數消失\n5. 印出：`[1, 2, 3]`（全域列表沒有改變）\n\n## 如果要重新賦值\n\n**需要使用 global：**\n```\nmy_list = [1, 2, 3]\n\ndef modify_list():\n    global my_list\n    my_list = [5, 6]  # 修改全域變數 ✓\n\nmodify_list()\nprint(my_list)  # [5, 6]\n```\n\n**記住：** \n- 修改可變物件的內容：不需要 `global`\n- 重新賦值可變物件：需要 `global`\n- 不可變物件（數字、字串）：修改需要 `global`\n",
+  "exercise": "有一個全域列表 `data = [10, 20]`。請定義一個函數 `add_item()`，在函數內使用 `data.append(30)` 新增元素。\n呼叫函數後，印出 `data`。",
+  "hint": "可以直接修改列表內容，不需要 `global`。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "[10, 20, 30]\n"
+  },
+  "_order": 88
+}

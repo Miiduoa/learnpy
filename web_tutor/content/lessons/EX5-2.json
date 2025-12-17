@@ -1,0 +1,12 @@
+{
+  "id": "EX5-2",
+  "title": "List-設定初值，新增元素",
+  "explanation": "\n## 為什麼需要設定初值？\n\n我們可以在建立列表時就設定初始值，然後再新增元素。\n\n**為什麼不直接用空列表？**\n有時候我們已經知道一些初始資料，可以先設定，之後再動態新增。\n\n**兩種方式：**\n1. 空列表 + 逐步新增\n2. 有初值的列表 + 繼續新增\n\n## 建立有初值的列表\n\n**語法：**\n```\n列表名稱 = [元素1, 元素2, ...]\n```\n\n**為什麼用方括號？**\n方括號 `[]` 告訴 Python 這是一個列表。\n\n**為什麼用逗號分隔？**\n逗號讓 Python 知道這是不同的元素。\n\n## 新增元素：append() 方法\n\n**語法：**\n```\n列表名稱.append(要新增的元素)\n```\n\n**為什麼叫 append？**\n`append` 是「附加」的意思，表示在列表的**末尾**新增元素。\n\n**為什麼在末尾？**\n因為這樣可以保持元素的順序，新元素總是加在最後。\n\n## 實際範例\n\n```\nfruits = [\"apple\", \"banana\"]\nfruits.append(\"orange\")\nprint(fruits)  # 會印出 ['apple', 'banana', 'orange']\n```\n\n**執行過程：**\n1. 建立列表 `[\"apple\", \"banana\"]`\n2. 使用 `append(\"orange\")` 在末尾新增元素\n3. 列表變成 `['apple', 'banana', 'orange']`\n4. 印出列表\n\n**結果：** `['apple', 'banana', 'orange']`\n\n**記住：** \n- 可以在建立列表時設定初值\n- `append()` 在列表末尾新增元素\n- 列表可以動態增長\n",
+  "exercise": "請建立一個列表 colors = ['red', 'blue']，然後新增 'green'，最後印出列表。",
+  "hint": "使用 `append()` 方法。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "['red', 'blue', 'green']\n"
+  },
+  "_order": 38
+}

@@ -1,0 +1,12 @@
+{
+  "id": "EX5-5",
+  "title": "List-配合For-Else & count()",
+  "explanation": "\n## for-else 的特殊語法\n\n`for-else` 是 Python 的特殊語法，很多人不知道這個功能！\n\n**基本語法：**\n```\nfor 變數 in 範圍:\n    # 迴圈內容\n    if 某個條件:\n        break\nelse:\n    # else 區塊\n```\n\n**執行規則：**\n- 如果迴圈**正常結束**（沒有 break）→ 會執行 `else` 區塊\n- 如果迴圈被 `break` 中斷 → **不會**執行 `else` 區塊\n\n**為什麼需要 for-else？**\n有時候我們想要知道「迴圈是否正常完成」，例如「是否找到了目標」。\n\n**生活中的類比：**\n- 正常結束 = 找遍了所有地方都沒找到 → 執行 else（例如「沒找到」）\n- break = 找到了就停止 → 不執行 else\n\n**注意：** 這跟 `if-else` 的 `else` 不同！`for-else` 的 `else` 是「迴圈正常結束時執行」。\n\n## count() 方法\n\n**作用：** 計算列表中某個元素出現的次數\n\n**語法：**\n```\n列表名稱.count(要計算的元素)\n```\n\n**為什麼需要 count()？**\n有時候我們需要統計某個元素在列表中出現幾次，例如「有多少人得到滿分」。\n\n**執行方式：**\nPython 會遍歷整個列表，計算指定元素出現的次數。\n\n## 實際範例\n\n```\nnumbers = [1, 2, 3, 2, 4, 2]\ncount = numbers.count(2)\nprint(count)  # 會印出 3\n```\n\n**執行過程：**\n1. Python 遍歷列表 `[1, 2, 3, 2, 4, 2]`\n2. 計算數字 2 出現的次數：\n   - 索引 1：2 ✓\n   - 索引 3：2 ✓\n   - 索引 5：2 ✓\n3. 總共出現 3 次\n4. 印出 3\n\n**記住：** \n- `for-else` 的 `else` 只在迴圈正常結束時執行\n- `count()` 會計算整個列表中指定元素的出現次數\n",
+  "exercise": "有一個列表 `numbers = [1, 2, 3, 2, 4, 2, 5]`。請計算數字 2 出現的次數並印出。",
+  "hint": "使用 `count()` 方法。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "3\n"
+  },
+  "_order": 41
+}

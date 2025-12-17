@@ -1,0 +1,12 @@
+{
+  "id": "EX10-1",
+  "title": "function bigger()。印出一年四季的最大產量",
+  "explanation": "\n## 為什麼需要比較函數？\n\n函數可以接受多個參數並進行比較。建立一個「比較兩個數」的函數，可以讓我們重複使用這個邏輯。\n\n**沒有函數的問題：**\n每次要比較兩個數，都要寫一次 `if-else`，程式碼會重複。\n\n**使用函數：**\n寫一次比較函數，之後就可以重複使用！\n\n## 建立比較函數\n\n### bigger() 函數\n\n**作用：** 比較兩個數，回傳較大的數\n\n**語法：**\n```\ndef bigger(a, b):\n    if a > b:\n        return a\n    else:\n        return b\n```\n\n**執行邏輯：**\n1. 如果 `a > b` → 回傳 `a`\n2. 否則 → 回傳 `b`\n\n**為什麼需要 else？**\n因為如果 `a` 不大於 `b`，那麼 `b` 就是較大的（或相等，但我們回傳 `b`）。\n\n## 組合函數\n\n**為什麼可以組合函數？**\n函數可以呼叫其他函數！這讓我們可以建立更複雜的功能。\n\n### max_of_four() 函數\n\n**作用：** 找出四個數中的最大值\n\n**策略：**\n1. 先比較前兩個數，找出較大的\n2. 再比較後兩個數，找出較大的\n3. 最後比較這兩個結果，找出最大的\n\n**語法：**\n```\ndef max_of_four(a, b, c, d):\n    return bigger(bigger(a, b), bigger(c, d))\n```\n\n**執行過程：**\n1. `bigger(a, b)` → 假設回傳 `a`（如果 a > b）\n2. `bigger(c, d)` → 假設回傳 `d`（如果 d > c）\n3. `bigger(結果1, 結果2)` → 比較 `a` 和 `d`，回傳較大的\n\n**為什麼這樣可以找到最大值？**\n因為我們先找出「前兩個的最大值」和「後兩個的最大值」，然後再找出「這兩個最大值的最大值」，就是四個數的最大值！\n\n## 實際範例\n\n```\ndef bigger(a, b):\n    if a > b:\n        return a\n    else:\n        return b\n\ndef max_of_four(a, b, c, d):\n    return bigger(bigger(a, b), bigger(c, d))\n\nq1, q2, q3, q4 = 100, 150, 120, 180\nmax_production = max_of_four(q1, q2, q3, q4)\nprint(max_production)\n```\n\n**執行過程：**\n1. `bigger(100, 150)` → 回傳 150\n2. `bigger(120, 180)` → 回傳 180\n3. `bigger(150, 180)` → 回傳 180\n4. 印出 180\n\n**記住：** 函數可以呼叫其他函數，讓我們可以建立複雜的功能！\n",
+  "exercise": "請定義一個函數 `bigger(a, b)`，回傳較大的數。\n然後定義 `max_four(a, b, c, d)`，使用 `bigger` 函數找出四個數中的最大值。\n最後呼叫 `max_four(10, 20, 15, 25)` 並印出結果。",
+  "hint": "使用 `bigger` 函數來比較兩組數，然後再比較結果。",
+  "validator": {
+    "type": "stdout_equals",
+    "expected_output": "25\n"
+  },
+  "_order": 81
+}
