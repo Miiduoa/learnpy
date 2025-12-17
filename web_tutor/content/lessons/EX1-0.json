@@ -1,12 +1,11 @@
 {
   "id": "EX1-0",
   "title": "使用 print() 印出訊息",
-  "explanation": "\n## 什麼是 print()？\n\n在 Python 中，「函式」(function) 就像一個小工具，可以幫我們完成特定的任務。\n`print()` 是您會學到的第一個，也是最有用的函式之一。\n\n**它的功能是什麼？**\n`print()` 的功能是將您指定的任何文字、數字或其他資料「印」在螢幕上，讓您可以看到結果。\n\n## 為什麼需要引號？\n\n當您想要印出文字時，Python 需要知道「這是文字，不是程式碼指令」。\n**引號的作用就是告訴 Python：「這裡面的內容是文字，請直接印出來，不要當作程式碼執行。」**\n\n例如：\n- 沒有引號：`print(Hello)` → Python 會以為 `Hello` 是一個變數名稱，會出錯！\n- 有引號：`print(\"Hello\")` → Python 知道這是文字，會直接印出 Hello\n\n## 引號的種類\n\nPython 接受兩種引號：\n- **雙引號** `\"`：例如 `\"Hello\"`\n- **單引號** `'`：例如 `'Hello'`\n\n兩種都可以用，效果完全一樣！選擇您喜歡的就好。\n\n## 完整的語法結構\n\n讓我們拆解 `print(\"Hello, World!\")` 這行程式碼：\n\n1. **`print`** - 這是函式的名稱，告訴 Python 要執行「印出」這個動作\n2. **`()`** - 這是括號，裡面放要印出的內容\n3. **`\"Hello, World!\"`** - 這是用引號包起來的文字（我們稱為「字串」）\n\n**為什麼需要括號？**\n括號告訴 Python：「這些是要傳給 print() 函式的資料」。就像打電話時，您需要把要說的話放在電話聽筒裡一樣！\n\n## 實際範例\n\n要印出 \"Hello, World!\"，您可以這樣寫：\n\n```\nprint(\"Hello, World!\")\n```\n\n**逐步說明：**\n- `print` → 我要使用「印出」功能\n- `(` → 開始告訴 Python 要印什麼\n- `\"Hello, World!\"` → 要印的文字（用引號包起來）\n- `)` → 結束，告訴 Python 就是這些了\n\n執行後，螢幕上就會顯示：`Hello, World!`\n\n**注意：** 引號本身不會被印出來，它們只是用來標記文字的範圍！\n",
+  "explanation": "## 歡迎來到 Python 的世界！\n\n在學習任何程式語言時，第一個傳統就是學會讓電腦說「Hello」。\n\n在 Python 中，我們使用 `print()` 函式將訊息顯示在螢幕上。\n\n### 語法結構\n\n```python\nprint(\"這裡放你想說的話\")\n```\n\n**重點說明：**\n1. `print` 是指令名稱，全部小寫。\n2. `()` 小括號用來包住要印出的內容。\n3. `\"\"` 雙引號（或單引號 `' '`）用來告訴 Python 這裡面是文字（字串）。\n\n### 範例\n\n```python\nprint(\"Hello, World!\")\n```",
   "exercise": "輪到您了！請寫一行程式碼，在螢幕上印出 **Hello, Python!**",
   "hint": "使用 print() 函式，並將 Hello, Python! 這段文字放在括號和引號中。",
   "validator": {
     "type": "stdout_equals",
     "expected_output": "Hello, Python!\n"
-  },
-  "_order": 0
+  }
 }

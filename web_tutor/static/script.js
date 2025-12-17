@@ -3035,6 +3035,24 @@ sys.stderr = _original_stderr
     // Update keyboard shortcuts to include new features
     // (The existing keyboard shortcuts handler is already defined above)
 
+    // --- Unsaved Changes Warning ---
+    window.addEventListener('beforeunload', (e) => {
+        // Check if there are unsaved drafts or unexported progress
+        // Note: draftStatus is 'dirty' when typing, but quickly becomes 'saved' (auto-save to localStorage).
+        // However, localStorage is not permanent storage (user might clear it).
+        // We prompt if they have completed lessons but haven't exported recently (simplified logic: just prompt if there is progress).
+
+        const hasProgress = completedLessons.size > 0;
+        const hasDraft = codeEditor && codeEditor.value.trim().length > 0;
+
+        if (hasProgress || hasDraft) {
+            // Standard way to trigger browser's confirmation dialog
+            e.preventDefault();
+            e.returnValue = '';
+            return '';
+        }
+    });
+
     // --- Start the App ---
     initializeApp();
     updateLineNumbers();

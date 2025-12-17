@@ -1,54 +1,46 @@
-# lessons.py
 import json
-import logging
+import os
 from pathlib import Path
-from typing import List, Dict, Any
+import glob
 
-# This file contains the curriculum for the Python tutor.
-# It now loads lessons from the 'content/lessons' directory.
+# Get the directory where this file is located
+BASE_DIR = Path(__file__).parent
+CONTENT_DIR = BASE_DIR / "content" / "lessons"
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-def load_lessons() -> List[Dict[str, Any]]:
+def load_lessons():
     """
-    Loads lessons from the content/lessons directory JSON files.
-    Sorts them based on the '_order' field.
+    Load lessons from JSON files in the content/lessons directory.
+    Values are sorted by their filename (or _order field if present).
     """
-    current_dir = Path(__file__).parent
-    lessons_dir = current_dir / "content" / "lessons"
+    lessons = []
     
-    if not lessons_dir.exists():
-        logger.warning(f"Lessons directory not found at {lessons_dir}")
+    # Ensure the directory exists
+    if not CONTENT_DIR.exists():
+        print(f"Warning: Content directory not found at {CONTENT_DIR}")
         return []
-        
-    loaded_lessons = []
+
+    # Get all .json files
+    json_files = sorted(glob.glob(str(CONTENT_DIR / "*.json")))
     
-    try:
-        # Iterate over all .json files
-        for file_path in lessons_dir.glob("*.json"):
-            try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    lesson_data = json.load(f)
-                    # Use filename as fallback ID if not present
-                    if "id" not in lesson_data:
-                        lesson_data["id"] = file_path.stem
-                    loaded_lessons.append(lesson_data)
-            except json.JSONDecodeError as e:
-                logger.error(f"Error decoding JSON from {file_path}: {e}")
-            except Exception as e:
-                logger.error(f"Error reading lesson file {file_path}: {e}")
+    for file_path in json_files:
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                lesson_data = json.load(f)
                 
-        # Sort lessons by _order field (default to infinite if missing to put at end)
-        loaded_lessons.sort(key=lambda x: x.get("_order", float('inf')))
-        
-        logger.info(f"Successfully loaded {len(loaded_lessons)} lessons")
-        return loaded_lessons
-        
-    except Exception as e:
-        logger.error(f"Critical error loading lessons: {e}")
-        return []
+                # Basic validation
+                if 'id' in lesson_data and 'title' in lesson_data:
+                    lessons.append(lesson_data)
+                else:
+                    print(f"Warning: Skipped invalid lesson file {os.path.basename(file_path)} (missing id or title)")
+        except Exception as e:
+            print(f"Error loading lesson from {os.path.basename(file_path)}: {e}")
+            
+    # Optional: Sort by a custom order field if you have it, 
+    # otherwise they are sorted by filename (EX1-0, EX1-1...) which is usually correct
+    # for well-named files.
+    # If you need specific ordering logic, implement it here.
+    
+    return lessons
 
-# Initialize the LESSONS list
+# Load lessons immediately when module is imported
 LESSONS = load_lessons()
