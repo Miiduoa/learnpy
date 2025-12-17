@@ -3604,3 +3604,53 @@ body.dark-theme .input-row input {
     background: var(--error-light);
     opacity: 0.2;
 }
+
+/* Parsons Indentation Support */
+.parsons-block {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    justify-content: space-between;
+}
+
+.parsons-block-content {
+    flex: 1;
+    font-family: var(--font-mono);
+}
+
+.parsons-controls {
+    display: flex;
+    gap: 2px;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+}
+
+.parsons-block:hover .parsons-controls {
+    opacity: 1;
+}
+
+.parsons-btn {
+    background: var(--bg-quaternary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 10px;
+    padding: 0;
+}
+
+.parsons-btn:hover {
+    background: var(--primary-100);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.parsons-block[data-indent="1"] { margin-left: 20px; }
+.parsons-block[data-indent="2"] { margin-left: 40px; }
+.parsons-block[data-indent="3"] { margin-left: 60px; }
+.parsons-block[data-indent="4"] { margin-left: 80px; }

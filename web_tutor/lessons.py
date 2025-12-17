@@ -99,7 +99,8 @@ print("Hello, World!")
         ],
         "validator": {
             "type": "parsons_order",
-            "expected_order": [2, 0, 1]  # Indices of the original blocks in the correct order
+            "expected_order": [2, 0, 1],  # Indices of the original blocks in the correct order
+            "expected_indentation": [0, 0, 0]
         }
     },
     {

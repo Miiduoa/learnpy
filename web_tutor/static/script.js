@@ -1805,12 +1805,30 @@ builtins.input = _fallback_input
         resetButton.addEventListener('click', () => {
             const lesson = lessons[currentLessonIndex];
             if (lesson) {
-                const draft = restoreDraft(lesson.id);
-                codeEditor.value = draft || '';
-                updateLineNumbers();
-                outputConsole.textContent = '程式碼已重置。';
-                outputConsole.className = '';
-                setDraftState(draft ? 'restored' : 'empty');
+                if (lesson.type === 'parsons') {
+                    // Handle Parsons Reset
+                    localStorage.removeItem(`parsons_state_${lesson.id}`);
+                    initializeParsonsProblem(lesson);
+                    outputConsole.textContent = '積木已重置，請重新排列。';
+                    outputConsole.className = '';
+                    // Also clear the hidden editor buffer
+                    codeEditor.value = '';
+                    // Reset visual feedback
+                    const targetContainer = document.getElementById('parsons-target');
+                    if (targetContainer) {
+                        const blocks = targetContainer.querySelectorAll('.parsons-block');
+                        blocks.forEach(el => el.classList.remove('parsons-correct', 'parsons-incorrect'));
+                    }
+                } else {
+                    // Handle Standard Reset
+                    const draft = restoreDraft(lesson.id);
+                    codeEditor.value = draft || '';
+                    updateLineNumbers();
+                    outputConsole.textContent = '程式碼已重置。';
+                    outputConsole.className = '';
+                    setDraftState(draft ? 'restored' : 'empty');
+                }
+
                 updateWorkflowState();
                 if (errorDetails) errorDetails.style.display = 'none';
                 if (outputComparison) outputComparison.style.display = 'none';
@@ -3026,50 +3044,61 @@ sys.stderr = _original_stderr
 // --- Parsons Problem Logic ---
 function initializeParsonsProblem(lesson) {
     const parsonsContainer = document.getElementById('parsons-container');
-    const editorContainer = document.getElementById('editor-container');
-    const codeEditorElement = document.getElementById('code-editor'); // Textarea
-    const codeEditorWrapper = codeEditorElement.parentElement; // Editor container
     const sourceContainer = document.getElementById('parsons-source');
     const targetContainer = document.getElementById('parsons-target');
 
     if (!parsonsContainer || !sourceContainer || !targetContainer) return;
 
+    // Smart Guide should be disabled for Parsons to avoid confusion
+    if (smartGuide) smartGuide.isActive = false;
+
     // Reset containers
     sourceContainer.innerHTML = '';
+    targetContainer.innerHTML = '';
+
     const placeholder = document.createElement('div');
     placeholder.className = 'parsons-placeholder';
     placeholder.textContent = '拖拉積木到這裡...';
-    targetContainer.innerHTML = '';
     targetContainer.appendChild(placeholder);
 
-    // Shuffle and render blocks
-    const blocks = [...(lesson.parsons_blocks || [])].map((code, index) => ({ code, originalIndex: index }));
-    // Simple shuffle
-    blocks.sort(() => Math.random() - 0.5);
+    // Try to load saved state
+    const savedState = loadParsonsState(lesson.id);
+    let blocksToRender = [];
 
-    blocks.forEach((block, displayIndex) => {
-        const el = document.createElement('div');
-        el.className = 'parsons-block';
-        el.textContent = block.code;
-        el.dataset.code = block.code;
-        el.dataset.originalIndex = block.originalIndex;
-        sourceContainer.appendChild(el);
-    });
+    if (savedState && savedState.source && savedState.target) {
+        // Render from saved state
+        savedState.source.forEach(b => renderBlock(b, sourceContainer));
+        savedState.target.forEach(b => renderBlock(b, targetContainer));
+        if (savedState.target.length > 0) placeholder.style.display = 'none';
+    } else {
+        // Initial state: all in source, shuffled
+        const blocks = [...(lesson.parsons_blocks || [])].map((code, index) => ({
+            code,
+            originalIndex: index,
+            indent: 0
+        }));
+        blocks.sort(() => Math.random() - 0.5);
+        blocks.forEach(b => renderBlock(b, sourceContainer));
+    }
 
     // Initialize Sortable
     if (typeof Sortable !== 'undefined') {
-        new Sortable(sourceContainer, {
+        const commonOptions = {
             group: 'parsons',
             animation: 150,
-            sort: false // Source list is not sortable by user, only draggable FROM
-        });
+            onEnd: () => {
+                saveParsonsState(lesson.id);
+                updateParsonsCode();
+            }
+        };
 
+        new Sortable(sourceContainer, { ...commonOptions, sort: false });
         new Sortable(targetContainer, {
-            group: 'parsons',
-            animation: 150,
+            ...commonOptions,
             onAdd: function (evt) {
                 const placeholder = targetContainer.querySelector('.parsons-placeholder');
                 if (placeholder) placeholder.style.display = 'none';
+                saveParsonsState(lesson.id);
                 updateParsonsCode();
             },
             onRemove: function (evt) {
@@ -3078,12 +3107,92 @@ function initializeParsonsProblem(lesson) {
                     const p = targetContainer.querySelector('.parsons-placeholder');
                     if (p) p.style.display = 'block';
                 }
-                updateParsonsCode();
-            },
-            onSort: function (evt) {
+                saveParsonsState(lesson.id);
                 updateParsonsCode();
             }
         });
+    }
+}
+
+function renderBlock(blockData, container) {
+    const el = document.createElement('div');
+    el.className = 'parsons-block';
+    el.dataset.code = blockData.code;
+    el.dataset.originalIndex = blockData.originalIndex;
+    // Ensure indent is a number
+    let indent = parseInt(blockData.indent || 0);
+    el.dataset.indent = indent;
+
+    const content = document.createElement('span');
+    content.className = 'parsons-block-content';
+    content.textContent = blockData.code;
+
+    const controls = document.createElement('div');
+    controls.className = 'parsons-controls';
+
+    const indentBtn = document.createElement('button');
+    indentBtn.className = 'parsons-btn';
+    indentBtn.textContent = '>';
+    indentBtn.title = '增加縮排';
+    indentBtn.onclick = (e) => {
+        e.stopPropagation(); // Prevent drag start
+        let current = parseInt(el.dataset.indent || 0);
+        if (current < 4) {
+            el.dataset.indent = current + 1;
+            saveParsonsState(lessons[currentLessonIndex].id);
+            updateParsonsCode();
+        }
+    };
+
+    const unindentBtn = document.createElement('button');
+    unindentBtn.className = 'parsons-btn';
+    unindentBtn.textContent = '<';
+    unindentBtn.title = '減少縮排';
+    unindentBtn.onclick = (e) => {
+        e.stopPropagation();
+        let current = parseInt(el.dataset.indent || 0);
+        if (current > 0) {
+            el.dataset.indent = current - 1;
+            saveParsonsState(lessons[currentLessonIndex].id);
+            updateParsonsCode();
+        }
+    };
+
+    controls.appendChild(unindentBtn);
+    controls.appendChild(indentBtn);
+
+    el.appendChild(content);
+    el.appendChild(controls);
+    container.appendChild(el);
+}
+
+function saveParsonsState(lessonId) {
+    const sourceContainer = document.getElementById('parsons-source');
+    const targetContainer = document.getElementById('parsons-target');
+    if (!sourceContainer || !targetContainer) return;
+
+    const getState = (container) => {
+        return Array.from(container.querySelectorAll('.parsons-block')).map(el => ({
+            code: el.dataset.code,
+            originalIndex: parseInt(el.dataset.originalIndex),
+            indent: parseInt(el.dataset.indent || 0)
+        }));
+    };
+
+    const state = {
+        source: getState(sourceContainer),
+        target: getState(targetContainer)
+    };
+    localStorage.setItem(`parsons_state_${lessonId}`, JSON.stringify(state));
+}
+
+function loadParsonsState(lessonId) {
+    try {
+        const saved = localStorage.getItem(`parsons_state_${lessonId}`);
+        return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+        console.error('Load parsons state failed', e);
+        return null;
     }
 }
 
@@ -3095,11 +3204,15 @@ function updateParsonsCode() {
 
     // Collect code from blocks in target container
     const blocks = Array.from(targetContainer.querySelectorAll('.parsons-block'));
-    const code = blocks.map(el => el.dataset.code).join('\n');
+    // Construct string with indentation
+    const code = blocks.map(el => {
+        const indent = parseInt(el.dataset.indent || 0);
+        const spaces = '    '.repeat(indent);
+        return spaces + el.dataset.code;
+    }).join('\n');
 
     // Sync to hidden editor for execution
     codeEditor.value = code;
-    // Also trigger input event if needed for state updates
     codeEditor.dispatchEvent(new Event('input'));
 }
 
@@ -3108,24 +3221,29 @@ function checkParsonsSolution(lesson) {
     if (!targetContainer) return { isCorrect: false, message: '找不到容器' };
 
     const blocks = Array.from(targetContainer.querySelectorAll('.parsons-block'));
-    const currentOrder = blocks.map(el => parseInt(el.dataset.originalIndex));
+    const currentIndices = blocks.map(el => parseInt(el.dataset.originalIndex));
+    const currentIndents = blocks.map(el => parseInt(el.dataset.indent || 0));
 
     const expectedOrder = lesson.validator.expected_order;
+    const expectedIndentation = lesson.validator.expected_indentation || Array(expectedOrder.length).fill(0);
 
-    // Simple array comparison
-    if (currentOrder.length !== expectedOrder.length) {
-        return { isCorrect: false, message: '積木數目不正確' };
+    if (currentIndices.length !== expectedOrder.length) {
+        return { isCorrect: false, message: `積木數目不正確（目前 ${currentIndices.length} 個，應為 ${expectedOrder.length} 個）` };
     }
 
-    for (let i = 0; i < currentOrder.length; i++) {
-        if (currentOrder[i] !== expectedOrder[i]) {
-            const isCorrect = false;
-            // Special check: sometimes valid code order might differ from exact block ID if blocks are identical, 
-            // but usually parsons blocks are unique lines or we enforce strict order.
-            // For now strict order of original indices.
+    // Check Order
+    for (let i = 0; i < currentIndices.length; i++) {
+        if (currentIndices[i] !== expectedOrder[i]) {
             return { isCorrect: false, message: '順序不正確，請再試試！' };
         }
     }
 
-    return { isCorrect: true, message: '太棒了！邏輯順序正確！' };
+    // Check Indentation
+    for (let i = 0; i < currentIndents.length; i++) {
+        if (currentIndents[i] !== expectedIndentation[i]) {
+            return { isCorrect: false, message: '順序正確，但縮排有誤。請使用 < > 按鈕調整縮排。' };
+        }
+    }
+
+    return { isCorrect: true, message: '太棒了！邏輯與縮排都正確！' };
 }
