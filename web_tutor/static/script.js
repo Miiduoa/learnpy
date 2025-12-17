@@ -2642,10 +2642,8 @@ sys.stderr = _original_stderr
         }
 
         const cdnUrls = [
-            'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js',
-            'https://unpkg.com/pyodide@0.24.1/pyodide.js',
-            'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js', // Fallback to older version
-            'https://cdn.jsdelivr.net/pyodide/v0.22.1/full/pyodide.js'  // Another fallback
+            'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js',
+            'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js' // Fallback
         ];
 
         let lastError = null;
