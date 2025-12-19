@@ -155,13 +155,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Test 2: Check CDN accessibility
         loadingStatus.innerHTML += '2. 檢查 CDN 可訪問性...<br>';
         const cdns = [
-            'https://cdn.jsdelivr.net',
-            'https://unpkg.com'
+            'https://cdn.jsdelivr.net'
         ];
 
         for (const cdn of cdns) {
             try {
-                const testUrl = `${cdn}/pyodide/v0.24.1/full/pyodide.js`;
+                const testUrl = `${cdn}/pyodide/v0.25.0/full/pyodide.js`;
                 const response = await fetch(testUrl, {
                     method: 'HEAD',
                     mode: 'no-cors',
