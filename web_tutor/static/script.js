@@ -453,8 +453,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     // Try multiple CDN URLs for Pyodide
                     const pyodideUrls = [
+                        'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/',
                         'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/',
-                        'https://unpkg.com/pyodide@0.24.1/full/',
                         'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/',
                         'https://cdn.jsdelivr.net/pyodide/v0.22.1/full/'
                     ];
@@ -466,9 +466,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         const indexURL = pyodideUrls[i];
                         try {
                             console.log(`[PYODIDE] 嘗試從 ${indexURL} 初始化 Pyodide... (${i + 1}/${pyodideUrls.length})`);
-                            // #region agent log
-                            fetch('http://127.0.0.1:7245/ingest/4878f399-ca54-4502-bbf3-9f36d018f9f5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H1',location:'script.js:468',message:'pyodide attempt start',data:{indexURL:indexURL,attempt:i+1,total:pyodideUrls.length},timestamp:Date.now()})}).catch(()=>{});
-                            // #endregion
                             if (outputConsole) {
                                 outputConsole.textContent = `正在初始化 Pyodide... (來源 ${i + 1}/${pyodideUrls.length})\n這可能需要 30-60 秒，請耐心等待...`;
                             }
@@ -491,9 +488,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             ]);
 
                             pyodideLoaded = true;
-                            // #region agent log
-                            fetch('http://127.0.0.1:7245/ingest/4878f399-ca54-4502-bbf3-9f36d018f9f5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H2',location:'script.js:490',message:'pyodide attempt success',data:{indexURL:indexURL,attempt:i+1},timestamp:Date.now()})}).catch(()=>{});
-                            // #endregion
                             console.log(`[PYODIDE] ✓ 成功從 ${indexURL} 初始化`);
                             if (loadingStatus) {
                                 loadingStatus.innerHTML = `步驟 2/3: ✓ 成功從來源 ${i + 1} 初始化`;
@@ -504,9 +498,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             break;
                         } catch (err) {
                             lastPyodideError = err;
-                            // #region agent log
-                            fetch('http://127.0.0.1:7245/ingest/4878f399-ca54-4502-bbf3-9f36d018f9f5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'H3',location:'script.js:500',message:'pyodide attempt failure',data:{indexURL:indexURL,attempt:i+1,error:String(err)},timestamp:Date.now()})}).catch(()=>{});
-                            // #endregion
                             console.error(`[PYODIDE] 從 ${indexURL} 初始化失敗:`, err);
 
                             if (loadingStatus) {
