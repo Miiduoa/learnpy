@@ -478,7 +478,7 @@ class SmartGuide {
         const stepCard = document.createElement('div');
         stepCard.className = 'smart-guide-card';
         
-            stepCard.innerHTML = `
+        stepCard.innerHTML = `
             <div class="guide-step-header">
                 <span class="step-number">步驟 ${step.step}</span>
                 <h4 class="step-title">${step.title}</h4>
